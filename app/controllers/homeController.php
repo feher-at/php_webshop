@@ -2,11 +2,17 @@
 
 namespace app\controllers;
 
-class homeController
+use app\core\Controller;
+
+class homeController extends Controller
 {
-    public function handleRegister()
+    public function getIndex()
     {
-        return 'submitted data';
+        $params = [
+            'name' => "anyádpicsája"
+        ];
+        return $this->render('home',$params);
+
     }
 
 
