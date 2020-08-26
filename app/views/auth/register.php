@@ -1,19 +1,20 @@
-<div class="row ">
-    <h1></h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <h1> Registration</h1>
+    </div>
+
 </div>
 
 <form action ="" method="post">
-    <div class="form-group">
-        <label >First Name</label>
-        <input type="text" name="firstname" class="form-control">
-    </div>
-    <div class="form-group">
-        <label >Last Name</label>
-        <input type="text" name="lastname" class="form-control">
-    </div>
+
+
     <div class="form-group">
         <label >Email address</label>
         <input type="email" name="email" class="form-control">
+    </div>
+    <div class="form-group">
+        <label >Tax Number</label>
+        <input type="text" name="taxNumber" class="form-control">
     </div>
     <div class="form-group">
         <label>Password</label>

@@ -6,7 +6,7 @@ namespace app\models;
 class User
 {
 
-    public string $userName;
+
     public int $iD;
     public string $email;
     public int $taxNumber;
@@ -22,9 +22,9 @@ class User
      * @param string $password
      * @param bool $confirmed
      */
-    public function __construct(string $userName, int $iD, string $email, int $taxNumber, string $password, bool $confirmed)
+    public function __construct(int $iD, string $email, int $taxNumber, string $password, bool $confirmed)
     {
-        $this->userName = $userName;
+
         $this->iD = $iD;
         $this->email = $email;
         $this->taxNumber = $taxNumber;
