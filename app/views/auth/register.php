@@ -1,3 +1,7 @@
+<div class="row ">
+    <h1></h1>
+</div>
+
 <form action ="" method="post">
     <div class="form-group">
         <label >First Name</label>

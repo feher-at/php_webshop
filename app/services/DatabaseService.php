@@ -1,4 +1,7 @@
 <?php
+
+namespace app\services;
+
 class DatabaseService implements IDatabaseService {
      /*var $conn ;
     function __construct(){

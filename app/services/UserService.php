@@ -1,8 +1,15 @@
 <?php
 
+namespace app\services;
 
 class UserService implements IUserService
 {
+    private IDatabaseService $dbService;
+
+    public function __construct(IDatabaseService $dbService)
+    {
+        $this->dbService = $dbService;
+    }
 
     public function registerUser()
     {
