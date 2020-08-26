@@ -1,16 +1,13 @@
 <?php
 
+namespace app\controllers;
 
-class homeController extends Controller
+class homeController
 {
-    public function index($id='', $name=''){
-
-        //echo 'I am in the'. __CLASS__. 'method '. __METHOD__;
-
-        echo 'Id is: ' .$id . 'and Name is : '. $name;
+    public function handleRegister()
+    {
+        return 'submitted data';
     }
 
-    public function aboutUs(){
-        echo 'I am in the'. __CLASS__. 'method '. __METHOD__;
-    }
+
 }

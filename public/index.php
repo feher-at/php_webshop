@@ -25,9 +25,9 @@ $app = new Application(dirname(__DIR__));
 
 $app->router->get('/', 'home');
 
-$app->router->get('/contact','contact');
+$app->router->get('/register','register');
 
-$app->router->post('/contact',[homeController::class, 'handleContact']);
+$app->router->post('/register',[homeController::class, 'handleRegister']);
 
 
 
