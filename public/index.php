@@ -13,14 +13,14 @@ $app = new Application(dirname(__DIR__));
 
 
 
-$app->router->get('/', [homeController::class,'getIndex']);
-$app->router->get('/home', [homeController::class,'getIndex']);
+$app->router->get('/', [HomeController::class,'getIndex']);
+$app->router->get('/home', [HomeController::class,'getIndex']);
 
 //authentication
-$app->router->get('/register',[authController::class,'register']);
-$app->router->post('/register',[authController::class, 'handleRegister']);
-$app->router->get('/login',[authController::class, 'login']);
-$app->router->post('/login',[authController::class, 'login']);
+$app->router->get('/register',[AuthController::class,'register']);
+$app->router->post('/register',[AuthController::class, 'handleRegister']);
+$app->router->get('/login',[AuthController::class, 'login']);
+$app->router->post('/login',[AuthController::class, 'login']);
 
 
 

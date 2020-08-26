@@ -6,7 +6,7 @@ namespace app\controllers;
 use app\core\Controller;
 use app\Core\Request;
 
-class authController extends Controller
+class AuthController extends Controller
 {
 
     public function register()

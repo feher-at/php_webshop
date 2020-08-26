@@ -4,12 +4,12 @@ namespace app\controllers;
 
 use app\core\Controller;
 
-class homeController extends Controller
+class HomeController extends Controller
 {
     public function getIndex()
     {
         $params = [
-            'name' => "anyádpicsája"
+            'name' => "hy"
         ];
         return $this->render('home/home',$params);
 
