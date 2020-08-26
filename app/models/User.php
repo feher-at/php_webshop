@@ -4,4 +4,7 @@
 class User
 {
 
+    public $userName;
+    public $email;
+
 }

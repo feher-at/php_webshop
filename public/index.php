@@ -14,6 +14,7 @@ $app = new Application(dirname(__DIR__));
 
 
 $app->router->get('/', [homeController::class,'getIndex']);
+$app->router->get('/home', [homeController::class,'getIndex']);
 
 //authentication
 $app->router->get('/register',[authController::class,'register']);

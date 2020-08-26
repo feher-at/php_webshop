@@ -11,19 +11,21 @@ class authController extends Controller
 
     public function register()
     {
-        return $this->render('register');
+        $this->setLayout('auth_layout');
+        return $this->render('auth/register');
     }
 
     public function handleRegister(Request $request)
     {
         $body = $request->getBody();
-        var_dump($body);
-        return 'submitted data';
+
+        return $this->render('home/home');
     }
 
     public function login()
     {
-        return $this->render('login');
+        $this->setLayout('auth_layout');
+        return $this->render('auth/login');
     }
 
 

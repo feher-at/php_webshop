@@ -11,7 +11,7 @@ class homeController extends Controller
         $params = [
             'name' => "anyádpicsája"
         ];
-        return $this->render('home',$params);
+        return $this->render('home/home',$params);
 
     }
 
