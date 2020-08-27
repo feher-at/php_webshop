@@ -3,7 +3,9 @@ namespace app\Core;
 
 class Request
 {
-
+    /**
+     *the getPath() function return with the clear url path without the query parameters
+     */
     public function getPath()
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -21,6 +23,11 @@ class Request
 
     }
 
+    /**
+     * the getBody() function determine the request method,and it return with a associative array
+     * which contains the request method parameters as a key/value pair
+     * @return array
+     */
     public function getBody(){
 
         $body = [];

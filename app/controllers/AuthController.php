@@ -14,12 +14,6 @@ class AuthController extends Controller
 
     public function register()
     {
-        /*$database = new DatabaseService();
-        if($database->connect()){
-            return "fasza vagy";
-        }*/
-
-
         $this->setLayout('auth_layout');
         return $this->render('auth/register');
     }

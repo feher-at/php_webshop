@@ -15,21 +15,13 @@ class User
 
     /**
      * User constructor.
-     * @param string $userName
-     * @param int $iD
-     * @param string $email
-     * @param int $taxNumber
-     * @param string $password
-     * @param bool $confirmed
+     * @param array $args
      */
-    public function __construct(int $iD, string $email, int $taxNumber, string $password, bool $confirmed)
+    public function __construct(array $args)
     {
-
-        $this->iD = $iD;
-        $this->email = $email;
-        $this->taxNumber = $taxNumber;
-        $this->password = $password;
-        $this->confirmed = $confirmed;
+        foreach ($args as $key=>$value){
+            $this->$key = $value;
+        }
     }
 
 }

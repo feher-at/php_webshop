@@ -24,6 +24,12 @@ class Router
         $this->routes['post'][$path] = $callback;
     }
 
+    /**
+     * @return mixed|string|string[]
+     * The resolve() function get the path and the request method,and it's set the controller based on the
+     * $callback is an array or not if it can set return with a call_user_func() else just call the renderView() function,
+     * or if there is no correspond path in the routing it returns with the 404_page and with a 404 status code.
+     */
     public function resolve()
     {
         $path = $this->request->getPath();
@@ -43,6 +49,13 @@ class Router
         return call_user_func($callback, $this->request);
     }
 
+    /**
+     * @param $view
+     * @param array $params
+     * @return string|string[]
+     *
+     * Render the layout page with the view page
+     */
     public function renderView($view,$params = []){
 
             $layoutContent = $this->layoutContent();
@@ -52,7 +65,10 @@ class Router
     }
 
 
-
+    /**
+     * @return false|string
+     * Render only the layout page
+     */
     protected function layoutContent(){
 
         $layout = Application::$app->getController()->layout;
@@ -62,6 +78,12 @@ class Router
 
     }
 
+    /**
+     * @param $view
+     * @param $params
+     * @return false|string
+     * Render only the given view page
+     */
     protected function renderOnlyView($view,$params){
 
        foreach($params as $key => $value) {
