@@ -11,7 +11,7 @@ DROP TYPE IF EXISTS "status" CASCADE;
 CREATE TABLE users(
     user_id SERIAL Primary Key,
 	user_email VARCHAR(30) UNIQUE,
-    user_taxnum int UNIQUE,
+    user_taxnum BIGINT UNIQUE,
 	user_password TEXT,
 	confirmed bool 
 );

@@ -3,10 +3,13 @@
 namespace app\services;
 
 class DatabaseService implements IDatabaseService {
-     /*var $conn ;
-    function __construct(){
-    $this->conn = pg_connect("host=localhost dbname=php_webshop user=postgres password=admin") ;
-    }*/
+    private static $instance = null;
+    private $conn;
+
+    private function __construct(){
+        $this->conn = $this->connect();
+    }
+
     /**
      * @param string $host
      * @param string $dbname
@@ -16,8 +19,24 @@ class DatabaseService implements IDatabaseService {
      * Set the connection with the database
      */
     public function connect($host = "localhost", $dbname = "php_webshop", $user = "postgres", $password = "admin"){
-        $conn = pg_connect("host=" . $host . " dbname=" . $dbname . " user=" . $user . " password=". $password);
-        return $conn;
+        $connect = pg_connect("host=" . $host . " dbname=" . $dbname . " user=" . $user . " password=". $password);
+        return $connect;
+    }
+
+    public function reConnect(){
+        $this->conn = $this->connect();
+    }
+
+    public static function getInstance(){
+        if(!self::$instance)
+        {
+            self::$instance = new DatabaseService();
+        }
+        return  self::$instance;
+    }
+
+    public function getConnection(){
+        return $this->conn;
     }
     public function login(DatabaseService $dbService){
     $asd = $dbService->connect();

@@ -27,7 +27,8 @@ class Router
     /**
      * @return mixed|string|string[]
      * The resolve() function get the path and the request method,and it's set the controller based on the
-     * $callback is an array or not if it can set return with a call_user_func() else just call the renderView() function,
+     * $callback,if the $callback contains the request method and the path,then the 0. parameter get the correspondent
+     * controller via the Application class getController method and return the call_user_func(),else just call the renderView() function,
      * or if there is no correspond path in the routing it returns with the 404_page and with a 404 status code.
      */
     public function resolve()

@@ -2,18 +2,35 @@
 
 namespace app\services;
 
+
+
 class UserService implements IUserService
 {
-    private IDatabaseService $dbService;
+    private $database;
+    private $connection;
 
-    public function __construct(IDatabaseService $dbService)
+    public function __construct()
     {
-        $this->dbService = $dbService;
+        $this->database = DatabaseService::getInstance();
+        $this->connection = $this->database->getConnection();
     }
 
-    public function registerUser()
+
+    public function registerUser(array $params)
     {
-        // TODO: Implement registerUser() method.
+
+
+        if($this->connection){
+
+            pg_insert($this->connection,'users',$params);
+            pg_close($this->connection);
+        }
+        else{
+            $this->database->reConnect();
+            pg_insert($this->connection,'users',$params);
+
+        }
+
     }
 
     public function checkUserExits()

@@ -25,5 +25,5 @@
         <input type="password" name="confirmPassword" class="form-control">
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary"><a href="/" style="color: white">Submit</a></button>
 </form>
