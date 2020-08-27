@@ -2,21 +2,18 @@
 
 namespace app\services;
 
+use Dotenv\Dotenv;
 class DatabaseService implements IDatabaseService {
-     /*var $conn ;
-    function __construct(){
-    $this->conn = pg_connect("host=localhost dbname=php_webshop user=postgres password=admin") ;
-    }*/
+
     /**
-     * @param string $host
-     * @param string $dbname
-     * @param string $user
-     * @param string $password
      * @return false|resource
      * Set the connection with the database
+     * Uses .env variables for connection string
      */
-    public function connect($host = "localhost", $dbname = "php_webshop", $user = "postgres", $password = "admin"){
-        $conn = pg_connect("host=" . $host . " dbname=" . $dbname . " user=" . $user . " password=". $password);
+    public function connect(){
+        $dotenv=Dotenv::createUnsafeImmutable("\php_webshop");
+        $dotenv->load();
+        $conn = pg_connect("host=" . getenv("DB_HOST") . " dbname=" . getenv("DB_NAME") . " user=" . getenv("DB_USERNAME") . " password=". getenv("DB_PASSWORD"));
         return $conn;
     }
     public function login(DatabaseService $dbService){
