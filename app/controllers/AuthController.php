@@ -29,6 +29,15 @@ class AuthController extends Controller
 
     public function handleRegister(Request $request)
     {
+        ini_set("SMTP", "aspmx.l.google.com");
+        ini_set("sendmail_from", " YOURMAIL@gmail.com");
+
+        $message = "The mail message was sent with the following mail setting:\r\nSMTP = aspmx.l.google.com\r\nsmtp_port = 25\r\nsendmail_from = YourMail@address.com";
+
+        $headers = "From: YOURMAIL@gmail.com";
+
+
+
 
         $body = $request->getBody();
         $errors = $this->userService->validation($body);
@@ -39,6 +48,7 @@ class AuthController extends Controller
 
         if(empty($errors)){
             $this->userService->registerUser($userParams);
+            mail("makakoocelot@gmail.com", "Testing", $message, $headers);
             $this->redirect("/");
         }
         else{
