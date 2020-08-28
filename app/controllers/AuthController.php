@@ -8,6 +8,7 @@ use app\Core\Request;
 use app\services\DatabaseService;
 use app\services\IUserService;
 use app\services\UserService;
+use http\Message\Body;
 
 class AuthController extends Controller
 {
@@ -28,12 +29,29 @@ class AuthController extends Controller
 
     public function handleRegister(Request $request)
     {
-        $body = $request->getBody();
-        $userParams = ["user_email" =>$body['email'],"user_taxnum"=>intval($body['taxNumber']),
-                        "user_password"=>$body['password'],"confirmed"=>true];
-        $this->userService->registerUser($userParams);
 
-        return $this->render('home/home');
+        $body = $request->getBody();
+        $errors = $this->userService->validation($body);
+        $userParams = ["user_email" =>$body['email'],"user_taxnum"=>intval($body['taxNumber']),
+            "user_password"=>$body['password'],"confirmed"=>true];
+
+
+        if(empty($errors)){
+            $this->userService->registerUser($userParams);
+        }
+        else{
+            return $this->render('auth/register',$errors);
+        }
+
+
+
+
+
+
+
+
+
+
     }
 
     public function login()

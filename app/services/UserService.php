@@ -68,4 +68,35 @@ class UserService implements IUserService
     {
         // TODO: Implement updateUser() method.
     }
+
+    public function validation(array $validationParams)
+    {
+        $errors = [];
+        foreach($validationParams as $key => $value)
+        {
+            if($key === 'email' && ! $value){
+                $errors['email'] = "this field is required";
+            }
+            else if($key === 'taxNumber' && (strlen($value)>0 && strlen($value)<11)){
+                $errors['taxNumber'] = "this is not a valid tax number";
+            }
+            else if($key === 'taxNumber' && !$value){
+                $errors['taxNumber'] = "this field is required";
+            }
+            else if($key === 'password' && !$value ){
+                $errors['password'] = "this field is required";
+            }
+            else if($key === 'confirmPassword' && !$value ){
+                $errors['password'] = "this field is required";
+            }
+        }
+        if($validationParams['password'] != $validationParams['confirmPassword'])
+        {
+            $errors['confirmPassword'] = "the passwords are not equal";
+        }
+        return $errors;
+    }
+
+
+
 }
