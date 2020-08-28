@@ -38,8 +38,24 @@ class AuthController extends Controller
 
     public function login()
     {
+
+
         $this->setLayout('auth_layout');
         return $this->render('auth/login');
+
+    }
+
+    public function handleLogin(Request $request){
+
+        $body = $request->getBody();
+        $userParams = ["user_email" => $body['email'],"user_password"=>$body['password']];
+        $result=$this->userService->logInUser($userParams);
+        if($result){
+            return $this->render('home/home');
+        }
+        else{
+            return $this->render('auth/login');
+        }
     }
 
 

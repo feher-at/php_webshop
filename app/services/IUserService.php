@@ -6,7 +6,9 @@ interface IUserService
 {
     public function registerUser(array $params);
 
-    public function checkUserExits();
+    public function checkUserExists(array $email);
+
+    public function logInUser(array $credentials);
 
     public function deleteUser();
 

@@ -33,9 +33,30 @@ class UserService implements IUserService
 
     }
 
-    public function checkUserExits()
+    public function checkUserExists($email)
     {
-        // TODO: Implement checkUserExits() method.
+        $result=pg_prepare($this->connection,"check_user","SELECT * FROM users WHERE user_email = $1 ");
+        $result = pg_execute($this->connection,"check_user",$email);
+        if(!$result){
+            return null;
+        }
+        else{
+            return pg_fetch_assoc($result);
+        }
+
+    }
+    public function logInUser(array $credentials){
+        $result = $this->checkUserExists(array($credentials['user_email']));
+        if($result == null){
+            return false;
+        }
+        else if($credentials['user_password'] != $result["user_password"]){
+            return false;
+        }
+        else{
+            return true;
+        }
+
     }
 
     public function deleteUser()
