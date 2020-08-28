@@ -8,6 +8,7 @@ use app\Core\Request;
 use app\services\DatabaseService;
 use app\services\IUserService;
 use app\services\UserService;
+use http\Cookie;
 use http\Message\Body;
 
 class AuthController extends Controller
@@ -29,12 +30,13 @@ class AuthController extends Controller
 
     public function handleRegister(Request $request)
     {
+
         ini_set("SMTP", "aspmx.l.google.com");
-        ini_set("sendmail_from", " YOURMAIL@gmail.com");
+        ini_set("sendmail_from", "phpWebshop@gmail.com");
 
         $message = "The mail message was sent with the following mail setting:\r\nSMTP = aspmx.l.google.com\r\nsmtp_port = 25\r\nsendmail_from = YourMail@address.com";
 
-        $headers = "From: YOURMAIL@gmail.com";
+
 
 
 
@@ -48,7 +50,7 @@ class AuthController extends Controller
 
         if(empty($errors)){
             $this->userService->registerUser($userParams);
-            mail("makakoocelot@gmail.com", "Testing", $message, $headers);
+            mail("feher.attila96@gmail.com", "Testing", $message);
             $this->redirect("/");
         }
         else{
