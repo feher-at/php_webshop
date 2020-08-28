@@ -32,12 +32,14 @@ class AuthController extends Controller
 
         $body = $request->getBody();
         $errors = $this->userService->validation($body);
+        $bcryptedPassword = password_hash($body['password'],PASSWORD_BCRYPT);
         $userParams = ["user_email" =>$body['email'],"user_taxnum"=>intval($body['taxNumber']),
-            "user_password"=>$body['password'],"confirmed"=>true];
+            "user_password"=>$bcryptedPassword,"confirmed"=>true];
 
 
         if(empty($errors)){
             $this->userService->registerUser($userParams);
+            $this->redirect("/");
         }
         else{
             return $this->render('auth/register',$errors);

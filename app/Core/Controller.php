@@ -21,4 +21,9 @@ class Controller
     {
         return Application::$app->router->renderView($view,$params);
     }
+    function redirect($url, $statusCode = 303)
+    {
+        header('Location: http://localhost:8000'. $url  , true, $statusCode);
+        die();
+    }
 }
