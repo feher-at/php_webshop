@@ -35,7 +35,7 @@ class DatabaseService implements IDatabaseService {
         return $this->conn;
     }
     public function connect(){
-        $dotenv=Dotenv::createUnsafeImmutable("\php_webshop");
+        $dotenv=Dotenv::createUnsafeImmutable(dirname(__FILE__,3));
         $dotenv->load();
         $conn = pg_connect("host=" . getenv("DB_HOST") . " dbname=" . getenv("DB_NAME") . " user=" . getenv("DB_USERNAME") . " password=". getenv("DB_PASSWORD"));
         return $conn;
