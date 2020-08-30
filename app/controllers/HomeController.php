@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function getIndex()
     {
-        echo "rák";
+
         $params = [
             'name' => "hy"
         ];

@@ -22,12 +22,7 @@ $app->router->post('/register',[AuthController::class, 'handleRegister']);
 $app->router->get('/login',[AuthController::class, 'login']);
 $app->router->post('/login',[AuthController::class, 'handleLogin']);
 
-function mylog($data) {
-    $myFile = "phpWebshop/log";
-    $fh = fopen($myFile, 'a') or die("can't open file");
-    fwrite($fh, json_encode($data, JSON_PRETTY_PRINT));
-    fclose($fh);
-}
+
 
 
 
