@@ -1,6 +1,7 @@
 <?php
 
 namespace app\services;
+use app\services\Validations;
 
 
 
@@ -72,29 +73,24 @@ class UserService implements IUserService
     public function validation(array $validationParams)
     {
         $errors = [];
-        foreach($validationParams as $key => $value)
+
+        $errors['email'] = Validations::emailValidation($validationParams['email']);
+
+        $errors['taxNumber'] = Validations::taxNumberValidation($validationParams['taxNumber']);
+
+        $errors['password'] = Validations::passwordValidation($validationParams['password']);
+
+        $errors['confirmPassword'] = Validations::confirmPasswordValidation($validationParams['confirmPassword'],
+                                                                            $validationParams['password']);
+        foreach($errors as $key => $value)
         {
-            if($key === 'email' && ! $value){
-                $errors['email'] = "this field is required";
-            }
-            else if($key === 'taxNumber' && (strlen($value)>0 && strlen($value)<11)){
-                $errors['taxNumber'] = "this is not a valid tax number";
-            }
-            else if($key === 'taxNumber' && !$value){
-                $errors['taxNumber'] = "this field is required";
-            }
-            else if($key === 'password' && !$value ){
-                $errors['password'] = "this field is required";
-            }
-            else if($key === 'confirmPassword' && !$value ){
-                $errors['password'] = "this field is required";
+            if(!is_null($value))
+            {
+
+                return $errors;
             }
         }
-        if($validationParams['password'] != $validationParams['confirmPassword'])
-        {
-            $errors['confirmPassword'] = "the passwords are not equal";
-        }
-        return $errors;
+        return $errors = [];
     }
 
 

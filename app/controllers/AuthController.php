@@ -8,17 +8,24 @@ use app\Core\Request;
 use app\services\DatabaseService;
 use app\services\IUserService;
 use app\services\UserService;
+use app\services\EmailService;
 use http\Cookie;
 use http\Message\Body;
+use PHPMailer\PHPMailer\Exception;
+
+
+
 
 class AuthController extends Controller
 {
 
-    public IUserService $userService;
+    private IUserService $userService;
+    private EmailService $emailService;
 
     public function __construct(){
 
         $this->userService = new UserService();
+        $this->emailService = new EmailService();
     }
 
 
@@ -31,27 +38,28 @@ class AuthController extends Controller
     public function handleRegister(Request $request)
     {
 
-        ini_set("SMTP", "aspmx.l.google.com");
-        ini_set("sendmail_from", "phpWebshop@gmail.com");
-
-        $message = "The mail message was sent with the following mail setting:\r\nSMTP = aspmx.l.google.com\r\nsmtp_port = 25\r\nsendmail_from = YourMail@address.com";
-
-
-
-
-
-
         $body = $request->getBody();
         $errors = $this->userService->validation($body);
+        var_dump($errors);
+        $subject = "Welcome on the phpWebshop";
+        $message = "This is your first email,enjoy!";
+        $address = "feher.attila96@gmail.com";
         $bcryptedPassword = password_hash($body['password'],PASSWORD_BCRYPT);
         $userParams = ["user_email" =>$body['email'],"user_taxnum"=>intval($body['taxNumber']),
             "user_password"=>$bcryptedPassword,"confirmed"=>true];
 
 
         if(empty($errors)){
+
             $this->userService->registerUser($userParams);
-            mail("feher.attila96@gmail.com", "Testing", $message);
-            $this->redirect("/");
+            try {
+                $this->emailService->EmailSending($subject,$message,$address);
+                $this->redirect("/");
+            } catch (Exception $e) {
+                echo $e->errorMessage();
+
+            }
+
         }
         else{
             return $this->render('auth/register',$errors);
