@@ -23,7 +23,7 @@ class Controller
     }
     function redirect($url, $statusCode = 303)
     {
-        header('Location: http://localhost:8000'. $url  , true, $statusCode);
+        header('Location: http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']. $url  , true, $statusCode);
         die();
     }
 }
