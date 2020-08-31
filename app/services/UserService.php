@@ -45,6 +45,9 @@ class UserService implements IUserService
         }
 
     }
+    public function updateSessionTable($userId){
+
+}
     public function logInUser(array $credentials){
         $result = $this->checkUserExists(array($credentials['user_email']));
         if($result == null){

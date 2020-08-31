@@ -74,17 +74,23 @@ class AuthController extends Controller
         return $this->render('auth/login');
 
     }
+    private function newLoginSession($userId){
+        if(session_status()== PHP_SESSION_ACTIVE){
+
+        }
+
+    }
 
     public function handleLogin(Request $request){
 
         $body = $request->getBody();
-        $userParams = ["user_email" => $body['email'],"user_password"=>$body['password']];
+        $userParams = ["user_email" => $body['email'],"user_password"=>password_hash($body['password'],PASSWORD_BCRYPT)];
         $result=$this->userService->logInUser($userParams);
         if($result){
             return $this->render('home/home');
         }
         else{
-            return $this->render('auth/login');
+           return $this->render('auth/login');
         }
     }
 
