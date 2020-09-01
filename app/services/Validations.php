@@ -16,7 +16,7 @@ class Validations
         if(empty($taxNumber)){
             return "This field is required";
         }
-        else if(strlen($taxNumber)>0 && strlen($taxNumber)<11 || strlen($taxNumber) > 11 ){
+        else if((strlen($taxNumber)>0 && strlen($taxNumber)<11) || strlen($taxNumber) > 11 ){
             return "This is not a valid tax number";
         }
     }

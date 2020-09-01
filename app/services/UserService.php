@@ -16,19 +16,33 @@ class UserService implements IUserService
         $this->connection = $this->database->getConnection();
     }
 
-
+    /**
+     * @param array $params
+     * @return array
+     * Register the user with the given parameters,and return with the registered user's id
+     */
     public function registerUser(array $params)
     {
 
+        $query = "INSERT INTO users (user_email,user_taxnum,user_password,confirmed)
+                    VALUES($1,$2,$3,$4)";
+        $latestUserQuery = "SELECT * FROM users ORDER BY users.user_id DESC LIMIT 1 ";
 
         if($this->connection){
+            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],
+                0));
+            $result = pg_query($this->connection,$latestUserQuery);
 
-            pg_insert($this->connection,'users',$params);
-            pg_close($this->connection);
+            return pg_fetch_assoc($result);
+
         }
         else{
             $this->database->reConnect();
-            pg_insert($this->connection,'users',$params);
+            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],
+                0));
+            $result = pg_query($this->connection,$latestUserQuery);
+            return pg_fetch_assoc($result);
+
 
         }
 
@@ -110,5 +124,12 @@ class UserService implements IUserService
     }
 
 
+    public function getTheLatestRegisteredUser()
+    {
+        $this->database->reConnect();
+        $result = pg_query($this->connection,"SELECT * FROM users ORDER BY users.user_id DESC LIMIT 1 ") or die ("Cannot execute query");
+        pg_close($this->connection);
+        return pg_fetch_object($result,'user_id');
 
+    }
 }

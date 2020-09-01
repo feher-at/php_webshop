@@ -18,8 +18,9 @@ $app->router->get('/home', [HomeController::class,'getIndex']);
 
 //authentication
 $app->router->get('/register',[AuthController::class,'register']);
-$app->router->post('/register',[AuthController::class, 'handleRegister']);
 $app->router->get('/login',[AuthController::class, 'login']);
+$app->router->get('/register/validation',[AuthController::class,'validation']);
+$app->router->post('/register',[AuthController::class, 'handleRegister']);
 $app->router->post('/login',[AuthController::class, 'handleLogin']);
 $app->router->post('/layout',[AuthController::class, 'logout']);
 

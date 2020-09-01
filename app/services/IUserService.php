@@ -15,5 +15,5 @@ interface IUserService
     public function updateUser();
 
     public function validation(array $validationParams);
-     //function checkSessionExists();
+
 }
