@@ -41,8 +41,6 @@ CREATE TABLE items(
 	item_seoname TEXT,
 	item_seodescription TEXT,
 	item_ogimage TEXT
-
-	
 );
 CREATE TABLE shipping(
 	item_id int REFERENCES items(item_id),
