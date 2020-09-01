@@ -22,7 +22,7 @@ $app->router->get('/login',[AuthController::class, 'login']);
 $app->router->get('/register/validation',[AuthController::class,'validation']);
 $app->router->post('/register',[AuthController::class, 'handleRegister']);
 $app->router->post('/login',[AuthController::class, 'handleLogin']);
-
+$app->router->post('/',[AuthController::class, 'logout']);
 
 
 

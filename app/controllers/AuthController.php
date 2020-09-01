@@ -81,12 +81,21 @@ class AuthController extends Controller
         $body = $request->getBody();
         $userParams = ["user_email" => $body['email'],"user_password"=>$body['password']];
         $result=$this->userService->logInUser($userParams);
-        if($result){
-            return $this->render('home/home');
+        if($result==false){
+            return $this->render('auth/login');
+
         }
         else{
-            return $this->render('auth/login');
+            //$this->userService->updateSessionTable($result);
+            setcookie("type",$result,time()+604,800);
+            $this->redirect("/");
         }
+        return false;
+    }
+    public function logout(Request $request){
+        setcookie("type","",time()-604,800);
+        $this->redirect("/");
+
     }
 
     public function validation(Request $request)

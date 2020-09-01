@@ -60,16 +60,32 @@ class UserService implements IUserService
         }
 
     }
+    /*public function checkSessionExists(){
+        $query =pg_prepare($this->connection,"check_session","SELECT * FROM  user_sessions WHERE session_id = $1");
+        $query = pg_execute($this->connection,"check_session",array(session_id()));
+        if($query == null){
+            return false;
+        }
+        return true;
+    }*/
+    /*public function updateSessionTable($userId){
+    if($this->checkSessionExists()){
+        $query = pg_prepare($this->connection,"update_session","UPDATE user_sessions SET user_id=$1 WHERE session_id = $2");
+        $query = pg_execute($this->connection,"update_session",array($userId, session_id()));
+    }
+    $query = pg_prepare($this->connection,"insert_session","INSERT INTO user_sessions (session_id,user_id) VALUES($1,$2)");
+    $query = pg_execute($this->connection,"insert_session",array(session_id(),$userId));
+}*/
     public function logInUser(array $credentials){
         $result = $this->checkUserExists(array($credentials['user_email']));
         if($result == null){
             return false;
         }
-        else if($credentials['user_password'] != $result["user_password"]){
+        else if(!password_verify($credentials['user_password'],$result["user_password"])){
             return false;
         }
         else{
-            return true;
+            return $result['user_id'];
         }
 
     }

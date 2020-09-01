@@ -14,5 +14,6 @@ interface IUserService
 
     public function updateUserConfirmCollum($userID);
 
-    public function getTheLatestRegisteredUser();
+    public function validation(array $validationParams);
+
 }

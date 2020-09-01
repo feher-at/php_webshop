@@ -24,12 +24,25 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/register">Registration</a>
-            </li>
+            <?php
+                if(!isset($_COOKIE["type"])){
+                echo'<li class="nav-item active">
+                    <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Registration</a>
+                </li>';}
+            ?>
+            <?php
+                if(isset($_COOKIE["type"])){
+                    echo ' <form action="" method="post">
+                        <li class="nav-item active">
+                        <button type="submit" class="btn">Logout</button>
+                        </li>
+                        </form>
+                        ';
+                }
+            ?>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
