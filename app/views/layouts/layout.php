@@ -30,6 +30,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="/register">Registration</a>
             </li>
+            <?php
+                if(isset($_COOKIE["type"])){
+                    echo '<form action="" method="post"> 
+                            <li class="nav-item">
+                        <a class="nav-link" href="/layout">Logout</a>
+                        </li>
+                        </form>';
+                }
+            ?>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

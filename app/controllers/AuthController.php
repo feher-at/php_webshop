@@ -43,7 +43,7 @@ class AuthController extends Controller
         var_dump($errors);
         $subject = "Welcome on the phpWebshop";
         $message = "This is your first email,enjoy!";
-        $address = "feher.attila96@gmail.com";
+        $address = "phptestuser01@gmail.com";
         $bcryptedPassword = password_hash($body['password'],PASSWORD_BCRYPT);
         $userParams = ["user_email" =>$body['email'],"user_taxnum"=>intval($body['taxNumber']),
             "user_password"=>$bcryptedPassword,"confirmed"=>true];
@@ -94,14 +94,23 @@ class AuthController extends Controller
     public function handleLogin(Request $request){
 
         $body = $request->getBody();
-        $userParams = ["user_email" => $body['email'],"user_password"=>password_hash($body['password'],PASSWORD_BCRYPT)];
+        $userParams = ["user_email" => $body['email'],"user_password"=>/*password_hash(*/$body['password']/*,PASSWORD_BCRYPT)*/];
         $result=$this->userService->logInUser($userParams);
-        if($result){
-            return $this->render('home/home');
+        if($result==false){
+            return $this->render('auth/login');
+
         }
         else{
-           return $this->render('auth/login');
+            //$this->userService->updateSessionTable($result);
+            setcookie("type",$result,time()+60);
+            $this->redirect("/");
         }
+        return false;
+    }
+    public function logout(Request $request){
+        setcookie("type","",time()-60);
+        $this->redirect("/");
+
     }
 
 

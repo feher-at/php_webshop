@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS "users" CASCADE;
+DROP TABLE IF EXISTS "user_sessions" CASCADE;
 DROP TABLE IF EXISTS "shipping" CASCADE;
 DROP TABLE IF EXISTS "couriers" CASCADE;
 DROP TABLE IF EXISTS "payment_methods" CASCADE;
@@ -15,8 +16,6 @@ CREATE TABLE users(
 	user_password TEXT,
 	confirmed bool 
 );
-
-
 
 CREATE TABLE couriers(
 	courier_id SERIAL PRIMARY KEY,
@@ -67,4 +66,3 @@ CREATE TABLE orders(
 	order_status status 
 	
 );
-
