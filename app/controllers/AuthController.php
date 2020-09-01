@@ -86,7 +86,6 @@ class AuthController extends Controller
 
         }
         else{
-            //$this->userService->updateSessionTable($result);
             setcookie("type",$result,time()+604,800);
             $this->redirect("/");
         }
