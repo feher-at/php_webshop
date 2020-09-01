@@ -16,7 +16,7 @@
     <div class="form-group">
         <label >Tax Number</label>
         <input type="text" name="taxNumber" class="form-control">
-        <?php if(isset($taxNumber)){echo "<p style='color: red'>$taxNumber </p>";} ?>
+        <?php if(isset($taxNumber)){echo "<p style='color: #ff0000'>$taxNumber </p>";} ?>
     </div>
     <div class="form-group">
         <label>Password</label>
@@ -31,4 +31,3 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<a href="/" style="color: white">Submit</a>
