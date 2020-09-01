@@ -106,6 +106,13 @@ class AuthController extends Controller
 
         return $this->render('validation/userValidation');
     }
-
+    public function authentication(){
+        if(isset($_COOKIE["type"])){
+            return true;
+        }
+        else{
+            $this->redirect("auth/login");
+        }
+    }
 
 }
