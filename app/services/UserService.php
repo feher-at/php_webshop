@@ -27,7 +27,7 @@ class UserService implements IUserService
 
         $query = "INSERT INTO users (user_email,user_taxnum,user_password,confirmed,hashed_email_for_validation)
                     VALUES($1,$2,$3,$4,$5)";
-        $latestUserQuery = "SELECT * FROM users ORDER BY users.hashed_email_for_validation DESC LIMIT 1 ";
+        $latestUserQuery = "SELECT * FROM users ORDER BY users.user_id DESC LIMIT 1 ";
         $hashedEmail =  md5($params['user_email']);
         if($this->connection){
             pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],0,

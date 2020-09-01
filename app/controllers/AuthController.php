@@ -101,6 +101,7 @@ class AuthController extends Controller
     {
         $this->setLayout('auth_layout');
         $body = $request ->getBody();
+
         $user = ($this->userService->getUserByHashedEmail($body['email']));
         $this->userService->updateUserConfirmColumn($user->user_id);
 
