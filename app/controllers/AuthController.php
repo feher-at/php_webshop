@@ -103,8 +103,7 @@ class AuthController extends Controller
         $this->setLayout('auth_layout');
         $body = $request ->getBody();
         $user = ($this->userService->getUserByHashedEmail($body['email']));
-        var_dump($user['hashed_email_for_validation']);
-        $this->userService->updateUserConfirmColumn($user['user_id']);
+        $this->userService->updateUserConfirmColumn($user->user_id);
 
         return $this->render('validation/userValidation');
     }

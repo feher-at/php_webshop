@@ -2,6 +2,7 @@
 
 namespace app\services;
 use app\services\Validations;
+use app\models\User;
 
 
 
@@ -133,16 +134,7 @@ class UserService implements IUserService
     }
 
 
-    public function getTheLatestRegisteredUser()
-    {
-        $this->database->reConnect();
-        $result = pg_query($this->connection,"SELECT * FROM users ORDER BY users.hashed_email_for_validation DESC LIMIT 1 ") or die ("Cannot execute query");
-        pg_close($this->connection);
-        return pg_fetch_object($result,'user_id');
-
-    }
-
-    public function getUserByHashedEmail($hashedEmail){
+    public function getUserByHashedEmail($hashedEmail): User{
 
         $allUser = pg_fetch_all(pg_query($this->connection, "Select * From users"));
 
@@ -150,10 +142,10 @@ class UserService implements IUserService
         {
            if($hashedEmail === $userValues['hashed_email_for_validation']){
 
-               return $userValues;
+               return new User($userValues);
            }
 
         }
-        return null;
+
     }
 }
