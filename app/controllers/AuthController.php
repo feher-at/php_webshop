@@ -79,7 +79,7 @@ class AuthController extends Controller
     public function handleLogin(Request $request){
 
         $body = $request->getBody();
-        $userParams = ["user_email" => $body['email'],"user_password"=>password_hash($body['password'],PASSWORD_BCRYPT)];
+        $userParams = ["user_email" => $body['email'],"user_password"=>$body['password']];
         $result=$this->userService->logInUser($userParams);
         if($result==false){
             return $this->render('auth/login');
@@ -87,13 +87,14 @@ class AuthController extends Controller
         }
         else{
             //$this->userService->updateSessionTable($result);
-            setcookie("type",$result,time()+60);
+            setcookie("type",$result,time()+604,800);
             $this->redirect("/");
         }
         return false;
     }
     public function logout(Request $request){
-        setcookie("type","",time()-60);
+        setcookie("type","",time()-604,800);
+        echo "faszom";
         $this->redirect("/");
 
     }
