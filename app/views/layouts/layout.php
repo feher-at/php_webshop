@@ -22,6 +22,15 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
+            <?php
+            if(isset($_COOKIE["type"])){
+                echo ' 
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/item/itemUpload">Upload Item <span class="sr-only">(current)</span></a>
+                    </li>
+                        ';
+            }
+            ?>
         </ul>
         <ul class="navbar-nav ml-auto">
             <?php
@@ -44,10 +53,7 @@
                 }
             ?>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+
     </div>
 </nav>
 <div class="container">
