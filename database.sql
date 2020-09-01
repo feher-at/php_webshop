@@ -40,7 +40,7 @@ CREATE TABLE items(
 	item_saleprice int,
 	item_seoname TEXT,
 	item_seodescription TEXT,
-	item_ogimage TEXT,
+	item_ogimage TEXT
 
 	
 );
