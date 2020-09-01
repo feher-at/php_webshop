@@ -12,7 +12,7 @@ interface IUserService
 
     public function deleteUser();
 
-    public function updateUserConfirmCollum($userID);
+    public function updateUserConfirmColumn($userID);
 
     public function validation(array $validationParams);
 
