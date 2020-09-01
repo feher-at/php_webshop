@@ -94,7 +94,6 @@ class AuthController extends Controller
     }
     public function logout(Request $request){
         setcookie("type","",time()-604,800);
-        echo "faszom";
         $this->redirect("/");
 
     }
