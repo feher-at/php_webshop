@@ -13,4 +13,6 @@ interface IUserService
     public function deleteUser();
 
     public function updateUser();
+
+    public function getTheLatestRegisteredUser();
 }
