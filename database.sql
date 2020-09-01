@@ -13,7 +13,8 @@ CREATE TABLE users(
 	user_email VARCHAR(30) UNIQUE,
     user_taxnum BIGINT UNIQUE,
 	user_password TEXT,
-	confirmed bool 
+	confirmed bool,
+	hashed_email_for_validation TEXT
 );
 
 

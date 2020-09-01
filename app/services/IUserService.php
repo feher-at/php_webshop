@@ -12,7 +12,7 @@ interface IUserService
 
     public function deleteUser();
 
-    public function updateUser();
+    public function updateUserConfirmCollum($userID);
 
     public function getTheLatestRegisteredUser();
 }

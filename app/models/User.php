@@ -12,6 +12,24 @@ class User
     public int $taxNumber;
     public string $password;
     public bool $confirmed;
+    public string $hashedEmailForValidation;
+
+    /**
+     * @return string
+     */
+    public function getHashedEmailForValidation(): string
+    {
+        return $this->hashedEmailForValidation;
+    }
+
+    /**
+     * @param string $hashedEmailForValidation
+     */
+    public function setHashedIdForValidation(string $hashedEmailForValidation): void
+    {
+        $this->hashedEmailForValidation = $hashedEmailForValidation;
+    }
+
 
     /**
      * User constructor.

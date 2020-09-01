@@ -24,13 +24,13 @@ class UserService implements IUserService
     public function registerUser(array $params)
     {
 
-        $query = "INSERT INTO users (user_email,user_taxnum,user_password,confirmed)
-                    VALUES($1,$2,$3,$4)";
-        $latestUserQuery = "SELECT * FROM users ORDER BY users.user_id DESC LIMIT 1 ";
-
+        $query = "INSERT INTO users (user_email,user_taxnum,user_password,confirmed,hashed_email_for_validation)
+                    VALUES($1,$2,$3,$4,$5)";
+        $latestUserQuery = "SELECT * FROM users ORDER BY users.hashed_email_for_validation DESC LIMIT 1 ";
+        $hashedEmail =  md5($params['user_email']);
         if($this->connection){
-            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],
-                0));
+            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],0,
+                                                            md5($params['user_email'])));
             $result = pg_query($this->connection,$latestUserQuery);
 
             return pg_fetch_assoc($result);
@@ -38,8 +38,8 @@ class UserService implements IUserService
         }
         else{
             $this->database->reConnect();
-            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],
-                0));
+            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],0,
+                                                           md5($params['user_email'])));
             $result = pg_query($this->connection,$latestUserQuery);
             return pg_fetch_assoc($result);
 
@@ -79,9 +79,18 @@ class UserService implements IUserService
         // TODO: Implement deleteUser() method.
     }
 
-    public function updateUser()
+    public function updateUserConfirmColumn($userID)
     {
-        // TODO: Implement updateUser() method.
+        $query = "UPDATE users SET confirmed = true WHERE users.user_id = $1";
+        if($this->connection){
+
+            pg_query_params($this->connection,$query,array($userID));
+        }
+        else{
+            $this->database->reConnect();
+            pg_query_params($this->connection,$query,array($userID));
+        }
+
     }
 
     public function validation(array $validationParams)
@@ -111,9 +120,24 @@ class UserService implements IUserService
     public function getTheLatestRegisteredUser()
     {
         $this->database->reConnect();
-        $result = pg_query($this->connection,"SELECT * FROM users ORDER BY users.user_id DESC LIMIT 1 ") or die ("Cannot execute query");
+        $result = pg_query($this->connection,"SELECT * FROM users ORDER BY users.hashed_email_for_validation DESC LIMIT 1 ") or die ("Cannot execute query");
         pg_close($this->connection);
         return pg_fetch_object($result,'user_id');
 
+    }
+
+    public function getUserByHashedEmail($hashedEmail){
+
+        $allUser = pg_fetch_all(pg_query($this->connection, "Select * From users"));
+
+        foreach ($allUser as $oneUser => $userValues)
+        {
+           if($hashedEmail === $userValues['hashed_email_for_validation']){
+
+               return $userValues;
+           }
+
+        }
+        return null;
     }
 }

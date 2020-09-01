@@ -50,9 +50,9 @@ class AuthController extends Controller
 
         if(empty($errors)){
 
-            $latestRegisteredUser = $this->userService->registerUser($userParams);
-            $bcryptedId = password_hash($body['password'],PASSWORD_BCRYPT);
-            $validationLink = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/register/validation?id='.$bcryptedId;
+            $latestRegisteredUserHashedEmail = $this->userService->registerUser($userParams);
+
+            $validationLink = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/register/validation?email='.$latestRegisteredUserHashedEmail['hashed_email_for_validation'];
             $subject = "Welcome on the phpWebshop";
             $message = "This is your first email,enjoy!\n
                         To validate your registration click on this link :". $validationLink;
@@ -93,8 +93,11 @@ class AuthController extends Controller
     {
         $this->setLayout('auth_layout');
         $body = $request ->getBody();
-        //$decryptedID = password_verify()
-        return $this->render('validation/userValidation',$body);
+        $user = ($this->userService->getUserByHashedEmail($body['email']));
+        var_dump($user['hashed_email_for_validation']);
+        $this->userService->updateUserConfirmColumn($user['user_id']);
+
+        return $this->render('validation/userValidation');
     }
 
 
