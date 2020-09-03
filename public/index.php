@@ -33,6 +33,7 @@ $app->router->post('/',[AuthController::class, 'logout']);
  * ItemController
  */
 $app->router->get('/item/itemUpload',[ItemController::class, 'getItemUploadPage']);
+$app->router->post('/item/itemUpload',[ItemController::class, 'uploadItem']);
 
 
 

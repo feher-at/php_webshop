@@ -31,7 +31,7 @@ class AuthController extends Controller
 
     public function register()
     {
-        $this->setLayout('auth_layout');
+        $this->setLayout('layout');
         return $this->render('auth/register');
     }
 
@@ -86,13 +86,13 @@ class AuthController extends Controller
 
         }
         else{
-            setcookie("type",$result,time()+604,800);
+            setcookie("type",$result,time()+604800);
             $this->redirect("/");
         }
         return false;
     }
     public function logout(Request $request){
-        setcookie("type","",time()-604,800);
+        setcookie("type","",time()-604800);
         $this->redirect("/");
 
     }
