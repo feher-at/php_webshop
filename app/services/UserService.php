@@ -133,4 +133,14 @@ class UserService implements IUserService
         }
 
     }
+    public function getUserById($userId): User{
+        $user=pg_prepare($this->connection,"get_user","SELECT * FROM users WHERE user_id = $1 ");
+        $user = pg_execute($this->connection,"get_user",array($userId));
+        return new User(pg_fetch_assoc($user));
+
+        }
+    public function updateUser($params){
+        $user=pg_prepare($this->connection,"get_user","UPDATE users SET ()  WHERE users.user_id = $1");
+
+    }
 }
