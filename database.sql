@@ -66,3 +66,10 @@ CREATE TABLE orders(
 	order_status status 
 	
 );
+
+Insert INTO couriers(courier_name) VALUES('GLS');
+Insert INTO couriers(courier_name) VALUES('DPD');
+Insert INTO couriers(courier_name) VALUES('Personal receiving');
+Insert INTO couriers(courier_name) VALUES('Magyar Posta');
+Insert INTO couriers(courier_name) VALUES('FoxPost');
+

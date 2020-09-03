@@ -31,7 +31,7 @@ class AuthController extends Controller
 
     public function register()
     {
-        $this->setLayout('auth_layout');
+        $this->setLayout('layout');
         return $this->render('auth/register');
     }
 

@@ -6,10 +6,34 @@ namespace app\services;
 
 class ItemService implements IItemService
 {
+    private $database;
+    private $connection;
 
-    public function uploadItem()
+    public function __construct()
     {
-        // TODO: Implement uploadItem() method.
+        $this->database = DatabaseService::getInstance();
+        $this->connection = $this->database->getConnection();
+    }
+
+    public function uploadItem(array $params)
+    {
+        $query= "INSERT INTO items (user_id,item_name,item_description,
+                                          item_grossprice,item_image,item_stock,item_saleprice,
+                                          item_seoname,item_seodescription,item_ogimage)
+                                   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
+
+        if($this->connection){
+            pg_query_params($this->connection,$query,array('user_id'=>$params['user_id'],
+                                                           'item_name' => $params['item_name'],
+                                                           'item_description' => $params['item_description'],
+                                                           'item_price' => $params['item_price'],
+                                                           'item_image' =>$params['item_image'],
+                                                           'item_stock' =>$params['item_stock'],
+                                                           'item_saleprice'=>$params['item_saleprice'],
+                                                           'item_seoname' =>$params['item_seoname'],
+                                                           'item_seodescription'=>$params['item_seodescription'],
+                                                           'item_ogimage' => $params['item_ogimage']));
+        }
     }
 
     public function updateItem()
@@ -25,5 +49,24 @@ class ItemService implements IItemService
     public function deleteItem()
     {
         // TODO: Implement deleteItem() method.
+    }
+
+    public function getAllCouriers()
+    {
+       return pg_fetch_all(pg_query($this->connection, "Select * From couriers"));
+
+    }
+
+    public function uploadItemPictures($itemPicturesSubMap,$file)
+    {
+        if (!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures'))
+        {
+        mkdir(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures',0777);
+        }
+        if(!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap)){
+            mkdir(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap,0777);
+        }
+        $uploadDir = dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap.'\\'. basename($file['name']);
+        move_uploaded_file($file['tmp_name'],$uploadDir);
     }
 }
