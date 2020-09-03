@@ -6,17 +6,17 @@
     <br>
     <div class="form-group">
         <label >New email address</label>
-        <input type="email" name="email" class="form-control" placeholder=<?php echo (!empty($user_email)) ? $user_email:"";?>>
+        <input type="email" name="user_email" class="form-control" placeholder=<?php echo (!empty($user_email)) ? $user_email:"";?>>
         <?php if(isset($email)){echo "<p style='color: red'>$email </p>";} ?>
     </div>
     <div class="form-group">
         <label >New tax Number</label>
-        <input type="text" name="taxNumber" class="form-control" placeholder= <?php echo (!empty($user_taxnum)) ? $user_taxnum:"";?>>
+        <input type="text" name="user_taxnum" class="form-control" placeholder= <?php echo (!empty($user_taxnum)) ? $user_taxnum:"";?>>
         <?php if(isset($taxNumber)){echo "<p style='color: #ff0000'>$taxNumber </p>";} ?>
     </div>
     <div class="form-group">
         <label>New password</label>
-        <input type="password" name="password" class="form-control">
+        <input type="password" name="user_password" class="form-control">
         <?php if(isset($password)){echo "<p style='color: red'>$password </p>";} ?>
     </div>
     <div class="form-group">
