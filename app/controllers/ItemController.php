@@ -26,15 +26,13 @@ class ItemController extends Controller
     public function getItemUploadPage()
     {
         $this->setLayout('layout');
-        $result = $this->itemService->getAllCouriers();
-        $allCouriers = array('allCouriers' => $result);
-        return $this->render('items/itemUpload',$allCouriers);
+     
+        return $this->render('items/itemUpload');
     }
 
     public function uploadItem(Request $request)
     {
         $sessionUserId = $_COOKIE['type'];
-
         $body = $request->getBody();
 
         $itemInfo = array('user_id'=>$sessionUserId,
@@ -49,20 +47,25 @@ class ItemController extends Controller
                           'item_ogimage' => basename($_FILES['item_ogpicture']['name']));
 
 
-        $this->itemService->uploadItemPictures('Itempictures',$_FILES['item_image']);
-        $this->itemService->uploadItemPictures('OGItemPictures',$_FILES['item_ogpicture']);
+        $shippersAndPrices = $this->shippingService->returnShippingArrayFromRequest($body);
+        $itemError = $this->itemService->itemValidation($itemInfo);
+        $shippingError = $this->shippingService->shippingValidation($shippersAndPrices);
+        $allErrors = array_merge($itemError,$shippingError);
 
-        $latestUploadedItemId = $this->itemService->uploadItem($itemInfo);
-        $shippersWithPrice = $this->shippingService->CheckSettedShippers($body);
-        foreach ($shippersWithPrice as $key) {
+        if(empty($allErrors)) {
+            $this->itemService->uploadItemPictures('Itempictures', $_FILES['item_image']);
+            $this->itemService->uploadItemPictures('OGItemPictures', $_FILES['item_ogpicture']);
+            $latestUploadedItemId = $this->itemService->uploadItem($itemInfo);
+            $shippersWithPrice = $this->shippingService->checkSettedShippers($shippersAndPrices);
 
+            foreach ($shippersWithPrice as $key) {
 
-            $this->shippingService->createShipping($latestUploadedItemId['item_id'], $key);
+                $this->shippingService->createShipping($latestUploadedItemId['item_id'], $key);
+            }
+
+            $this->redirect('/');
         }
-
-
-
-        $this->redirect('/');
+        return $this->render('items/itemUpload',$allErrors);
     }
 
 

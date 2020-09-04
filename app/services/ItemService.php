@@ -23,33 +23,26 @@ class ItemService implements IItemService
                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
         $latestItemIdQuery = "SELECT items.item_id FROM items ORDER BY items.item_id DESC LIMIT 1 ";
 
+        $queryArray = array('user_id'=>$params['user_id'],
+                            'item_name' => $params['item_name'],
+                            'item_description' => $params['item_description'],
+                            'item_price' => $params['item_price'],
+                            'item_image' =>$params['item_image'],
+                            'item_stock' =>$params['item_stock'],
+                            'item_saleprice'=>$params['item_saleprice'],
+                            'item_seoname' =>$params['item_seoname'],
+                            'item_seodescription'=>$params['item_seodescription'],
+                            'item_ogimage' => $params['item_ogimage']);
+
         if($this->connection){
-            pg_query_params($this->connection,$query,array('user_id'=>$params['user_id'],
-                                                           'item_name' => $params['item_name'],
-                                                           'item_description' => $params['item_description'],
-                                                           'item_price' => $params['item_price'],
-                                                           'item_image' =>$params['item_image'],
-                                                           'item_stock' =>$params['item_stock'],
-                                                           'item_saleprice'=>$params['item_saleprice'],
-                                                           'item_seoname' =>$params['item_seoname'],
-                                                           'item_seodescription'=>$params['item_seodescription'],
-                                                           'item_ogimage' => $params['item_ogimage']));
+            pg_query_params($this->connection,$query,$queryArray);
 
             $result = pg_query($this->connection,$latestItemIdQuery);
             return pg_fetch_assoc($result);
         }
         else{
             $this->database->reConnect();
-            pg_query_params($this->connection,$query,array('user_id'=>$params['user_id'],
-                                                           'item_name' => $params['item_name'],
-                                                           'item_description' => $params['item_description'],
-                                                           'item_price' => $params['item_price'],
-                                                           'item_image' =>$params['item_image'],
-                                                           'item_stock' =>$params['item_stock'],
-                                                           'item_saleprice'=>$params['item_saleprice'],
-                                                           'item_seoname' =>$params['item_seoname'],
-                                                           'item_seodescription'=>$params['item_seodescription'],
-                                                           'item_ogimage' => $params['item_ogimage']));
+            pg_query_params($this->connection,$query,$queryArray);
 
             $result = pg_query($this->connection,$latestItemIdQuery);
             return pg_fetch_assoc($result);
@@ -88,5 +81,28 @@ class ItemService implements IItemService
         }
         $uploadDir = dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap.'\\'. basename($file['name']);
         move_uploaded_file($file['tmp_name'],$uploadDir);
+    }
+
+    public function itemValidation($params)
+    {
+        $errors = array();
+
+        $errors['item_name_error'] = Validations::requiredValidation($params['item_name']);
+        $errors['item_description_error'] = Validations::requiredValidation($params['item_description']);
+        $errors['item_price_error'] = Validations::itemPriceValidation($params['item_price']);
+        $errors['item_image_error'] = Validations::requiredValidation($params['item_image']);
+        $errors['item_saleprice_error'] = Validations::intValidation($params['item_saleprice']);
+        $errors['item_stock_error'] = Validations::intValidation($params['item_stock']);
+
+        foreach($errors as $key => $value)
+        {
+            if(!is_null($value))
+            {
+
+                return $errors;
+            }
+        }
+
+        return $errors = array();
     }
 }

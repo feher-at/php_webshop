@@ -97,7 +97,7 @@ class UserService implements IUserService
 
     public function registrationValidation(array $validationParams)
     {
-        $errors = [];
+        $errors = array();
 
         $errors['email'] = Validations::emailValidation($validationParams['email']);
 
@@ -115,7 +115,7 @@ class UserService implements IUserService
                 return $errors;
             }
         }
-        return $errors = [];
+        return $errors = array();
     }
 
 

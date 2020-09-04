@@ -13,9 +13,10 @@
         </div>
         <div class="col-xs-6 ml-3">
             <input type="text" name="item_name" class="form-control">
+            <?php if(isset($item_name_error)){echo "<p style='color: red'>$item_name_error </p>";} ?>
         </div>
 
-        <?php if(isset($email)){echo "<p style='color: red'>$email </p>";} ?>
+
 
     </div>
     <div class="form-group row">
