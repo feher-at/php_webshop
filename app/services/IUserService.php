@@ -14,6 +14,6 @@ interface IUserService
 
     public function updateUserConfirmColumn($userID);
 
-    public function validation(array $validationParams);
+    public function registrationValidation(array $validationParams);
 
 }

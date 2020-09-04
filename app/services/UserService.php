@@ -95,13 +95,13 @@ class UserService implements IUserService
 
     }
 
-    public function validation(array $validationParams)
+    public function registrationValidation(array $validationParams)
     {
         $errors = [];
 
         $errors['email'] = Validations::emailValidation($validationParams['email']);
 
-        $errors['taxNumber'] = Validations::taxNumberValidation($validationParams['taxNumber']);
+        $errors['taxNumber'] = Validations::registerTaxNumberValidation($validationParams['taxNumber']);
 
         $errors['password'] = Validations::passwordValidation($validationParams['password']);
 

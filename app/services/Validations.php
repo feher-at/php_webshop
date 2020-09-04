@@ -8,15 +8,25 @@ class Validations
 {
 
 
-    public static function emailValidation($email){
-        if(empty($email)){
+    public static function requiredValidation($param)
+    {
+        if((empty($param))){
             return "This field is required";
         }
+
     }
 
-    public static function taxNumberValidation($taxNumber){
-        if(empty($taxNumber)){
-            return "This field is required";
+    public static function emailValidation($email){
+
+        $required =  Validations::requiredValidation($email);
+        if(!empty($required))
+            return $required;
+    }
+
+    public static function registerTaxNumberValidation($taxNumber){
+        $required = Validations::requiredValidation($taxNumber);
+        if(!empty($required)){
+            return $required;
         }
         else if((strlen($taxNumber)>0 && strlen($taxNumber)<11) || strlen($taxNumber) > 11 ){
             return "This is not a valid tax number";
@@ -24,8 +34,9 @@ class Validations
     }
 
     public static function passwordValidation($password){
-        if(empty($password)){
-            return "This field is required";
+        $required = Validations::requiredValidation($password);
+        if(!empty($required)){
+            return $required;
         }
     }
 

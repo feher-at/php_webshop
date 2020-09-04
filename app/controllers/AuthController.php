@@ -39,7 +39,7 @@ class AuthController extends Controller
     {
 
         $body = $request->getBody();
-        $errors = $this->userService->validation($body);
+        $errors = $this->userService->registrationValidation($body);
 
 
         $address = "phptestuser01@gmail.com";
