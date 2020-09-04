@@ -39,9 +39,9 @@ $app->router->post('/item/itemUpload',[ItemController::class, 'uploadItem']);
 /**
  * ProfileController
  */
-$app->router->get('/profile/profile',[ProfileController::class, 'getProfilePage']);
-$app->router->get('/profile/profileUpdate',[ProfileController::class, 'getProfileUpdatePage']);
-$app->router->get('/profile/profileUpdate/validation',[AuthController::class,'validation']);
-$app->router->post('/profile/profileUpdate',[ProfileController::class, 'update']);
+$app->router->get('/profile',[ProfileController::class, 'getProfilePage']);
+$app->router->get('/profileUpdate',[ProfileController::class, 'getProfileUpdatePage']);
+$app->router->get('/profileUpdate/validation',[AuthController::class,'validation']);
+$app->router->post('/profileUpdate',[ProfileController::class, 'update']);
 $app->run();
 ?>

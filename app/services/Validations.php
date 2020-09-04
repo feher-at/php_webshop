@@ -59,6 +59,11 @@ class Validations
         return null;
     }
 
+    public static function updateTaxNumberValidation($taxNumber){
+        if((strlen($taxNumber)>0 && strlen($taxNumber)<11) || strlen($taxNumber) > 11 ){
+            return "This is not a valid tax number";
+        }
+}
 
     public static function passwordValidation($password){
         $required = Validations::requiredValidation($password);
