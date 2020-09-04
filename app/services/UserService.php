@@ -140,12 +140,6 @@ class UserService implements IUserService
 
         }
     public function updateUser($params){
-        foreach($params as $key => $value){
-            if($value=="" or $key == "confirmPassword"){
-                unset($params[$key]);
-            }
-        }
         pg_update($this->connection,"users",$params,array('user_id'=>$_COOKIE['type']));
-
     }
 }
