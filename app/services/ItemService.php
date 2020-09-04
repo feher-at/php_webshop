@@ -21,6 +21,7 @@ class ItemService implements IItemService
                                           item_grossprice,item_image,item_stock,item_saleprice,
                                           item_seoname,item_seodescription,item_ogimage)
                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
+        $latestItemIdQuery = "SELECT items.item_id FROM items ORDER BY items.item_id DESC LIMIT 1 ";
 
         if($this->connection){
             pg_query_params($this->connection,$query,array('user_id'=>$params['user_id'],
@@ -33,6 +34,25 @@ class ItemService implements IItemService
                                                            'item_seoname' =>$params['item_seoname'],
                                                            'item_seodescription'=>$params['item_seodescription'],
                                                            'item_ogimage' => $params['item_ogimage']));
+
+            $result = pg_query($this->connection,$latestItemIdQuery);
+            return pg_fetch_assoc($result);
+        }
+        else{
+            $this->database->reConnect();
+            pg_query_params($this->connection,$query,array('user_id'=>$params['user_id'],
+                                                           'item_name' => $params['item_name'],
+                                                           'item_description' => $params['item_description'],
+                                                           'item_price' => $params['item_price'],
+                                                           'item_image' =>$params['item_image'],
+                                                           'item_stock' =>$params['item_stock'],
+                                                           'item_saleprice'=>$params['item_saleprice'],
+                                                           'item_seoname' =>$params['item_seoname'],
+                                                           'item_seodescription'=>$params['item_seodescription'],
+                                                           'item_ogimage' => $params['item_ogimage']));
+
+            $result = pg_query($this->connection,$latestItemIdQuery);
+            return pg_fetch_assoc($result);
         }
     }
 

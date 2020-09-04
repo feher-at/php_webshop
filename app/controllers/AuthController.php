@@ -58,7 +58,7 @@ class AuthController extends Controller
                         To validate your registration click on this link :". $validationLink;
             try {
                 $this->emailService->EmailSending($subject,$message,$address);
-                $this->redirect("/");
+                $this->redirect('/');
             } catch (Exception $e) {
                 echo $e->errorMessage();
 

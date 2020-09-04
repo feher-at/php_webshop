@@ -7,16 +7,20 @@ namespace app\controllers;
 use app\core\Controller;
 use app\Core\Request;
 use app\services\IItemService;
+use app\services\IShippingService;
 use app\services\Itemservice;
+use app\services\ShippingService;
 
 class ItemController extends Controller
 {
     private IItemService $itemService;
+    private IShippingService $shippingService;
 
 
     public function __construct(){
 
         $this->itemService = new ItemService();
+        $this->shippingService = new ShippingService();
     }
 
     public function getItemUploadPage()
@@ -30,8 +34,9 @@ class ItemController extends Controller
     public function uploadItem(Request $request)
     {
         $sessionUserId = $_COOKIE['type'];
-        var_dump($sessionUserId);
+
         $body = $request->getBody();
+
         $itemInfo = array('user_id'=>$sessionUserId,
                           'item_name' => $body['item_name'],
                           'item_description' => $body['item_description'],
@@ -43,13 +48,21 @@ class ItemController extends Controller
                           'item_seodescription'=>$body['item_seodescription'],
                           'item_ogimage' => basename($_FILES['item_ogpicture']['name']));
 
-        var_dump($itemInfo);
-        $this->itemService->uploadItem($itemInfo);
+
         $this->itemService->uploadItemPictures('Itempictures',$_FILES['item_image']);
         $this->itemService->uploadItemPictures('OGItemPictures',$_FILES['item_ogpicture']);
 
+        $latestUploadedItemId = $this->itemService->uploadItem($itemInfo);
+        $shippersWithPrice = $this->shippingService->CheckSettedShippers($body);
+        foreach ($shippersWithPrice as $key) {
 
-        return $this->render('items/itemUpload');
+
+            $this->shippingService->createShipping($latestUploadedItemId['item_id'], $key);
+        }
+
+
+
+        $this->redirect('/');
     }
 
 

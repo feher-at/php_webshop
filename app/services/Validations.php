@@ -6,6 +6,8 @@ namespace app\services;
 
 class Validations
 {
+
+
     public static function emailValidation($email){
         if(empty($email)){
             return "This field is required";

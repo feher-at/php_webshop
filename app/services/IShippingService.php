@@ -6,6 +6,6 @@ namespace app\services;
 
 interface IShippingService
 {
-    public function createShipping($params);
+    public function createShipping($itemId,$shippersWithPrices);
 
 }

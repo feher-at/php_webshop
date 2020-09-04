@@ -91,6 +91,7 @@ class Router
            $$key = $value;
        }
 
+
         ob_start();
         include_once Application::$ROOT_DIR."/app/views/$view.php";
         return ob_get_clean();

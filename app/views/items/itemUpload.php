@@ -105,24 +105,48 @@
         </div>
         <?php if(isset($confirmPassword)){echo "<p style='color: red'>$confirmPassword </p>";} ?>
     </div>
-    <div class="form-group row">
+    <div class="form-group">
         <div class=>
             <label class="">Couriers </label>
         </div>
         <div class="row">
-            <?php
-            foreach($allCouriers as $key => $value){
-                $id= $value['courier_id'];
-                $name = $value['courier_name'];
-                echo "<div class= 'col-6'>
-                        <input class='' type='checkbox' name='courier[]' value='$id'/>$name 
-                      </div>
-                      <div>
-                        <input class='ml-5 mb-1 align-text-top' type='text' name='$name' placeholder='Price...'>
-                      </div>";
-            }
-            ?>
+            <div class= 'col-6'>
+                <input  type='checkbox' name='gls' value='1'/>GLS
+            </div>
+            <div>
+                <input class='ml-5 mb-1 align-text-top' type='text' name='gls_price' placeholder='Price...'>
+            </div>
+            <div class= 'col-6'>
+                <input  type='checkbox' name='dpd' value='2'/>DPD
+            </div>
+            <div>
+                <input class='ml-5 mb-1 align-text-top' type='text' name='dpd_price' placeholder='Price...'>
+            </div>
+            <div class= 'col-6'>
+                <input  type='checkbox' name='personal_receive' value='3'/>Personal receive
+            </div>
+            <div>
+                <input class='ml-5 mb-1 align-text-top' type='text' name='personal_receive_price' placeholder='Price...'>
+            </div>
+            <div class= 'col-6'>
+                <input  type='checkbox' name='magyar_posta' value='4'/>Magyar Posta
+            </div>
+            <div>
+                <input class='ml-5 mb-1 align-text-top' type='text' name='magyar_posta_price' placeholder='Price...'>
+            </div>
+            <div class= 'col-6'>
+                <input  type='checkbox' name='fox_post' value='5'/>FoxPost
+            </div>
+            <div>
+                <input class='ml-5 mb-1 align-text-top' type='text' name='fox_post_price' placeholder='Price...'>
+            </div>
+
         </div>
+
+
+    </div>
+
+
     </div>
 
     <div class="col text-center">
