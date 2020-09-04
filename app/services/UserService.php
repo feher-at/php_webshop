@@ -133,4 +133,19 @@ class UserService implements IUserService
         }
 
     }
+    public function getUserById($userId): User{
+        $user=pg_prepare($this->connection,"get_user","SELECT * FROM users WHERE user_id = $1 ");
+        $user = pg_execute($this->connection,"get_user",array($userId));
+        return new User(pg_fetch_assoc($user));
+
+        }
+    public function updateUser($params){
+        foreach($params as $key => $value){
+            if($value=="" or $key == "confirmPassword"){
+                unset($params[$key]);
+            }
+        }
+        pg_update($this->connection,"users",$params,array('user_id'=>$_COOKIE['type']));
+
+    }
 }

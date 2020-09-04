@@ -72,7 +72,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        $this->setLayout('auth_layout');
+        $this->setLayout('layout');
         return $this->render('auth/login');
     }
 
@@ -115,5 +115,6 @@ class AuthController extends Controller
             $this->redirect("auth/login");
         }
     }
+
 
 }

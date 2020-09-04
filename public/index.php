@@ -9,6 +9,7 @@ use app\Core\Application;
 use app\controllers\HomeController;
 use app\controllers\AuthController;
 use app\controllers\ItemController;
+use app\controllers\ProfileController;
 
 $app = new Application(dirname(__DIR__));
 
@@ -35,7 +36,12 @@ $app->router->post('/',[AuthController::class, 'logout']);
 $app->router->get('/item/itemUpload',[ItemController::class, 'getItemUploadPage']);
 $app->router->post('/item/itemUpload',[ItemController::class, 'uploadItem']);
 
-
-
+/**
+ * ProfileController
+ */
+$app->router->get('/profile/profile',[ProfileController::class, 'getProfilePage']);
+$app->router->get('/profile/profileUpdate',[ProfileController::class, 'getProfileUpdatePage']);
+$app->router->get('/profile/profileUpdate/validation',[AuthController::class,'validation']);
+$app->router->post('/profile/profileUpdate',[ProfileController::class, 'update']);
 $app->run();
 ?>
