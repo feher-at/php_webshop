@@ -11,12 +11,6 @@ class DatabaseService implements IDatabaseService {
         $this->conn = $this->connect();
     }
 
-    /**
-     * @return false|resource
-     * Set the connection with the database
-     * Uses .env variables for connection string
-     */
-
 
     public function reConnect(){
         $this->conn = $this->connect();
@@ -34,6 +28,12 @@ class DatabaseService implements IDatabaseService {
     {
         return $this->conn;
     }
+
+    /**
+     * Set the connection with the database
+     * Uses .env variables for connection string
+     * @return false|resource
+     */
     public function connect(){
         $dotenv=Dotenv::createUnsafeImmutable(dirname(__FILE__,3,));
         $dotenv->load();

@@ -40,7 +40,8 @@ CREATE TABLE items(
 	item_saleprice int,
 	item_seoname TEXT,
 	item_seodescription TEXT,
-	item_ogimage TEXT
+	item_ogimage TEXT,
+	item_is_buyable bool
 );
 CREATE TABLE shipping(
 	item_id int REFERENCES items(item_id),

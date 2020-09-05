@@ -35,6 +35,15 @@ class AuthController extends Controller
         return $this->render('auth/register');
     }
 
+    /**
+     * Register the user, and send an email it's email address to validate the user's registration.
+     * The registration email will include a link with the validation page and a hashed data,what is the
+     * registered user's email,if the user clicking on the link,he will get validating.
+     * @param Request $request
+     * The request which the user send to the server with all the data
+     * @return string|string[]
+     * Return to the register page with the errors if there any.
+     */
     public function handleRegister(Request $request)
     {
 

@@ -12,14 +12,22 @@ use app\services\EmailService;
 use PHPMailer\PHPMailer\Exception;
 
 class ProfileController extends Controller{
+
+    private ProfileService $profileService;
+    private UserService $userService;
+    private EmailService $emailService;
+
     public function __construct(){
         $this->profileService = new ProfileService();
         $this->userService = new userService();
         $this->emailService = new EmailService();
     }
     public function getProfilePage(){
-        $this->setLayout('layout');
-        return $this->render('profile/profile',$this->profileService->getUser());
+        if( isset($_COOKIE["type"])){
+            $this->setLayout('layout');
+            return $this->render('profile/profile',$this->profileService->getUser());
+        }
+        $this->redirect('/login');
     }
     public function getProfileUpdatePage(){
         $this->setLayout('layout');

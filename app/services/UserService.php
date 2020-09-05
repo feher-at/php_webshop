@@ -18,9 +18,13 @@ class UserService implements IUserService
     }
 
     /**
-     * @param array $params
-     * @return array
      * Register the user with the given parameters,and return with the registered user's id
+     *
+     * @param array $params
+     * The parameters with the user register
+     * @return array
+     * Return with the registered user id
+     *
      */
     public function registerUser(array $params)
     {
@@ -81,6 +85,12 @@ class UserService implements IUserService
         // TODO: Implement deleteUser() method.
     }
 
+    /**
+     * Update the confirm column in the database on the given user id.
+     *
+     * @param $userID
+     *
+     */
     public function updateUserConfirmColumn($userID)
     {
         $query = "UPDATE users SET confirmed = true WHERE users.user_id = $1";
@@ -95,6 +105,13 @@ class UserService implements IUserService
 
     }
 
+    /**
+     * Validate the data what which the user want to registering.
+     * @param array $validationParams
+     * Validation params what the user sent with the request.
+     * @return array All the errors what occurs via miss type or empty fields
+     *
+     */
     public function registrationValidation(array $validationParams)
     {
         $errors = array();
@@ -118,7 +135,15 @@ class UserService implements IUserService
         return $errors = array();
     }
 
-
+    /**
+     * Get the user via it's hashed email address.
+     *
+     * @param $hashedEmail
+     *  This need to be an existing hashed email value
+     * @return User
+     * Return with the User to which the email belongs
+     *
+     */
     public function getUserByHashedEmail($hashedEmail): User{
 
         $allUser = pg_fetch_all(pg_query($this->connection, "Select * From users"));

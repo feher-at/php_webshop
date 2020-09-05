@@ -16,7 +16,20 @@ class ShippingService implements IShippingService
         $this->connection = $this->database->getConnection();
     }
 
-    public function createShipping($itemId,$shippersWithPrices)
+    public function getAllCouriers()
+    {
+        return pg_fetch_all(pg_query($this->connection, "Select * From couriers"));
+
+    }
+
+    /**
+     * Create the shipping pivot table in the data base from the given params
+     * @param int $itemId
+     * This need to be an existing item id
+     * @param array $shippersWithPrices
+     * All the shippers with the prices
+     */
+    public function createShipping(int $itemId, array $shippersWithPrices)
     {
         $query = "INSERT INTO shipping(item_id,courier_id,shipping_price) VALUES($1,$2,$3)";
 
@@ -30,14 +43,18 @@ class ShippingService implements IShippingService
     }
 
     /**
-     * @param $body
-     * @return array
+
      *
-     * return with the couriers with name id (if there is any) and the price
-     * yeah i know it's ugly but the checkbox array didn't work to me,i try everything what can i
-     * but it still doesn't work so i need to use this ugly code,I don't know it's the browser(google chrome) fault
-     * or the php has a bug,as soon as i know a solution for this i will rewrite this disgusting code.
-     */
+     * return with the couriers with name,id (if there is any) and the price
+     * yeah I know it's ugly but the checkbox array didn't work to me,I tried everything what could I
+     * but it still doesn't work so I need to use this ugly code,I don't know it's the browser(google chrome) fault
+     * or the php's fault,or I just spoiled something,as soon as I know a solution for this I will rewrite this disgusting code.
+     * @param $body
+     * An array with the couriers and it's prices
+     * @return array
+     * Return with the couriers with name,id and the price
+    */
+
     public function returnShippingArrayFromRequest($body)
     {
         $shippers = array();
@@ -87,10 +104,18 @@ class ShippingService implements IShippingService
 
     }
 
-    public function checkSettedShippers(array $body){
+    /**
+     * This function get all the couriers from the array,and it's check if the courier checkbox is checked
+     * and the price input is filled or no,if both of them are filled it's create a key value pair from it's
+     * data and put in the checkedShippers array and at the end return with it.
+     * @param array $shippers all the couriers with it's price fields
+     * @return array Return all the couriers which has price as well
+     *
+     */
+    public function checkSettedShippers(array $shippers){
         $checkedShippers = array();
 
-        foreach($body as $key => $value)
+        foreach($shippers as $key => $value)
         {
             if($value['courier'] != null && $value['price'] != ''){
                 $checkedShippers[$value['name']] = array('courier_id' => $value['courier'],'price' => $value['price']);
@@ -100,38 +125,40 @@ class ShippingService implements IShippingService
         return $checkedShippers;
     }
 
-    public function shippingValidation(array $body)
+    /**
+     * Check all the couriers checkbox and it's price field,if one of them is missing then it's create
+     * a key value pair with the given couriers error,but it's also create an error when none of the
+     * couriers and price field filled.At the end return with all the errors.
+     * @param array $shippers A shipper array which waiting for validation.
+     * @return array|string[] All the errors which occurs at the validation process
+     *
+     */
+    public function shippingValidation(array $shippers)
     {
         $errors = array();
         $noCourier = 0;
 
-        foreach($body as $key =>$value)
+        foreach($shippers as $key =>$value)
         {
-
-
             if($value['courier'] === null && $value['price'] === '')
             {
                 $noCourier += 1;
                 continue;
-
             }
             elseif($value['courier'] === null || $value['price'] === '')
             {
 
                 $errors[$value['name']] = Validations::shippingValidation($value['courier'],$value['price']);
             }
-
         }
-
-        /*if($noCourier == count($body))
+        if($noCourier == count($shippers))
         {
-            return $errors['zero_courier'] = 'you need to choose one courier at least!';
-        }*/
+            return $errors = array('noCouriers' =>'you need to choose one courier at least!');
+        }
         foreach($errors as $key => $value)
         {
             if(!is_null($value))
             {
-
                 return $errors;
             }
         }

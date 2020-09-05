@@ -15,12 +15,20 @@ class ItemService implements IItemService
         $this->connection = $this->database->getConnection();
     }
 
+    /**
+     * Upload the items to the database with the given parameters and return immediately with the item id
+     *
+     * @param array $params
+     * The params for the item upload
+     * @return array
+     * The given item id
+     */
     public function uploadItem(array $params)
     {
         $query= "INSERT INTO items (user_id,item_name,item_description,
                                           item_grossprice,item_image,item_stock,item_saleprice,
-                                          item_seoname,item_seodescription,item_ogimage)
-                                   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
+                                          item_seoname,item_seodescription,item_ogimage,item_is_buyable)
+                                   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)";
         $latestItemIdQuery = "SELECT items.item_id FROM items ORDER BY items.item_id DESC LIMIT 1 ";
 
         $queryArray = array('user_id'=>$params['user_id'],
@@ -32,7 +40,8 @@ class ItemService implements IItemService
                             'item_saleprice'=>$params['item_saleprice'],
                             'item_seoname' =>$params['item_seoname'],
                             'item_seodescription'=>$params['item_seodescription'],
-                            'item_ogimage' => $params['item_ogimage']);
+                            'item_ogimage' => $params['item_ogimage'],
+                            'item_is_buyable' => 1);
 
         if($this->connection){
             pg_query_params($this->connection,$query,$queryArray);
@@ -64,12 +73,15 @@ class ItemService implements IItemService
         // TODO: Implement deleteItem() method.
     }
 
-    public function getAllCouriers()
-    {
-       return pg_fetch_all(pg_query($this->connection, "Select * From couriers"));
+    /**
+     * Upload a given file to the given maps within the ItemPictures,if the ItemPictures map
+     * does not exist it will be created.
+     * @param $itemPicturesSubMap
+     * The map in which you want to upload the file
+     * @param $file
+     * The file you want to upload
 
-    }
-
+     */
     public function uploadItemPictures($itemPicturesSubMap,$file)
     {
         if (!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures'))
@@ -83,6 +95,13 @@ class ItemService implements IItemService
         move_uploaded_file($file['tmp_name'],$uploadDir);
     }
 
+    /**
+     * Validate the item parameters.
+     * @param $params
+     * The item parameters which wanted to uploading
+     * @return array
+     * Return all the errors which occurred
+     */
     public function itemValidation($params)
     {
         $errors = array();

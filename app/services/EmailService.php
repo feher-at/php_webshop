@@ -10,7 +10,17 @@ use Dotenv\Dotenv;
 
 class EmailService implements IEmailService
 {
-
+    /**
+     * * This function is sending an email on the given email address with the subject and
+     * the message
+     * @param $subject
+     * The email subject
+     * @param $message
+     * The email message
+     * @param $address
+     * The user to which you want to send this email
+     )
+     */
     public function EmailSending($subject, $message, $address)
     {
         $mail = new PHPMailer(true);
