@@ -2,6 +2,8 @@
 
 namespace app\services;
 
+use app\models\User;
+
 interface IUserService
 {
     public function registerUser(array $params);
@@ -15,5 +17,11 @@ interface IUserService
     public function updateUserConfirmColumn($userID);
 
     public function registrationValidation(array $validationParams);
+
+    public function getUserByHashedEmail($hashedEmail): User;
+
+    public function getUserById($userId): User;
+
+    public function updateUser($params);
 
 }

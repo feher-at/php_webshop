@@ -5,17 +5,34 @@ use app\models\User;
 use app\services\UserService;
 
 class ProfileService implements IProfileService{
+
     public function __construct()
     {
         $this->userService = new UserService();
     }
+    /**
+     * Returns the currently logged in user.
+    */
     public function getUser() : User{
         return $this->userService->getUserById($_COOKIE["type"]);
 
     }
+
+    /**
+     * Gives the user's new credentials to the database update function.
+     * @param $params
+     */
     public function updateProfile($params){
         $this->userService->updateUser($params);
     }
+
+    /**
+     * Validates the user's new data .
+     * @param array $validationParams
+     * The user's data coming from profileUpdate .
+     * @return array
+     * Returns the errors in an array. Returns empty array if there are no errors.
+     */
     public function updateValidation(array $validationParams){
         $errors = [];
         if(array_key_exists('user_taxnum',$validationParams)) {

@@ -78,13 +78,24 @@ class AuthController extends Controller
             return $this->render('auth/register',$errors);
         }
     }
-
+    /**
+     * Returns the login view with the layout.
+    */
     public function login()
     {
         $this->setLayout('layout');
         return $this->render('auth/login');
     }
 
+    /**
+     * Compares the given credentials with the users table in the database.
+     * @param Request $request
+     * Request contains the credentials given by the user on the login screen.
+     * @return false|string|string[]
+     * If the credentials doesn't match the data stored in the database it re-renders the login view.
+     * If the matching function comes back with a true it gives out a cookie to the logged in user with a one week timeout
+     * and redirects to the homepage.
+     */
     public function handleLogin(Request $request){
 
         $body = $request->getBody();
@@ -100,6 +111,9 @@ class AuthController extends Controller
         }
         return false;
     }
+    /**
+     * Logs the user out by deleting their cookie and redirects to the homepage.
+    */
     public function logout(Request $request){
         setcookie("type","",time()-604800);
         $this->redirect("/");
@@ -116,6 +130,11 @@ class AuthController extends Controller
 
         return $this->render('validation/userValidation');
     }
+    /**
+     * Checks if the user's browser has the required cookie .
+     * If it has the cookie, the user is logged in and the method returns true
+     * else it redirects to the login view.
+    */
     public function authentication(){
         if(isset($_COOKIE["type"])){
             return true;
