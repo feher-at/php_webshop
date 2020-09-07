@@ -15,6 +15,7 @@ class UserService implements IUserService
     {
         $this->database = DatabaseService::getInstance();
         $this->connection = $this->database->getConnection();
+
     }
 
     /**
@@ -80,10 +81,7 @@ class UserService implements IUserService
 
     }
 
-    public function deleteUser()
-    {
-        // TODO: Implement deleteUser() method.
-    }
+
 
     /**
      * Update the confirm column in the database on the given user id.
@@ -159,7 +157,7 @@ class UserService implements IUserService
 
     }
     public function getUserById($userId): User{
-        $user=pg_prepare($this->connection,"get_user","SELECT * FROM users WHERE user_id = $1 ");
+        $user=pg_prepare($this->connection,"get_user","SELECT * FROM users WHERE user_id = $1;");
         $user = pg_execute($this->connection,"get_user",array($userId));
         return new User(pg_fetch_assoc($user));
 
@@ -167,4 +165,13 @@ class UserService implements IUserService
     public function updateUser($params){
         pg_update($this->connection,"users",$params,array('user_id'=>$_COOKIE['type']));
     }
+
+
+    public function deleteUser($userId)
+    {
+    $userDel = pg_prepare($this->connection,"delete_user","DELETE FROM users WHERE user_id = $1;");
+    $userDel = pg_execute($this->connection,"delete_user",array($userId));
+
+    }
+
 }

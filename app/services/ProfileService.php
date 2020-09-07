@@ -6,6 +6,8 @@ use app\services\UserService;
 
 class ProfileService implements IProfileService{
 
+    private \app\services\UserService $userService;
+
     public function __construct()
     {
         $this->userService = new UserService();
@@ -50,5 +52,11 @@ class ProfileService implements IProfileService{
             }
         }
         return $errors = [];
+    }
+    public function deleteProfile($userId){
+        $itemService = new ItemService();
+        $itemService->deleteItemShipping($userId);
+        $itemService->deleteItemsOfUser($userId);
+        $this->userService->deleteUser($userId);
     }
 }

@@ -107,5 +107,24 @@ class ProfileController extends Controller{
         return $this->render('profile/profile',$this->profileService->getUser());
     }
 
+    public function delete(){
+        if( isset($_COOKIE["type"])){
+            $this->setLayout('layout');
+            return $this->render('profile/profileDelete');
+        }
+        $this->redirect('/login');
+    }
+
+    public function handleDelete(Request $request){
+        if( isset($_COOKIE["type"])){
+            $auth = new AuthController();
+            $this->profileService->deleteProfile($_COOKIE["type"]);
+            $auth->cookieDelete();
+            $this->setLayout('layout');
+            return $this->redirect('/home');
+        }
+        $this->redirect('/login');
+    }
+
 
 }

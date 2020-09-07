@@ -111,12 +111,15 @@ class AuthController extends Controller
         }
         return false;
     }
+    public function cookieDelete(){
+        setcookie("type","",time()-604800);
+    }
     /**
      * Logs the user out by deleting their cookie and redirects to the homepage.
     */
     public function logout(Request $request){
-        setcookie("type","",time()-604800);
-        $this->redirect("/");
+        $this->cookieDelete();
+        $this->redirect("/home");
 
     }
 
