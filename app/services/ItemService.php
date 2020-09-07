@@ -4,6 +4,8 @@
 namespace app\services;
 
 
+use app\models\Item;
+
 class ItemService implements IItemService
 {
     private $database;
@@ -63,9 +65,21 @@ class ItemService implements IItemService
         // TODO: Implement updateItem() method.
     }
 
-    public function getItem()
+    public function getAllItem():array
     {
-        // TODO: Implement getItem() method.
+        $allItem = array();
+        $allItem['allItem'] = array();
+
+        $result = pg_fetch_all(pg_query($this->connection, "Select * From items"));
+
+        foreach($result as $item)
+        {
+            $itemObject = new Item($item);
+            $allItem['allItem'][$itemObject->item_name] = $itemObject;
+
+        }
+        return $allItem;
+
     }
 
     public function deleteItem()
@@ -84,14 +98,15 @@ class ItemService implements IItemService
      */
     public function uploadItemPictures($itemPicturesSubMap,$file)
     {
-        if (!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures'))
+
+        if (!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\public\Pictures'))
         {
-        mkdir(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures',0777);
+        mkdir(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\public\Pictures',0777);
         }
-        if(!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap)){
-            mkdir(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap,0777);
+        if(!file_exists(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\public\Pictures\\' .$itemPicturesSubMap)){
+            mkdir(dirname($_SERVER['DOCUMENT_ROOT'],1,). '\public\Pictures\\' .$itemPicturesSubMap,0777);
         }
-        $uploadDir = dirname($_SERVER['DOCUMENT_ROOT'],1,). '\ItemPictures\\' .$itemPicturesSubMap.'\\'. basename($file['name']);
+        $uploadDir = dirname($_SERVER['DOCUMENT_ROOT'],1,). '\public\Pictures\\' .$itemPicturesSubMap.'\\'. basename($file['name']);
         move_uploaded_file($file['tmp_name'],$uploadDir);
     }
 

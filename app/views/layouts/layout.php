@@ -47,7 +47,7 @@
             ?>
             <?php
                 if(isset($_COOKIE["type"])){
-                    echo ' <form action="/" method="post">
+                    echo ' <form action="/home" method="post">
                         <li class="nav-item active">
                         <button type="submit" class="btn">Logout</button>
                         </li>
