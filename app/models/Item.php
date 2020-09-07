@@ -4,18 +4,20 @@ namespace app\models;
 
 class Item
 {
-    private int $iD;
-    private int $userID;
-    private string $itemName;
-    private string $itemDescription;
-    private int $itemGrossPrice;
-    private string $itemImage;
-    private int $salePrice;
-    private string $seoName;
-    private string $seoDescription;
-    private string $ogImage;
-    private int $itemCourier;
-    private string $status;
+    public int $item_id;
+    public int $user_id;
+    public string $item_name;
+    public string $item_description;
+    public int $item_grossprice;
+    public string $item_image;
+    public int $item_stock;
+    public int $item_saleprice;
+    public string $item_seoname;
+    public string $item_seodescription;
+    public string $item_ogimage;
+    public bool $item_is_buyable;
+
+
 
     /**
      * Item constructor.

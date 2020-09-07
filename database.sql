@@ -36,10 +36,10 @@ CREATE TABLE items(
 	item_description TEXT NOT NULL,
 	item_grossprice int NOT NULL,
 	item_image TEXT NOT NULL,
-	item_stock INT,
-	item_saleprice int,
-	item_seoname TEXT,
-	item_seodescription TEXT,
+	item_stock INT  ,
+	item_saleprice int ,
+	item_seoname TEXT ,
+	item_seodescription TEXT ,
 	item_ogimage TEXT,
 	item_is_buyable bool
 );

@@ -12,7 +12,7 @@
             <label >Item Name*</label>
         </div>
         <div class="col-xs-6 ml-3">
-            <input type="text" name="item_name" class="form-control">
+            <input type="text" name="item_name" class="form-control" >
             <?php if(isset($item_name_error)){echo "<p style='color: red'>$item_name_error </p>";} ?>
         </div>
 
@@ -56,7 +56,7 @@
         </div>
         <div class="ml-1">
             <label>
-                <input type="text" name="item_saleprice" class="form-control">
+                <input type="text" name="item_saleprice" class="form-control" placeholder="0">
             </label>
         </div>
 
@@ -68,7 +68,7 @@
         </div>
         <div class="ml-3">
             <label>
-                <input type="text" name="item_stock" class="form-control">
+                <input type="text" name="item_stock" class="form-control"  placeholder="0">
             </label>
         </div>
         <?php if(isset($item_stock_error)){echo "<p style='color: red'>$item_stock_error </p>";} ?>
@@ -79,7 +79,7 @@
         </div>
         <div>
             <label>
-                <input type="text" name="item_seoname" class="form-control">
+                <input type="text" name="item_seoname" class="form-control" placeholder="">
             </label>
         </div>
 
@@ -90,7 +90,7 @@
         </div>
         <div>
             <label>
-                <textarea cols="75" type="text" name="item_seodescription" class="form-control"></textarea>
+                <textarea cols="75" type="text" name="item_seodescription" class="form-control"  placeholder=" "></textarea>
             </label>
         </div>
 
@@ -101,7 +101,7 @@
         </div>
         <div class="ml-1">
 
-            <input style="border:none" type="file" name="item_ogpicture" class="form-control">
+            <input style="border:none" type="file" name="item_ogpicture" class="form-control"  placeholder=" ">
 
         </div>
 

@@ -53,11 +53,13 @@ class ItemController extends Controller
         $shippingError = $this->shippingService->shippingValidation($shippersAndPrices);
         $allErrors = array_merge($itemError,$shippingError);
 
+
         if(empty($allErrors)) {
-            $this->itemService->uploadItemPictures('Itempictures', $_FILES['item_image']);
+            $this->itemService->uploadItemPictures('ItemPictures', $_FILES['item_image']);
             $this->itemService->uploadItemPictures('OGItemPictures', $_FILES['item_ogpicture']);
             $latestUploadedItemId = $this->itemService->uploadItem($itemInfo);
             $shippersWithPrice = $this->shippingService->checkSettedShippers($shippersAndPrices);
+
 
             foreach ($shippersWithPrice as $key) {
 
@@ -65,6 +67,7 @@ class ItemController extends Controller
             }
 
            $this->redirect('/');
+
 
         }
         return $this->render('items/itemUpload',$allErrors);
@@ -79,14 +82,15 @@ class ItemController extends Controller
                         'item_description' => $body['item_description'],
                         'item_price' => $body['item_price'],
                         'item_image' =>basename($_FILES['item_image']['name']),
-                        'item_stock' =>$body['item_stock'],
-                        'item_saleprice'=>$body['item_saleprice'],
-                        'item_seoname' =>$body['item_seoname'],
-                        'item_seodescription'=>$body['item_seodescription'],
-                        'item_ogimage' => basename($_FILES['item_ogpicture']['name']));
+                        'item_stock' =>$body['item_stock'] ? $body['item_stock'] : 0,
+                        'item_saleprice'=>$body['item_saleprice'] ? $body['item_saleprice'] : 0,
+                        'item_seoname' =>$body['item_seoname'] ? $body['item_seoname']:"",
+                        'item_seodescription'=>$body['item_seodescription'] ? $body['item_seodescription'] : "" ,
+                        'item_ogimage' => basename($_FILES['item_ogpicture']['name']) ? basename($_FILES['item_ogpicture']['name']) : "" );
 
 
     }
+
 
 
 
