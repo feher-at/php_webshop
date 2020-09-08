@@ -173,5 +173,23 @@ class UserService implements IUserService
     $userDel = pg_execute($this->connection,"delete_user",array($userId));
 
     }
+    public function forgotPasswordValidation($email){
+        $errors = array();
+        $errors['email'] = Validations::emailValidation($email);
+        foreach($errors as $key => $value)
+        {
+            if(!is_null($value))
+            {
+
+                return $errors;
+            }
+        }
+        return $errors = [];
+    }
+
+    public function updatePasswordByEmail($email,$newPassword){
+        $result=pg_prepare($this->connection,"update_password","UPDATE users SET user_password = $1 WHERE user_email = $2");
+        $result = pg_execute($this->connection,"update_password",array($newPassword,$email));
+    }
 
 }

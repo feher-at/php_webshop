@@ -25,10 +25,14 @@ $app->router->get('/home', [HomeController::class,'getIndex']);
  */
 $app->router->get('/register',[AuthController::class,'register']);
 $app->router->get('/login',[AuthController::class, 'login']);
+$app->router->get('/forgotPassword',[AuthController::class,'forgotPassword']);
 $app->router->get('/register/validation',[AuthController::class,'validation']);
 $app->router->post('/register',[AuthController::class, 'handleRegister']);
 $app->router->post('/login',[AuthController::class, 'handleLogin']);
 $app->router->post('/home',[AuthController::class, 'logout']);
+$app->router->get('/forgotPassword/validation',[AuthController::class,'validation']);
+$app->router->post('/forgotPassword',[AuthController::class,'handleForgotPassword']);
+
 
 /**
  * ItemController

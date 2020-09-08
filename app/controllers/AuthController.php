@@ -146,6 +146,39 @@ class AuthController extends Controller
             $this->redirect("auth/login");
         }
     }
+    public function forgotPassword(){
+        $this->setLayout('layout');
+        return $this->render('auth/forgotPassword');
+    }
+
+    public function handleForgotPassword(Request $request){
+        $body = $request->getBody();
+        $errors = $this->userService->forgotPasswordValidation($body['email']);
+        if($errors != []) {
+            return $this->render('auth/forgotPassword', $errors);
+
+        }
+        $address = "phptestuser01@gmail.com";
+        try {
+            $newPassword = bin2hex(random_bytes(4));
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        $this->userService->updatePasswordByEmail($body['email'],password_hash($newPassword,PASSWORD_BCRYPT));
+        $subject = "New password";
+        $message = "Someone requested a new password for this email address.\n
+                    After you logged in you can change this password in the profile page .
+                        Your new password: ".$newPassword;
+        try {
+            $this->emailService->EmailSending($subject,$message,$address);
+            $this->redirect('/');
+        } catch (Exception $e) {
+            echo $e->errorMessage();
+
+        }
+
+        return $this->render('auth/forgotPassword');
+    }
 
 
 }
