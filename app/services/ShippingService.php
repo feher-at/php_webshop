@@ -22,6 +22,18 @@ class ShippingService implements IShippingService
 
     }
 
+    public function getAllCouriersToOneItem(int $itemId): array
+    {
+        $this->database->reConnect();
+
+        $query = "SELECT couriers.courier_id,couriers.courier_name,shipping_price
+                    FROM couriers JOIN shipping ON couriers.courier_id = shipping.courier_id 
+                    WHERE item_id = $1";
+
+        return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));
+
+    }
+
     /**
      * Create the shipping pivot table in the data base from the given params
      * @param int $itemId
@@ -31,15 +43,13 @@ class ShippingService implements IShippingService
      */
     public function createShipping(int $itemId, array $shippersWithPrices)
     {
+        $this->database->reConnect();
         $query = "INSERT INTO shipping(item_id,courier_id,shipping_price) VALUES($1,$2,$3)";
 
-        if($this->connection){
+        pg_query_params($this->connection,$query,array($itemId,
+                                                       $shippersWithPrices['courier_id'],
+                                                       $shippersWithPrices['price']));
 
-            pg_query_params($this->connection,$query,array($itemId,
-                                                           $shippersWithPrices['courier_id'],
-                                                           $shippersWithPrices['price']));
-
-        }
     }
 
     /**

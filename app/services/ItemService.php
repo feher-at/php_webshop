@@ -27,6 +27,8 @@ class ItemService implements IItemService
      */
     public function uploadItem(array $params)
     {
+
+        $this->database->reConnect();
         $query= "INSERT INTO items (user_id,item_name,item_description,
                                           item_grossprice,item_image,item_stock,item_saleprice,
                                           item_seoname,item_seodescription,item_ogimage,item_is_buyable)
@@ -45,19 +47,11 @@ class ItemService implements IItemService
                             'item_ogimage' => $params['item_ogimage'],
                             'item_is_buyable' => 1);
 
-        if($this->connection){
-            pg_query_params($this->connection,$query,$queryArray);
+        pg_query_params($this->connection,$query,$queryArray);
 
-            $result = pg_query($this->connection,$latestItemIdQuery);
-            return pg_fetch_assoc($result);
-        }
-        else{
-            $this->database->reConnect();
-            pg_query_params($this->connection,$query,$queryArray);
+        $result = pg_query($this->connection,$latestItemIdQuery);
+        return pg_fetch_assoc($result);
 
-            $result = pg_query($this->connection,$latestItemIdQuery);
-            return pg_fetch_assoc($result);
-        }
     }
 
     public function updateItem()

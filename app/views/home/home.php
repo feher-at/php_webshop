@@ -27,8 +27,9 @@
                     <div class='pl-3 row'>
                         <p>Price: $price</p>
                         <div class='pl-3'>
-                          <form action ='/item/itemUpload' method='get'>
+                          <form action ='/item/order' method='get'>
                                 <button style='height:25px;padding-top:0px'type='submit' class='btn btn-primary'>Buy</button>
+                                <input type='hidden' name='item_id' value='$key->item_id'/>
                           </form>
                         </div>
                     </div>

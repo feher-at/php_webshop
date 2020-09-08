@@ -74,3 +74,8 @@ Insert INTO couriers(courier_name) VALUES('Personal receiving');
 Insert INTO couriers(courier_name) VALUES('Magyar Posta');
 Insert INTO couriers(courier_name) VALUES('FoxPost');
 
+
+Insert INTO payment_methods(payment_method_name) VALUES('cash');
+Insert INTO payment_methods(payment_method_name) VALUES('transaction');
+Insert INTO payment_methods(payment_method_name) VALUES('cash on delivery');
+

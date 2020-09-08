@@ -7,28 +7,35 @@ namespace app\controllers;
 use app\core\Controller;
 use app\Core\Request;
 use app\services\IItemService;
+use app\services\IPaymentService;
 use app\services\IShippingService;
 use app\services\Itemservice;
+use app\services\PaymentService;
 use app\services\ShippingService;
 
 class ItemController extends Controller
 {
     private IItemService $itemService;
     private IShippingService $shippingService;
+    private IPaymentService $paymentService;
 
 
     public function __construct(){
 
         $this->itemService = new ItemService();
         $this->shippingService = new ShippingService();
+        $this->paymentService = new PaymentService();
     }
 
     public function getItemUploadPage()
     {
 
         $this->setLayout('layout');
+        $paymentMethods['payments'] = $this->paymentService->getAllPaymentMethod();
+        var_dump($paymentMethods);
+
      
-        return $this->render('items/itemUpload');
+        return $this->render('items/itemUpload',$paymentMethods);
     }
 
     /**
@@ -46,6 +53,7 @@ class ItemController extends Controller
     {
 
         $body = $request->getBody();
+
         $itemInfo = $this->makeTheItemInfoArray($body);
 
         $shippersAndPrices = $this->shippingService->returnShippingArrayFromRequest($body);
@@ -68,7 +76,6 @@ class ItemController extends Controller
 
            $this->redirect('/');
 
-
         }
         return $this->render('items/itemUpload',$allErrors);
     }
@@ -89,6 +96,11 @@ class ItemController extends Controller
                         'item_ogimage' => basename($_FILES['item_ogpicture']['name']) ? basename($_FILES['item_ogpicture']['name']) : "" );
 
 
+    }
+
+    private function makePaymentMethodsArray(array $body)
+    {
+        //return array('cash' => )
     }
 
 

@@ -10,6 +10,7 @@ use app\controllers\HomeController;
 use app\controllers\AuthController;
 use app\controllers\ItemController;
 use app\controllers\ProfileController;
+use app\controllers\OrderController;
 
 $app = new Application(dirname(__DIR__));
 
@@ -28,7 +29,13 @@ $app->router->get('/login',[AuthController::class, 'login']);
 $app->router->get('/register/validation',[AuthController::class,'validation']);
 $app->router->post('/register',[AuthController::class, 'handleRegister']);
 $app->router->post('/login',[AuthController::class, 'handleLogin']);
-$app->router->post('/',[AuthController::class, 'logout']);
+$app->router->post('/home',[AuthController::class, 'logout']);
+
+/**
+ * OrderController
+ */
+
+$app->router->get('/item/order',[OrderController::class,'getOrderPage']);
 
 /**
  * ItemController

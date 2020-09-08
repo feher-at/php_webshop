@@ -6,6 +6,8 @@ use app\services\UserService;
 
 class ProfileService implements IProfileService{
 
+    private IUserService $userService;
+
     public function __construct()
     {
         $this->userService = new UserService();

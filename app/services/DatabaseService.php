@@ -13,7 +13,8 @@ class DatabaseService implements IDatabaseService {
 
 
     public function reConnect(){
-        $this->conn = $this->connect();
+        if(!$this->conn)
+            $this->conn = $this->connect();
     }
 
     public static function getInstance(){

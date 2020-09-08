@@ -28,28 +28,18 @@ class UserService implements IUserService
      */
     public function registerUser(array $params)
     {
+        $this->database->reConnect();
 
         $query = "INSERT INTO users (user_email,user_taxnum,user_password,confirmed,hashed_email_for_validation)
                     VALUES($1,$2,$3,$4,$5)";
         $latestUserHashedEmailQuery = "SELECT users.hashed_email_for_validation FROM users ORDER BY users.user_id DESC LIMIT 1 ";
         $hashedEmail =  md5($params['user_email']);
-        if($this->connection){
-            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],0,
-                                                            md5($params['user_email'])));
-            $result = pg_query($this->connection,$latestUserHashedEmailQuery);
 
-            return pg_fetch_assoc($result);
+        pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],0,
+                                                        md5($params['user_email'])));
+        $result = pg_query($this->connection,$latestUserHashedEmailQuery);
 
-        }
-        else{
-            $this->database->reConnect();
-            pg_query_params($this->connection,$query,array($params['user_email'],$params['user_taxnum'],$params['user_password'],0,
-                                                           md5($params['user_email'])));
-            $result = pg_query($this->connection,$latestUserHashedEmailQuery);
-            return pg_fetch_assoc($result);
-
-
-        }
+        return pg_fetch_assoc($result);
 
     }
 
@@ -93,16 +83,10 @@ class UserService implements IUserService
      */
     public function updateUserConfirmColumn($userID)
     {
+        $this->database->reConnect();
         $query = "UPDATE users SET confirmed = true WHERE users.user_id = $1";
-        if($this->connection){
 
-            pg_query_params($this->connection,$query,array($userID));
-        }
-        else{
-            $this->database->reConnect();
-            pg_query_params($this->connection,$query,array($userID));
-        }
-
+        pg_query_params($this->connection,$query,array($userID));
     }
 
     /**

@@ -160,6 +160,26 @@
 
 
     </div>
+    <div class="form-group">
+        <div class=>
+            <label class="">Payments </label>
+        </div>
+        <div class="row">
+            <?php
+            foreach($payments as $key)
+            {
+               echo '<div class="col-6">
+                        <p>'.$key['payment_method_name'].'</p>
+                        <input type="hidden" name='.$key['payment_method_name'].' value='.$key['payment_method_id'].'>
+                     </div>
+                     <div class="ml-5 mb-1">
+                        <input type="text" name="'.$key['payment_method_name'].'_price" value=0 placeholder="Price...">
+                     </div>';
+
+            }
+            ?>
+        </div>
+    </div>
 
 
     </div>
