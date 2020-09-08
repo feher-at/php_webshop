@@ -11,4 +11,5 @@
 
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<a class="nav-link" href="/forgotPassword">Forgot your password?</a>
 

@@ -53,4 +53,10 @@ class ProfileService implements IProfileService{
         }
         return $errors = [];
     }
+    public function deleteProfile($userId){
+        $itemService = new ItemService();
+        $itemService->deleteItemShipping($userId);
+        $itemService->deleteItemsOfUser($userId);
+        $this->userService->deleteUser($userId);
+    }
 }

@@ -4,6 +4,9 @@
 namespace app\services;
 
 
+use http\Exception\BadQueryStringException;
+use mysql_xdevapi\Exception;
+
 use app\models\Item;
 
 class ItemService implements IItemService
@@ -76,10 +79,7 @@ class ItemService implements IItemService
 
     }
 
-    public function deleteItem()
-    {
-        // TODO: Implement deleteItem() method.
-    }
+
 
     /**
      * Upload a given file to the given maps within the ItemPictures,if the ItemPictures map
@@ -132,5 +132,42 @@ class ItemService implements IItemService
         }
 
         return $errors = array();
+    }
+    public function getUserItemId($userId){
+        $itemId=pg_prepare($this->connection,"get_itemId","SELECT item_id FROM items WHERE user_id = $1 ");
+        $itemId = pg_execute($this->connection,"get_itemId",array($userId));
+        $itemIdFetch = pg_fetch_all($itemId);
+        $itemIds = array();
+        if(empty($itemIdFetch)){
+            return null;
+        }
+        for($i=0;$i<count($itemIdFetch);$i++){
+            array_push($itemIds,$itemIdFetch[$i]["item_id"]);
+        }
+        return $itemIds;
+    }
+
+    public function deleteItemShipping($userId){
+
+            $shippingDel = pg_prepare($this->connection, "delete_shipping", "DELETE FROM shipping WHERE  shipping.item_id IN (SELECT items.item_id FROM items WHERE items.user_id = $1);");
+            $shippingDel = pg_execute($this->connection, "delete_shipping", array($userId));
+
+
+
+    }
+
+    public function deleteItemsOfUser($userId){
+
+            $itemsDel = pg_prepare($this->connection, "delete_items", "DELETE FROM items WHERE user_id = $1;");
+            $itemsDel = pg_execute($this->connection, "delete_items", array($userId));
+
+
+
+    }
+
+
+    public function deleteItem()
+    {
+        // TODO: Implement deleteItem() method.
     }
 }

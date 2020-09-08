@@ -12,7 +12,7 @@ interface IUserService
 
     public function logInUser(array $credentials);
 
-    public function deleteUser();
+    public function deleteUser($userId);
 
     public function updateUserConfirmColumn($userID);
 

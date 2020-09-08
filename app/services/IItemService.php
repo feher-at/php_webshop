@@ -11,4 +11,6 @@ interface IItemService
     public function getAllItem();
     public function deleteItem();
     public function uploadItemPictures($itemPicturesSubMap,$file);
+    public function deleteItemShipping($userId);
+    public function deleteItemsOfUser($userId);
 }
