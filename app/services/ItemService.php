@@ -69,9 +69,11 @@ class ItemService implements IItemService
 
         $result = pg_fetch_all(pg_query($this->connection, "Select * From items"));
 
+
         foreach($result as $item)
         {
             $itemObject = new Item($item);
+            var_dump($itemObject);
             $allItem['allItem'][$itemObject->item_name] = $itemObject;
 
         }

@@ -13,7 +13,7 @@
         </div>
         <div class="col-xs-6 ml-3">
             <input type="text" name="item_name" class="form-control" >
-            <?php if(isset($item_name_error)){echo "<p style='color: red'>$item_name_error </p>";} ?>
+            <?php if(isset($errors['item_name_error'])){echo "<p style='color: red'>".$errors['item_name_error']." </p>";} ?>
         </div>
 
 
@@ -28,7 +28,7 @@
                 <textarea cols="75" type="text" name="item_description" class="form-control"></textarea>
             </label>
         </div>
-        <?php if(isset($item_description_error)){echo "<p style='color: #ff0000'>$item_description_error </p>";} ?>
+        <?php if(isset($errors['item_description_error'])){echo "<p style='color: #ff0000'>".$errors['item_description_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-5">
@@ -39,7 +39,7 @@
                 <input type="text" name="item_price" class="form-control">
             </label>
         </div>
-        <?php if(isset($item_price_error)){echo "<p style='color: red'>$item_price_error </p>";} ?>
+        <?php if(isset($errors['item_price_error'])){echo "<p style='color: red'>".$errors['item_price_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-3">
@@ -48,7 +48,7 @@
         <div>
             <input style="border:none" type="file" name="item_image" class="form-control">
         </div>
-        <?php if(isset($item_image_error)){echo "<p style='color: red'>$item_image_error </p>";} ?>
+        <?php if(isset($errors['item_image_error'])){echo "<p style='color: red'>".$errors['item_image_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-3">
@@ -60,7 +60,7 @@
             </label>
         </div>
 
-        <?php if(isset($item_saleprice_error)){echo "<p style='color: red'>$item_saleprice_error </p>";} ?>
+        <?php if(isset($errors['$item_saleprice_error'])){echo "<p style='color: red'>".$errors['$item_saleprice_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-5">
@@ -71,7 +71,7 @@
                 <input type="text" name="item_stock" class="form-control"  placeholder="0">
             </label>
         </div>
-        <?php if(isset($item_stock_error)){echo "<p style='color: red'>$item_stock_error </p>";} ?>
+        <?php if(isset($errors['item_stock_error'])){echo "<p style='color: red'>".$errors['item_stock_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-2">
@@ -113,50 +113,50 @@
         <div class="row">
             <div class= 'col-6'>
                 <input  type='checkbox' name='gls' value='1'/>GLS
-                <?php if(isset($gls)){ echo"<p style='color: red' align='left'> $gls[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['gls'])){ echo"<p style='color: red' align='left'> ".$errors['gls']['courier_required_error']." </p>";} ?>
             </div>
 
             <div>
                 <input class='ml-5 mb-1 align-text-top' type='text' name='gls_price' placeholder='Price...'>
-                <?php if(isset($gls)){ echo"<p style='color: red' align='right'> $gls[courier_price_error] </p>";} ?>
+                <?php if(isset($errors['gls'])){ echo"<p style='color: red' align='right'> ".$errors['gls']['courier_price_error']." </p>";} ?>
             </div>
             <div class= 'col-6'>
                 <input  type='checkbox' name='dpd' value='2'/>DPD
-                <?php if(isset($dpd)){ echo"<p style='color: red' align='left'> $dpd[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['dpd'])){ echo"<p style='color: red' align='left'> ".$errors['dpd']['courier_required_error']." </p>";} ?>
             </div>
             <div>
                 <input class='ml-5 mb-1 align-text-top' type='text' name='dpd_price' placeholder='Price...'>
-                <?php if(isset($dpd)){ echo"<p style='color: red' align='left'> $dpd[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['dpd'])){ echo"<p style='color: red' align='left'> ".$errors['dpd']['courier_price_error']." </p>";} ?>
             </div>
             <div class= 'col-6'>
                 <input  type='checkbox' name='personal_receive' value='3'/>Personal receive
-                <?php if(isset($personal_receive)){ echo"<p style='color: red' align='left'> $personal_receive[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['personal_receive'])){ echo"<p style='color: red' align='left'> ".$errors['personal_receive']['courier_required_error']." </p>";} ?>
             </div>
             <div>
                 <input class='ml-5 mb-1 align-text-top' type='text' name='personal_receive_price' placeholder='Price...'>
-                <?php if(isset($personal_receive)){ echo"<p style='color: red' align='left'> $personal_receive[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['personal_receive'])){ echo"<p style='color: red' align='left'> ".$errors['personal_receive']['courier_price_error']." </p>";} ?>
             </div>
             <div class= 'col-6'>
                 <input  type='checkbox' name='magyar_posta' value='4'/>Magyar Posta
-                <?php if(isset($magyar_posta)){ echo"<p style='color: red' align='left'> $magyar_posta[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['magyar_posta'])){ echo"<p style='color: red' align='left'> ".$errors['magyar_posta']['courier_required_error']." </p>";} ?>
             </div>
             <div>
                 <input class='ml-5 mb-1 align-text-top' type='text' name='magyar_posta_price' placeholder='Price...'>
-                <?php if(isset($magyar_posta)){ echo"<p style='color: red' align='left'> $magyar_posta[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['magyar_posta'])){ echo"<p style='color: red' align='left'> ".$errors['magyar_posta']['courier_price_error']." </p>";} ?>
             </div>
             <div class= 'col-6'>
                 <input  type='checkbox' name='fox_post' value='5'/>FoxPost
-                <?php if(isset($fox_post)){ echo"<p style='color: red' align='left'> $fox_post[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['fox_post'])){ echo"<p style='color: red' align='left'> ".$errors['fox_post']['courier_required_error']." </p>";} ?>
 
             </div>
             <div>
                 <input class='ml-5 mb-1 align-text-top' type='text' name='fox_post_price' placeholder='Price...'>
-                <?php if(isset($fox_post)){ echo"<p style='color: red' align='left'> $fox_post[courier_required_error] </p>";} ?>
+                <?php if(isset($errors['fox_post'])){ echo"<p style='color: red' align='left'> ".$errors['fox_post']['courier_price_error']." </p>";} ?>
 
             </div>
 
         </div>
-        <?php if(isset($noCouriers)){ echo"<p style='color: red' align='center'> $noCouriers </p>";} ?>
+        <?php if(isset($errors['noCouriers'])){ echo"<p style='color: red' align='center'>".$errors['noCouriers']."  </p>";} ?>
 
 
     </div>

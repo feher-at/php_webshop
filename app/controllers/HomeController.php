@@ -19,9 +19,10 @@ class HomeController extends Controller
     public function getIndex()
     {
 
-        $dikk = $this->itemService->getAllItem();
+        $items = $this->itemService->getAllItem();
+        var_dump($items);
 
-        return $this->render('home/home',$dikk);
+        return $this->render('home/home',$items);
 
     }
 

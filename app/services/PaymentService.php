@@ -23,13 +23,12 @@ class PaymentService implements IPaymentService
        return pg_fetch_all(pg_query('SELECT * FROM payment_methods'));
     }
 
-    public function createPayment($paymentMethodsWithPrices,$itemID)
+    public function createPayment($itemId,$paymentId,$handlingFee)
     {
-        $query = 'INSERT INTO payment(item_id,payment_method_id,payment_handling_fee) VALUES($1,$2,$3)';
         $this->database->reConnect();
-        foreach ($paymentMethodsWithPrices as $payment)
-        {
-            pg_query_params($this->connection,$query,array($payment['']));
-        }
+        $query = 'INSERT INTO payment(item_id,payment_method_id,payment_handlingfee) VALUES($1,$2,$3)';
+        $this->database->reConnect();
+        pg_query_params($this->connection,$query,array($itemId,$paymentId,$handlingFee));
+
     }
 }

@@ -32,7 +32,7 @@ class ItemController extends Controller
 
         $this->setLayout('layout');
         $paymentMethods['payments'] = $this->paymentService->getAllPaymentMethod();
-        var_dump($paymentMethods);
+
 
      
         return $this->render('items/itemUpload',$paymentMethods);
@@ -53,19 +53,21 @@ class ItemController extends Controller
     {
 
         $body = $request->getBody();
-
         $itemInfo = $this->makeTheItemInfoArray($body);
 
         $shippersAndPrices = $this->shippingService->returnShippingArrayFromRequest($body);
         $itemError = $this->itemService->itemValidation($itemInfo);
         $shippingError = $this->shippingService->shippingValidation($shippersAndPrices);
-        $allErrors = array_merge($itemError,$shippingError);
+        $allPaymentMethod['payments'] = $this->paymentService->getAllPaymentMethod();
+        $allRequiredData['errors'] = array_merge($itemError,$shippingError);
+        $allRequiredData = array_merge($allRequiredData,$allPaymentMethod);
 
-
-        if(empty($allErrors)) {
+        if(empty($allRequiredData['errors'])) {
             $this->itemService->uploadItemPictures('ItemPictures', $_FILES['item_image']);
             $this->itemService->uploadItemPictures('OGItemPictures', $_FILES['item_ogpicture']);
             $latestUploadedItemId = $this->itemService->uploadItem($itemInfo);
+            $paymentArray = $this->makePaymentArray($body,$latestUploadedItemId['item_id']);
+            $this->makeThePaymentRowFromPaymentArray($paymentArray);
             $shippersWithPrice = $this->shippingService->checkSettedShippers($shippersAndPrices);
 
 
@@ -74,10 +76,11 @@ class ItemController extends Controller
                 $this->shippingService->createShipping($latestUploadedItemId['item_id'], $key);
             }
 
-           $this->redirect('/');
+            $this->redirect('/');
+            //return $this->render('items/itemUpload',$allRequiredData);
 
         }
-        return $this->render('items/itemUpload',$allErrors);
+        return $this->render('items/itemUpload',$allRequiredData);
     }
 
 
@@ -98,9 +101,26 @@ class ItemController extends Controller
 
     }
 
-    private function makePaymentMethodsArray(array $body)
+    private function makePaymentArray(array $body,$item_id)
     {
-        //return array('cash' => )
+        $payments = array();
+        $allPaymentMethod = $this->paymentService->getAllPaymentMethod();
+        foreach($allPaymentMethod as $payment)
+        {
+            $paymentMethodName = str_replace(" ","_",$payment['payment_method_name']);
+            $payments[$payment['payment_method_name']] = array('item_id' => $item_id,
+                                                            'payment_method_id' => $payment['payment_method_id'],
+                                                            'payment_handlingfee' =>$body[$paymentMethodName.'_price']);
+        }
+        return $payments;
+    }
+
+    private function makeThePaymentRowFromPaymentArray(array $paymentArray)
+    {
+        foreach ($paymentArray as $payment)
+        {
+            $this->paymentService->createPayment($payment['item_id'],$payment['payment_method_id'],$payment['payment_handlingfee']);
+        }
     }
 
 
