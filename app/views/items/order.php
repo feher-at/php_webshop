@@ -79,6 +79,9 @@
         </div>
         <?php if(isset($item_stock_error)){echo "<p style='color: red'>$item_stock_error </p>";} ?>
     </div>
+    <div class="col text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 
 </form>
 
