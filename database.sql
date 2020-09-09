@@ -63,6 +63,7 @@ CREATE TABLE orders(
 	customer_phone VARCHAR(12),
 	customer_email TEXT,
 	item_id int REFERENCES items(item_id),
+	item_current_price int,
 	item_quantity int,
 	order_status status 
 	
