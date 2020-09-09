@@ -20,7 +20,7 @@ class HomeController extends Controller
     {
 
         $items = $this->itemService->getAllItem();
-        var_dump($items);
+
 
         return $this->render('home/home',$items);
 

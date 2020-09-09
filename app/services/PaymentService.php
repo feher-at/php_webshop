@@ -31,4 +31,9 @@ class PaymentService implements IPaymentService
         pg_query_params($this->connection,$query,array($itemId,$paymentId,$handlingFee));
 
     }
+
+    public function getAllPaymentMethodToOneItem($itemId)
+    {
+
+    }
 }

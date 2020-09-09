@@ -64,6 +64,7 @@ class ItemService implements IItemService
 
     public function getAllItem():array
     {
+        $this->database->reConnect();
         $allItem = array();
         $allItem['allItem'] = array();
 
@@ -73,7 +74,6 @@ class ItemService implements IItemService
         foreach($result as $item)
         {
             $itemObject = new Item($item);
-            var_dump($itemObject);
             $allItem['allItem'][$itemObject->item_name] = $itemObject;
 
         }
@@ -81,7 +81,16 @@ class ItemService implements IItemService
 
     }
 
+    public function getGivenItemCurrentPrice($itemId)
+    {
+        $this->database->reConnect();
+        $query = "SELECT item_grossprice,item_saleprice FROM items WHERE item_id = $1";
+        $result =  pg_fetch_array(pg_query_params($this->connection,$query,array($itemId)));
+        return $result['item_saleprice'] != 0 ? $result['item_saleprice'] : $result['item_grossprice'];
 
+
+
+    }
 
     /**
      * Upload a given file to the given maps within the ItemPictures,if the ItemPictures map
