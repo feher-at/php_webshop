@@ -38,4 +38,8 @@ class OrderController extends Controller
         return $this->render('items/order',$allInfoForOrder);
     }
 
+    public function getUsersOrders(){
+        return $this->orderService->getAllOrdersOfUser($_COOKIE['type']);
+    }
+
 }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Controller;
 use app\Core\Request;
+use app\models\Order;
 use app\models\User;
 use app\services\IProfileService;
 use app\services\ProfileService;
@@ -122,6 +123,14 @@ class ProfileController extends Controller{
             $auth->cookieDelete();
             $this->setLayout('layout');
             return $this->redirect('/home');
+        }
+        $this->redirect('/login');
+    }
+    public function myOrders(){
+        $orderController = new OrderController();
+        if( isset($_COOKIE["type"])){
+            $this->setLayout('layout');
+            return $this->render('profile/myOrders',$orderController->getUsersOrders());
         }
         $this->redirect('/login');
     }
