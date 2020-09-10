@@ -1,4 +1,13 @@
+<style type="text/css">
+    button{
+        padding: 0;
+        border: none;
+        background: none;
+        float: left;
 
+    }
+
+</style>
 <head>
     <h2>Your orders</h2>
 </head>
@@ -25,12 +34,18 @@
             foreach($order as $item => $value){
                 echo "<td>$value</td>";
             }
+            echo "<td style='width:100px' ><button title='Show order page'>&#128065</button>
+                  <button title='Set status to under process'>&#8987</button>
+                  <button title='Set status to deleted'>&#128465</button>
+                  <button title='Set status to delivery'>&#9951</button>
+                  <button title='Set status to delivered'>&#10003</button></td>";
             echo "</tr>";
         }
         ?>
         </tbody>
     </table>
-
+</div>
+<div>
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item">
