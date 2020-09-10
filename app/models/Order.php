@@ -13,6 +13,7 @@ class Order
     private int $item_id;
     private int $item_current_price;
     private int $item_quantity;
+    private string $order_status;
 
     /**
      * Order constructor.

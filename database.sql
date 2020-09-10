@@ -53,7 +53,7 @@ CREATE TABLE payment(
 	payment_method_id int REFERENCES payment_methods(payment_method_id),
 	payment_handlingfee int
 );
-CREATE TYPE status AS ENUM ('beerkezett','feldolgozas alatt','kiszallitas alatt','kiszallitva','torolve');
+CREATE TYPE status AS ENUM ('order arrived','under process','delivery','delivered','deleted');
 
 CREATE TABLE orders(
 	order_id SERIAL PRIMARY KEY,

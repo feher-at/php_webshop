@@ -31,9 +31,31 @@ class PaymentService implements IPaymentService
         pg_query_params($this->connection,$query,array($itemId,$paymentId,$handlingFee));
 
     }
-
-    public function getAllPaymentMethodToOneItem($itemId)
+    public function getAllPayment($itemId)
     {
+        $this->database->reConnect();
+        $query = "SELECT * FROM payment WHERE payment.item_id = $1";
 
+        return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));
     }
+
+    public function getAllPaymentPriceAndName($itemId)
+    {
+        $this->database->reConnect();
+        $query = "Select payment_methods.payment_method_name,payment.payment_handlingfee
+                  From payment_methods Join payment On payment_methods.payment_method_id = payment.payment_method_id
+                    Where payment.item_id = $1";
+
+        return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));
+    }
+    public function getGivenItemGivenPaymentPrice($itemId,$paymentMethodName)
+    {
+        $this->database->reConnect();
+        $query = "Select payment.payment_handlingfee
+                  From payment_methods Join payment On payment_methods.payment_method_id = payment.payment_method_id
+	              Where payment_methods.payment_method_name = $1 and payment.item_id = $2";
+        return pg_fetch_all(pg_query_params($this->connection,$query,array($paymentMethodName,$itemId)));
+    }
+
+
 }
