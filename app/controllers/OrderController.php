@@ -43,8 +43,8 @@ class OrderController extends Controller
         $body = $request->getBody();
         var_dump($body);
     }
-    public function getUsersOrders(){
-        return $this->orderService->getAllOrdersOfUser($_COOKIE['type']);
+    public function getUsersOrders($userId){
+        return $this->orderService->getAllOrdersOfUser($userId);
     }
 
 }

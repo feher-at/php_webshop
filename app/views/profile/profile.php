@@ -31,7 +31,7 @@
     <nav class="nav nav-pills">
     <a class="nav-item nav-link active" href="profileUpdate" style="margin-right:2em">Update your profile</a>
         <a action="/profileDelete" class="nav-item nav-link active" href="profileDelete">Delete your profile</a>
-        <a action="/myOrders" class="nav-item nav-link active" href="myOrders">Your orders</a>
+        <a action="/myOrders" class="nav-item nav-link active" href="myOrders?page=1">Your orders</a>
 
     </nav>
 
