@@ -58,6 +58,9 @@ $app->router->get('/profileUpdate/validation',[AuthController::class,'validation
 $app->router->post('/profileUpdate',[ProfileController::class, 'update']);
 $app->router->get('/profileDelete',[ProfileController::class, 'delete']);
 $app->router->post('/profileDelete',[ProfileController::class, 'handleDelete']);
+$app->router->get('/myOrders',[ProfileController::class, 'myOrders']);
+
+
 
 $app->run();
 ?>

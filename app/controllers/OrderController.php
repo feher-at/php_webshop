@@ -84,4 +84,8 @@ class OrderController extends Controller
                         'price' => $finalPrice);
         }
     }
+    public function getUsersOrders($userId){
+        return $this->orderService->getAllOrdersOfUser($userId);
+    }
+
 }

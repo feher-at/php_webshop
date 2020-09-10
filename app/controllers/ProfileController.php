@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Controller;
 use app\Core\Request;
+use app\models\Order;
 use app\models\User;
 use app\services\IProfileService;
 use app\services\ProfileService;
@@ -11,14 +12,18 @@ use app\services\UserService;
 use app\services\IUserService;
 use app\services\EmailService;
 use PHPMailer\PHPMailer\Exception;
+use stdClass;
+use app\services\Paginator;
 
 class ProfileController extends Controller{
-
+    public array $orderArray;
     private ProfileService $profileService;
     private UserService $userService;
     private EmailService $emailService;
+    private Paginator $paginator;
 
     public function __construct(){
+        $this->paginator = new Paginator();
         $this->profileService = new ProfileService();
         $this->userService = new userService();
         $this->emailService = new EmailService();
@@ -125,6 +130,33 @@ class ProfileController extends Controller{
         }
         $this->redirect('/login');
     }
+    public function myOrders(Request $request){
+        if( isset($_COOKIE["type"])){
+        $body = $request->getBody();
+        $userId = $_COOKIE['type'];
+        if(!isset($body["page"])){
+            $currentPage = 1;
+        }
+        else{
+        $currentPage = $body["page"];
+        }
+        $orderController = new OrderController();
+            $numberOfPages = $this->paginator->countPages(count($orderController->getUsersOrders($userId)));
+            if($currentPage>$numberOfPages || $currentPage<=0 || $currentPage ==null ){
+                return $this->render('404_page');
+            }
+            $orderArray = $this->paginator->getOrders($currentPage,$userId);
+            $object = new stdClass();
+            $object->orderArray = $orderArray;
+            $object->pages = $numberOfPages;
+            $object->currentPage = $currentPage;
+            $this->setLayout('layout');
+            return $this->render('profile/myOrders',$object);
+
+        }
+        $this->redirect('/login');
+    }
+
 
 
 }

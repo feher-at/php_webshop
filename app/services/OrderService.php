@@ -4,6 +4,8 @@
 namespace app\services;
 
 
+use app\models\Order;
+
 class OrderService implements IOrderService
 {
     private $database;
@@ -17,7 +19,7 @@ class OrderService implements IOrderService
 
     public function getAllOrder()
     {
-        // TODO: Implement getAllOrder() method.
+
     }
 
     public function updateOrder()
@@ -47,4 +49,15 @@ class OrderService implements IOrderService
 
     }
 
+    public function getAllOrdersOfUser($userId) {
+        $result=pg_prepare($this->connection,"get_orders","SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) ");
+        $result = pg_execute($this->connection,"get_orders",array($userId));
+        $fetchedResult =  pg_fetch_all($result);
+        $orderArray = [];
+        for($i=0;$i<count($fetchedResult);$i++){
+            array_push($orderArray,new Order($fetchedResult[$i]));
+        }
+        return $orderArray;
+
+    }
 }
