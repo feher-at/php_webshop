@@ -175,4 +175,13 @@ class ShippingService implements IShippingService
         return $errors = array();
 
     }
+
+    public function getGivenItemGivenShippingPrice($itemId,$courierName)
+    {
+        $this->database->reConnect();
+        $query = "Select shipping.shipping_price from 
+                  shipping Join couriers On shipping.courier_id = couriers.courier_id
+                  Where couriers.courier_name = $1 and shipping.item_id = $2";
+        return pg_fetch_all(pg_query_params($this->connection,$query,array(strtoupper($courierName),$itemId)));
+    }
 }

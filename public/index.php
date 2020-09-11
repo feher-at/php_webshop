@@ -41,6 +41,7 @@ $app->router->post('/home',[AuthController::class, 'logout']);
  */
 
 $app->router->get('/item/order',[OrderController::class,'getOrderPage']);
+$app->router->post('/finished_order',[OrderController::class,'createTheOrder']);
 
 /**
  * ItemController
