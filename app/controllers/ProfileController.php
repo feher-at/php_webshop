@@ -156,6 +156,18 @@ class ProfileController extends Controller{
         }
         $this->redirect('/login');
     }
+    public function getOrder(Request $request){
+        $body = $request->getBody();
+        $orderId = $body["order_id"];
+        $orderController = new OrderController();
+        if($orderController->checkOrderOwner($_COOKIE['type'],$orderId)) {
+            $order = $orderController->getOneOrder($orderId);
+            $this->setLayout('layout');
+            return $this->render('profile/order', $order);
+        }
+        return $this->render('404_page');
+
+    }
 
 
 

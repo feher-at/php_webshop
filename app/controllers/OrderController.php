@@ -47,4 +47,45 @@ class OrderController extends Controller
         return $this->orderService->getAllOrdersOfUser($userId);
     }
 
+
+    public function getOneOrder($orderId){
+        return $this->orderService->getOrderById($orderId);
+    }
+    public function checkOrderOwner($userId,$orderId){
+        return $this->orderService->checkOrderOwner($userId,$orderId);
+    }
+    public function updateOrderStatusUnderProcess(Request $request){
+        $body = $request->getBody();
+        $orderId = $body["order_id"];
+        $page = $body["currentPage"];
+        $this->orderService->setStatusToUnderProcess($orderId);
+        $this->setLayout('layout');
+        return $this->redirect("/myOrders?page=".$page);
+    }
+    public function updateOrderStatusDelivery(Request $request){
+        $body = $request->getBody();
+        $orderId = $body["order_id"];
+        $page = $body["currentPage"];
+        $this->orderService->setStatusToDelivery($orderId);
+        $this->setLayout('layout');
+        return $this->redirect("/myOrders?page=".$page);
+    }
+    public function updateOrderStatusDelivered(Request $request){
+        $body = $request->getBody();
+        $orderId = $body["order_id"];
+        $page = $body["currentPage"];
+        $this->orderService->setStatusToDelivered($orderId);
+        $this->setLayout('layout');
+        return $this->redirect("/myOrders?page=".$page);
+    }
+    public function updateOrderStatusDeleted(Request $request){
+        $body = $request->getBody();
+        $orderId = $body["order_id"];
+        $page = $body["currentPage"];
+        $this->orderService->setStatusToDeleted($orderId);
+        $this->setLayout('layout');
+        return $this->redirect("/myOrders?page=".$page);
+
+    }
+
 }
