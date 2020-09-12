@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\core\Controller;
-use app\services\IItemService;
+use app\services\Interfaces\IItemService;
 use app\services\ItemService;
 use app\services\Paginator;
 

@@ -6,6 +6,7 @@ namespace app\services;
 
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
+use app\services\Interfaces\IEmailService;
 use Dotenv\Dotenv;
 
 class EmailService implements IEmailService

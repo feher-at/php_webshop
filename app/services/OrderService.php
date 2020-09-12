@@ -5,6 +5,7 @@ namespace app\services;
 
 
 use app\models\Order;
+use app\services\Interfaces\IOrderService;
 
 class OrderService implements IOrderService
 {

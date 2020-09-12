@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\services;
+namespace app\services\Interfaces;
 
 
 interface IPaymentService

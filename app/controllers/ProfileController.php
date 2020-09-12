@@ -4,22 +4,19 @@ namespace app\controllers;
 
 use app\core\Controller;
 use app\Core\Request;
-use app\models\Order;
-use app\models\User;
-use app\services\IEmailService;
-use app\services\IOrderService;
-use app\services\IProfileService;
+use app\services\Interfaces\IEmailService;
+use app\services\Interfaces\IOrderService;
+use app\services\Interfaces\IProfileService;
 use app\services\OrderService;
 use app\services\ProfileService;
 use app\services\UserService;
-use app\services\IUserService;
+use app\services\Interfaces\IUserService;
 use app\services\EmailService;
 use PHPMailer\PHPMailer\Exception;
 use stdClass;
 use app\services\Paginator;
 
 class ProfileController extends Controller{
-    public array $orderArray;
     private IProfileService $profileService;
     private IUserService $userService;
     private IEmailService $emailService;

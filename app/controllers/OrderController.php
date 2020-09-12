@@ -7,11 +7,11 @@ namespace app\controllers;
 use app\core\Controller;
 use app\Core\Request;
 use app\services\EmailService;
-use app\services\IEmailService;
-use app\services\IItemService;
-use app\services\IOrderService;
-use app\services\IPaymentService;
-use app\services\IShippingService;
+use app\services\Interfaces\IEmailService;
+use app\services\Interfaces\IItemService;
+use app\services\Interfaces\IOrderService;
+use app\services\Interfaces\IPaymentService;
+use app\services\Interfaces\IShippingService;
 use app\services\ItemService;
 use app\services\OrderService;
 use app\services\PaymentService;
@@ -58,7 +58,6 @@ class OrderController extends Controller
         $allOrderInfo['couriers'] = $this->shippingService->getAllCouriersToOneItem($body['item_id']);
         $allOrderInfo['price'] = $this->itemService->getGivenItemCurrentPrice($body['item_id']);
         $allOrderInfo['error'] = $errors;
-        var_dump($errors);
         if(empty($errors))
         {
             $this->orderService->createOrder($this->makeOrderArray($body));
@@ -90,7 +89,7 @@ class OrderController extends Controller
         $page = $body["currentPage"];
         $this->orderService->setStatusToUnderProcess($orderId);
         $this->setLayout('layout');
-        return $this->redirect("/myOrders?page=".$page);
+        $this->redirect("/myOrders?page=".$page);
     }
     public function updateOrderStatusDelivery(Request $request){
         $body = $request->getBody();
@@ -98,7 +97,7 @@ class OrderController extends Controller
         $page = $body["currentPage"];
         $this->orderService->setStatusToDelivery($orderId);
         $this->setLayout('layout');
-        return $this->redirect("/myOrders?page=".$page);
+        $this->redirect("/myOrders?page=".$page);
     }
     public function updateOrderStatusDelivered(Request $request){
         $body = $request->getBody();
@@ -106,7 +105,7 @@ class OrderController extends Controller
         $page = $body["currentPage"];
         $this->orderService->setStatusToDelivered($orderId);
         $this->setLayout('layout');
-        return $this->redirect("/myOrders?page=".$page);
+        $this->redirect("/myOrders?page=".$page);
     }
     public function updateOrderStatusDeleted(Request $request){
         $body = $request->getBody();
@@ -114,7 +113,7 @@ class OrderController extends Controller
         $page = $body["currentPage"];
         $this->orderService->setStatusToDeleted($orderId);
         $this->setLayout('layout');
-        return $this->redirect("/myOrders?page=".$page);
+        $this->redirect("/myOrders?page=".$page);
 
     }
 

@@ -1,6 +1,8 @@
 <?php
 
 namespace app\services;
+
+use app\services\Interfaces\IUserService;
 use app\services\Validations;
 use app\models\User;
 

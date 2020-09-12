@@ -3,6 +3,7 @@
 
 namespace app\services;
 
+use app\services\Interfaces\IShippingService;
 
 class ShippingService implements IShippingService
 {

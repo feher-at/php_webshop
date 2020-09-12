@@ -2,7 +2,10 @@
 namespace app\services;
 use app\Core\Request;
 use app\models\User;
+
 use app\services\UserService;
+use app\services\Interfaces\IProfileService;
+use app\services\Interfaces\IUserService;
 
 class ProfileService implements IProfileService{
 

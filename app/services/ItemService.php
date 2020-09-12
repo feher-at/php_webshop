@@ -4,9 +4,8 @@
 namespace app\services;
 
 
-use http\Exception\BadQueryStringException;
-use mysql_xdevapi\Exception;
 
+use app\services\Interfaces\IItemService;
 use app\models\Item;
 
 class ItemService implements IItemService

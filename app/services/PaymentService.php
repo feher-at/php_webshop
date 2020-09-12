@@ -3,6 +3,8 @@
 
 namespace app\services;
 
+use app\services\Interfaces\IPaymentService;
+
 
 class PaymentService implements IPaymentService
 {
