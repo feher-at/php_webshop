@@ -1,4 +1,13 @@
+<style type="text/css">
+    button{
+        padding: 0;
+        border: none;
+        background: none;
+        float: left;
 
+    }
+
+</style>
 <head>
     <h2>Your orders</h2>
 </head>
@@ -25,12 +34,38 @@
             foreach($order as $item => $value){
                 echo "<td>$value</td>";
             }
+            echo "<td style='width:150px' >
+                  <form action='/order' method='get'>
+                  <input type='hidden' name='order_id' value='$order->order_id'>
+                  <button type='submit' title='Show order page' >&#128065</button>
+                  </form>
+                  <form action='/setToUnderProcess' method='post'>
+                  <input type='hidden' name='order_id' value='$order->order_id'>
+                  <input type='hidden' name='currentPage' value='$currentPage'>
+                  <button type='submit' title='Set status to under process'>&#8987</button>
+                   </form>
+                   <form action='/setToDelivery' method='post'>
+                   <input type='hidden' name='order_id' value='$order->order_id'>
+                   <input type='hidden' name='currentPage' value='$currentPage'>
+                  <button title='Set status to delivery'>&#9951</button>
+                  </form>
+                  <form action='/setToDelivered' method='post'>
+                  <input type='hidden' name='order_id' value='$order->order_id'>
+                  <input type='hidden' name='currentPage' value='$currentPage'>
+                  <button title='Set status to delivered'>&#10003</button>
+                  </form>
+                  <form action='/setToDeleted' method='post'>
+                  <input type='hidden' name='order_id' value='$order->order_id'>
+                  <input type='hidden' name='currentPage' value='$currentPage'>
+                  <button title='Set status to deleted'>&#128465</button>
+                  </form></td>";
             echo "</tr>";
         }
         ?>
         </tbody>
     </table>
-
+</div>
+<div>
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item">
