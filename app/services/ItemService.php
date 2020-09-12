@@ -20,6 +20,14 @@ class ItemService implements IItemService
         $this->connection = $this->database->getConnection();
     }
 
+
+    public function getItemNameById($itemId)
+    {
+        $this->database->reConnect();
+        $query = "SELECT item_name FROM items WHERE item_id = $1";
+        return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));
+    }
+
     /**
      * Upload the items to the database with the given parameters and return immediately with the item id
      *
@@ -28,6 +36,7 @@ class ItemService implements IItemService
      * @return array
      * The given item id
      */
+
     public function uploadItem(array $params)
     {
 
@@ -57,10 +66,7 @@ class ItemService implements IItemService
 
     }
 
-    public function updateItem()
-    {
-        // TODO: Implement updateItem() method.
-    }
+
 
     public function getAllItem():array
     {
@@ -70,13 +76,15 @@ class ItemService implements IItemService
 
         $result = pg_fetch_all(pg_query($this->connection, "Select * From items"));
 
+        if(!empty($result)){
+            foreach($result as $item)
+            {
+                $itemObject = new Item($item);
+                $allItem['allItem'][$itemObject->item_name] = $itemObject;
 
-        foreach($result as $item)
-        {
-            $itemObject = new Item($item);
-            $allItem['allItem'][$itemObject->item_name] = $itemObject;
-
+            }
         }
+
         return $allItem;
 
     }

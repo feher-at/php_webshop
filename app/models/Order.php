@@ -8,7 +8,7 @@ class Order
     public string $customer_name;
     public string $customer_shipping_address;
     public string $customer_billing_address;
-    public int $customer_phone;
+    public string $customer_phone;
     public string $customer_email;
     public int $item_id;
     public int $item_current_price;

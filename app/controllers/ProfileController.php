@@ -6,7 +6,10 @@ use app\core\Controller;
 use app\Core\Request;
 use app\models\Order;
 use app\models\User;
+use app\services\IEmailService;
+use app\services\IOrderService;
 use app\services\IProfileService;
+use app\services\OrderService;
 use app\services\ProfileService;
 use app\services\UserService;
 use app\services\IUserService;
@@ -17,16 +20,18 @@ use app\services\Paginator;
 
 class ProfileController extends Controller{
     public array $orderArray;
-    private ProfileService $profileService;
-    private UserService $userService;
-    private EmailService $emailService;
+    private IProfileService $profileService;
+    private IUserService $userService;
+    private IEmailService $emailService;
     private Paginator $paginator;
+    private IOrderService $orderService;
 
     public function __construct(){
         $this->paginator = new Paginator();
         $this->profileService = new ProfileService();
         $this->userService = new userService();
         $this->emailService = new EmailService();
+        $this->orderService = new OrderService();
     }
     /**
      * If the user is logged in it returns their profile page
@@ -126,7 +131,7 @@ class ProfileController extends Controller{
             $this->profileService->deleteProfile($_COOKIE["type"]);
             $auth->cookieDelete();
             $this->setLayout('layout');
-            return $this->redirect('/home');
+            $this->redirect('/home');
         }
         $this->redirect('/login');
     }
@@ -140,8 +145,8 @@ class ProfileController extends Controller{
         else{
         $currentPage = $body["page"];
         }
-        $orderController = new OrderController();
-            $numberOfPages = $this->paginator->countPages(count($orderController->getUsersOrders($userId)));
+
+            $numberOfPages = $this->paginator->countPages(count($this->orderService->getAllOrdersOfUser($userId)));
             if($currentPage>$numberOfPages || $currentPage<=0 || $currentPage ==null ){
                 return $this->render('404_page');
             }

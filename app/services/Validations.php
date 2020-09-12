@@ -27,11 +27,18 @@ class Validations
      */
     public static function intValidation($param)
     {
-        if($param != null && !intval($param))
+
+        if(!is_numeric($param))
         {
-            return "This is not a number";
+
+            return "This is not a valid number";
         }
     }
+
+
+
+
+
 
     /**
      * Validates an item's price .
@@ -68,6 +75,18 @@ class Validations
             return $required;
         return null;
     }
+
+    public static function phoneNumberValidation($phoneNumber)
+    {
+        $required = Validations::requiredValidation($phoneNumber);
+        if(!empty($required))
+            return $required;
+        else if(!preg_match("/^[0-9]{11}$/",$phoneNumber)) {
+            return "this is not a valid phone number";
+        }
+        return null;
+    }
+
 
     /**
      * Checks that the tax number was given and it's length is 11 .
@@ -144,4 +163,27 @@ class Validations
 
         return null;
     }
+
+    public static function quantityValidation($quantity)
+    {
+
+        $quantityRequired = Validations::requiredValidation($quantity);
+        $validQuantityNumber = Validations::intValidation($quantity);
+        var_dump($validQuantityNumber);
+        $notNullQuantityNumber = $quantity <= 0 ? 'This need to be a positive number': null;
+        if(!empty($quantityRequired))
+        {
+            return $errors = array('error' => $quantityRequired);
+        }
+        else if(!empty($validQuantityNumber))
+        {
+            return $errors = array('error' => $validQuantityNumber);
+        }
+        else if(!empty($notNullQuantityNumber))
+        {
+            return $errors = array('error' => $notNullQuantityNumber);
+        }
+        return null;
+    }
+
 }

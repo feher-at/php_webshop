@@ -60,4 +60,32 @@ class OrderService implements IOrderService
         return $orderArray;
 
     }
+
+    public function orderValidation(array $validationParams)
+    {
+        $errors = array();
+
+        $errors['first_name_error'] = Validations::requiredValidation($validationParams['first_name']);
+        $errors['second_name_error'] = Validations::requiredValidation($validationParams['last_name']);
+        $errors['address_error'] = Validations::requiredValidation($validationParams['customer_shipping_address']);
+        $errors['billing_address_error'] = Validations::requiredValidation($validationParams['customer_billing_address']);
+        $errors['email_error'] = Validations::emailValidation($validationParams['customer_email']);
+        $errors['phone_number_error'] = Validations::phoneNumberValidation($validationParams['customer_phone']);
+        $errors['quantity_number_error'] = Validations::quantityValidation($validationParams['item_quantity']);
+        if($validationParams['payments'] == 'transaction')
+        {
+            $errors['recipient_error'] = Validations::requiredValidation($validationParams['bank_number_input']);
+            $errors['bank_number_error'] = Validations::requiredValidation($validationParams['recipient_input']);
+        }
+
+        foreach($errors as $key => $value)
+        {
+            if(!is_null($value))
+            {
+
+                return $errors;
+            }
+        }
+        return $errors = array();
+    }
 }

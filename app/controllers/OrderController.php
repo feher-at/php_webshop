@@ -50,11 +50,27 @@ class OrderController extends Controller
     public function createTheOrder(Request $request)
     {
         $body = $request->getBody();
-        $this->orderService->createOrder($this->makeOrderArray($body));
-        $userUseTransactionData['data'] = array();
-        if($body['payments'] == 'transaction')
-            $userUseTransactionData['data'] = $this->getUserTransactionData($body);
-        return $this->render('items/buyerData',$userUseTransactionData);
+        $errors = $this->orderService->orderValidation($body);
+        $allOrderInfo = array();
+
+        $allOrderInfo['item_id'] = $body['item_id'];
+        $allOrderInfo['payments'] = $this->paymentService->getAllPaymentPriceAndName($body['item_id']);
+        $allOrderInfo['couriers'] = $this->shippingService->getAllCouriersToOneItem($body['item_id']);
+        $allOrderInfo['price'] = $this->itemService->getGivenItemCurrentPrice($body['item_id']);
+        $allOrderInfo['error'] = $errors;
+        var_dump($errors);
+        if(empty($errors))
+        {
+            $this->orderService->createOrder($this->makeOrderArray($body));
+            $userUseTransactionData['data'] = array();
+            $this->makeTheEmail($this->makeTheArrayForTheBuyerData($body));
+            if($body['payments'] == 'transaction')
+                $userUseTransactionData['data'] = $this->getUserTransactionData($body);
+            return $this->render('items/buyerData',$userUseTransactionData);
+        }
+
+
+        return $this->render('items/order',$allOrderInfo);
 
     }
     public function getUsersOrders($userId){
@@ -76,10 +92,12 @@ class OrderController extends Controller
     }
     private function makeTheArrayForTheBuyerData($body)
     {
-
+        $itemName = $this->itemService->getItemNameById($body['item_id']);
         $paymentPrice = $this->paymentService->getGivenItemGivenPaymentPrice($body['item_id'],$body['payments']);
+
         $shippingPrice = $this->shippingService->getGivenItemGivenShippingPrice($body['item_id'],$body['couriers']);
-        $finalPrice = intval($paymentPrice['0']['payment_handlingfee'])
+
+        $oneItemPrice = intval($paymentPrice['0']['payment_handlingfee'])
                     + intval($shippingPrice['0']['shipping_price']) + intval($body['price']);
 
 
@@ -87,12 +105,14 @@ class OrderController extends Controller
                     'customer_shipping_address' =>$body['customer_shipping_address'],
                     'customer_billing_address' =>$body['customer_billing_address'],
                     'customer_phone' =>$body['customer_phone'],
-                    'customer_email' =>$body['customer_email'],
-                    'item_id' =>$body['item_id'],
+                    'item_name' =>$itemName['0']['item_name'],
                     'item_current_price' =>$body['price'],
                     'item_quantity' => $body['item_quantity'],
-                    'order_status' => 'order arrived',
-                    'price' => $finalPrice);
+                    'item_courier_and_price' => $body['couriers']. " (". $shippingPrice['0']['shipping_price'] ." FT )",
+                    'item_payment_and_price' => $body['payments']. " (". $paymentPrice['0']['payment_handlingfee'] ." FT )",
+                    'price' => $body['price'],
+                    'final_price' => ($oneItemPrice * intval($body['item_quantity'])),
+                    'order_status' => 'order arrived');
 
     }
 
@@ -103,7 +123,23 @@ class OrderController extends Controller
 
     private function makeTheEmail($dataToTheEmail)
     {
+        $message = "Thank you for your ordering!\n \n Your details is the next: \n\n
+                    Item name: ".$dataToTheEmail['item_name'] ."\n
+                    Quantity: ".$dataToTheEmail['item_quantity'] ."piece(s) \n
+                    Costumer Name: ".$dataToTheEmail['customer_name']. "\n
+                    Billing Address: ".$dataToTheEmail['customer_billing_address']. "\n
+                    Shipping Address: ".$dataToTheEmail['customer_shipping_address']. "\n
+                    Phone Number: ".$dataToTheEmail['customer_phone']. "\n
+                    Shipping: ".$dataToTheEmail['item_courier_and_price']. "\n
+                    Payment: ".$dataToTheEmail['item_payment_and_price']. "\n
+                    Item Price: ".$dataToTheEmail['price']. " FT\n
+                    Final Price: ".$dataToTheEmail['final_price']. " FT\n
+                    Order Status: ".$dataToTheEmail['order_status']. "\n" ;
 
+
+        $address = 'phptestuser01@gmail.com';
+        $subject = 'order';
+        $this->emailService->EmailSending($subject,$message,$address);
     }
 
 }

@@ -70,12 +70,12 @@ CREATE TABLE orders(
 
 Insert INTO couriers(courier_name) VALUES('GLS');
 Insert INTO couriers(courier_name) VALUES('DPD');
-Insert INTO couriers(courier_name) VALUES('Personal receiving');
-Insert INTO couriers(courier_name) VALUES('Magyar Posta');
+Insert INTO couriers(courier_name) VALUES('Personal_receiving');
+Insert INTO couriers(courier_name) VALUES('Magyar_Posta');
 Insert INTO couriers(courier_name) VALUES('FoxPost');
 
 
 Insert INTO payment_methods(payment_method_name) VALUES('cash');
 Insert INTO payment_methods(payment_method_name) VALUES('transaction');
-Insert INTO payment_methods(payment_method_name) VALUES('cash on delivery');
+Insert INTO payment_methods(payment_method_name) VALUES('cash_on_delivery');
 

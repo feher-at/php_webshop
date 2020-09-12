@@ -13,8 +13,8 @@
         <th scope="col">Phone</th>
         <th scope="col">Email</th>
         <th scope="col">Item id</th>
-        <th scope="col">Quantity</th>
         <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
         <th scope="col">Status</th>
         <th scope="col"></th>
         </thead>

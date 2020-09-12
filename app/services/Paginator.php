@@ -2,12 +2,13 @@
 
 namespace app\services;
 
+use app\models\Item;
 use app\models\Order;
 
 class Paginator{
     private $database;
     private $connection;
-    private $resultsPerPage = 10 ;
+    private int $resultsPerPage = 10;
 
     public function __construct()
     {
@@ -36,6 +37,18 @@ class Paginator{
             array_push($orderArray,new Order($fetchedResult[$i]));
         }
         return $orderArray;
+    }
+
+    public function getItems($currentPage){
+        $result = pg_prepare($this->connection, "count_Data", "SELECT * FROM items LIMIT $1 OFFSET $2 ;");
+        $itemsOffset = ($currentPage -1 )*10;
+        $result = pg_execute($this->connection, "count_Data", array($this->resultsPerPage,$itemsOffset));
+        $fetchedResult =  pg_fetch_all($result);
+        $itemArray = [];
+        for($i=0;$i<count($fetchedResult);$i++){
+            array_push($itemArray,new Item($fetchedResult[$i]));
+        }
+        return $itemArray;
     }
 
 }
