@@ -5,17 +5,10 @@ namespace app\services;
 
 use app\services\Interfaces\IShippingService;
 
-class ShippingService implements IShippingService
+class ShippingService extends AbstractServices implements IShippingService
 {
 
-    private $database;
-    private $connection;
 
-    public function __construct()
-    {
-        $this->database = DatabaseService::getInstance();
-        $this->connection = $this->database->getConnection();
-    }
 
     public function getAllCouriers()
     {

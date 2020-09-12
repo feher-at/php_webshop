@@ -8,17 +8,9 @@ use app\models\User;
 
 
 
-class UserService implements IUserService
+class UserService extends AbstractServices implements IUserService
 {
-    private $database;
-    private $connection;
 
-    public function __construct()
-    {
-        $this->database = DatabaseService::getInstance();
-        $this->connection = $this->database->getConnection();
-
-    }
 
     /**
      * Register the user with the given parameters,and return with the registered user's id

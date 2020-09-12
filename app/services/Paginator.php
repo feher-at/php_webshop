@@ -5,16 +5,11 @@ namespace app\services;
 use app\models\Item;
 use app\models\Order;
 
-class Paginator{
-    private $database;
-    private $connection;
+class Paginator extends AbstractServices {
+
     private int $resultsPerPage = 10;
 
-    public function __construct()
-    {
-        $this->database = DatabaseService::getInstance();
-        $this->connection = $this->database->getConnection();
-    }
+
     public function countData($query,$params = [])
     {
         $result = pg_prepare($this->connection, "count_Data", $query);

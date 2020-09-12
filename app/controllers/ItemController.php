@@ -4,7 +4,7 @@
 namespace app\controllers;
 
 
-use app\core\Controller;
+use app\Core\Controller;
 use app\Core\Request;
 use app\services\Interfaces\IItemService;
 use app\services\Interfaces\IPaymentService;

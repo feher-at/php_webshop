@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\core\Controller;
+use app\Core\Controller;
 use app\services\Interfaces\IItemService;
 use app\services\ItemService;
 use app\services\Paginator;
