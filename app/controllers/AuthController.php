@@ -5,12 +5,10 @@ namespace app\controllers;
 
 use app\core\Controller;
 use app\Core\Request;
-use app\services\DatabaseService;
-use app\services\IUserService;
+use app\services\Interfaces\IUserService;
 use app\services\UserService;
+use app\services\Interfaces\IEmailService;
 use app\services\EmailService;
-use http\Cookie;
-use http\Message\Body;
 use PHPMailer\PHPMailer\Exception;
 
 
@@ -20,7 +18,7 @@ class AuthController extends Controller
 {
 
     private IUserService $userService;
-    private EmailService $emailService;
+    private IEmailService $emailService;
 
     public function __construct(){
 

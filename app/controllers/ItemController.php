@@ -4,11 +4,11 @@
 namespace app\controllers;
 
 
-use app\core\Controller;
+use app\Core\Controller;
 use app\Core\Request;
-use app\services\IItemService;
-use app\services\IPaymentService;
-use app\services\IShippingService;
+use app\services\Interfaces\IItemService;
+use app\services\Interfaces\IPaymentService;
+use app\services\Interfaces\IShippingService;
 use app\services\Itemservice;
 use app\services\PaymentService;
 use app\services\ShippingService;
@@ -77,7 +77,7 @@ class ItemController extends Controller
             }
 
             $this->redirect('/');
-            //return $this->render('items/itemUpload',$allRequiredData);
+
 
         }
         return $this->render('items/itemUpload',$allRequiredData);

@@ -2,15 +2,22 @@
 namespace app\services;
 use app\Core\Request;
 use app\models\User;
+
+use app\services\Interfaces\IItemService;
 use app\services\UserService;
+use app\services\Interfaces\IProfileService;
+use app\services\Interfaces\IUserService;
+use app\services\ItemService;
 
 class ProfileService implements IProfileService{
 
     private IUserService $userService;
+    private IItemService $itemService;
 
     public function __construct()
     {
         $this->userService = new UserService();
+        $this->itemService = new ItemService();
     }
     /**
      * Returns the currently logged in user.
@@ -54,9 +61,9 @@ class ProfileService implements IProfileService{
         return $errors = [];
     }
     public function deleteProfile($userId){
-        $itemService = new ItemService();
-        $itemService->deleteItemShipping($userId);
-        $itemService->deleteItemsOfUser($userId);
+
+        $this->itemService->deleteItemShipping($userId);
+        $this->itemService->deleteItemsOfUser($userId);
         $this->userService->deleteUser($userId);
     }
 }

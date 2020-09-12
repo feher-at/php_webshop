@@ -5,17 +5,11 @@ namespace app\services;
 
 
 use app\models\Order;
+use app\services\Interfaces\IOrderService;
 
-class OrderService implements IOrderService
+class OrderService extends AbstractServices implements IOrderService
 {
-    private $database;
-    private $connection;
 
-    public function __construct()
-    {
-        $this->database = DatabaseService::getInstance();
-        $this->connection = $this->database->getConnection();
-    }
 
     public function getAllOrder()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\services;
+namespace app\services\Interfaces;
 
 interface IDatabaseService{
     public function connect();

@@ -4,25 +4,18 @@
 namespace app\services;
 
 
-use http\Exception\BadQueryStringException;
-use mysql_xdevapi\Exception;
 
+use app\services\Interfaces\IItemService;
 use app\models\Item;
 
-class ItemService implements IItemService
+class ItemService extends AbstractServices implements IItemService
 {
-    private $database;
-    private $connection;
 
-    public function __construct()
-    {
-        $this->database = DatabaseService::getInstance();
-        $this->connection = $this->database->getConnection();
-    }
 
 
     public function getItemNameById($itemId)
     {
+
         $this->database->reConnect();
         $query = "SELECT item_name FROM items WHERE item_id = $1";
         return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));

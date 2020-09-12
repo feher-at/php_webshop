@@ -3,6 +3,9 @@
 namespace app\services;
 
 use Dotenv\Dotenv;
+use app\services\Interfaces\IDatabaseService;
+
+
 class DatabaseService implements IDatabaseService {
     private static $instance = null;
     private $conn;
