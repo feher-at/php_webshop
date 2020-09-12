@@ -28,9 +28,9 @@ class Paginator{
     }
 
     public function getOrders($currentPage,$userId){
-        $result = pg_prepare($this->connection, "count_Data", "SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) LIMIT $2 OFFSET $3 ;");
+        $result = pg_prepare($this->connection, "get_orders", "SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) LIMIT $2 OFFSET $3 ;");
         $offset = ($currentPage -1 )*10;
-        $result = pg_execute($this->connection, "count_Data", array($userId,$this->resultsPerPage,$offset));
+        $result = pg_execute($this->connection, "get_orders", array($userId,$this->resultsPerPage,$offset));
         $fetchedResult =  pg_fetch_all($result);
         $orderArray = [];
         for($i=0;$i<count($fetchedResult);$i++){
@@ -49,6 +49,25 @@ class Paginator{
             array_push($itemArray,new Item($fetchedResult[$i]));
         }
         return $itemArray;
+    }
+
+    public function getItemsOfUser($currentPage,$userId){
+        $result = pg_prepare($this->connection, "get_items", "SELECT * FROM items WHERE user_id = $1 LIMIT $2 OFFSET $3 ;");
+        $itemsOffset = ($currentPage -1 )*10;
+        $result = pg_execute($this->connection, "get_items", array($userId,$this->resultsPerPage,$itemsOffset));
+        $fetchedResult =  pg_fetch_all($result);
+        $userItemsArray = [];
+
+        for($i=0;$i<count($fetchedResult);$i++){
+            if($fetchedResult[$i]["item_is_buyable"]=='t'){
+                $fetchedResult[$i]["item_is_buyable"] = true;
+            }
+            elseif($fetchedResult[$i]["item_is_buyable"]=='f'){
+                $fetchedResult[$i]["item_is_buyable"]= false;
+            }
+            array_push($userItemsArray,new Item($fetchedResult[$i]));
+        }
+        return $userItemsArray;
     }
 
 }

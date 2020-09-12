@@ -29,9 +29,10 @@
         </tr>
     </table>
     <nav class="nav nav-pills">
-    <a class="nav-item nav-link active" href="profileUpdate" style="margin-right:2em">Update your profile</a>
-        <a action="/profileDelete" class="nav-item nav-link active" href="profileDelete">Delete your profile</a>
-        <a action="/myOrders" class="nav-item nav-link active" href="myOrders?page=1">Your orders</a>
+    <a class="nav-item nav-link active" href="profileUpdate" style="margin-right:1em">Update your profile</a>
+        <a action="/profileDelete" class="nav-item nav-link active" href="profileDelete" style="margin-right:1em">Delete your profile</a>
+        <a action="/myOrders" class="nav-item nav-link active" href="myOrders?page=1" style="margin-right:1em">Your orders</a>
+        <a action="/myItems" class="nav-item nav-link active" href="myItems?page=1">Your items</a>
 
     </nav>
 

@@ -183,6 +183,12 @@ class ItemService implements IItemService
 
 
     }
+    public function setBuyableInDb($state,$itemId){
+
+        $itemsDel = pg_prepare($this->connection, "update_buyable", "UPDATE items SET item_is_buyable = $1 WHERE item_id = $2;");
+        $state = ($state) ? 'f':'t';
+        $itemsDel = pg_execute($this->connection, "update_buyable", array($state,$itemId));
+    }
 
 
     public function deleteItem()

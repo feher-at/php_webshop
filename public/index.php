@@ -59,14 +59,21 @@ $app->router->post('/profileUpdate',[ProfileController::class, 'update']);
 $app->router->get('/profileDelete',[ProfileController::class, 'delete']);
 $app->router->post('/profileDelete',[ProfileController::class, 'handleDelete']);
 $app->router->get('/myOrders',[ProfileController::class, 'myOrders']);
+$app->router->get('/myItems',[ProfileController::class, 'myItems']);
+
+/**
+ * MyOrders
+*/
 $app->router->get('/order',[ProfileController::class, 'getOrder']);
 $app->router->post('/setToUnderProcess',[OrderController::class, 'updateOrderStatusUnderProcess']);
 $app->router->post('/setToDelivery',[OrderController::class, 'updateOrderStatusDelivery']);
 $app->router->post('/setToDelivered',[OrderController::class, 'updateOrderStatusDelivered']);
 $app->router->post('/setToDeleted',[OrderController::class, 'updateOrderStatusDeleted']);
 
-
-
+/**
+ * MyItems
+ */
+$app->router->post('/setBuyable',[ItemController::class, 'setBuyable']);
 
 
 

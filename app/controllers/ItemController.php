@@ -123,6 +123,17 @@ class ItemController extends Controller
         }
     }
 
+    public function setBuyable(Request $request){
+        $body = $request->getBody();
+        $buyableState = $body['buyable'];
+        $itemId = $body['item_id'];
+        $currentPage = $body['currentPage'];
+        $this->itemService->setBuyableInDb($buyableState,$itemId);
+        $this->setLayout('layout');
+        $this->redirect("/myItems?page=".$currentPage);
+
+
+    }
 
 
 

@@ -77,13 +77,6 @@ class OrderController extends Controller
         return $this->orderService->getAllOrdersOfUser($userId);
     }
 
-
-    public function getOneOrder($orderId){
-        return $this->orderService->getOrderById($orderId);
-    }
-    public function checkOrderOwner($userId,$orderId){
-        return $this->orderService->checkOrderOwner($userId,$orderId);
-    }
     public function updateOrderStatusUnderProcess(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];

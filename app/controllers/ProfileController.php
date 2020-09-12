@@ -13,6 +13,7 @@ use app\services\OrderService;
 use app\services\ProfileService;
 use app\services\UserService;
 use app\services\IUserService;
+use app\services\ItemService;
 use app\services\EmailService;
 use PHPMailer\PHPMailer\Exception;
 use stdClass;
@@ -25,6 +26,7 @@ class ProfileController extends Controller{
     private IEmailService $emailService;
     private Paginator $paginator;
     private IOrderService $orderService;
+    private ItemService $itemService;
 
     public function __construct(){
         $this->paginator = new Paginator();
@@ -32,6 +34,7 @@ class ProfileController extends Controller{
         $this->userService = new userService();
         $this->emailService = new EmailService();
         $this->orderService = new OrderService();
+        $this->itemService = new ItemService();
     }
     /**
      * If the user is logged in it returns their profile page
@@ -164,14 +167,39 @@ class ProfileController extends Controller{
     public function getOrder(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];
-        $orderController = new OrderController();
-        if($orderController->checkOrderOwner($_COOKIE['type'],$orderId)) {
-            $order = $orderController->getOneOrder($orderId);
+        if($this->orderService->checkOrderOwner($_COOKIE['type'],$orderId)) {
+            $order = $this->orderService->getOrderById($orderId);
             $this->setLayout('layout');
             return $this->render('profile/order', $order);
         }
         return $this->render('404_page');
 
+    }
+    public function myItems(Request $request){
+        if( isset($_COOKIE["type"])) {
+            $body = $request->getBody();
+            $userId = $_COOKIE["type"];
+            if(!isset($body["page"])){
+                $currentPage = 1;
+            }
+            else{
+                $currentPage = $body["page"];
+            }
+            $numberOfPages = $this->paginator->countPages(count($this->itemService->getUserItemId($userId)));
+            if($currentPage>$numberOfPages || $currentPage<=0 || $currentPage ==null ){
+                return $this->render('404_page');
+            }
+            $itemArray = $this->paginator->getItemsOfUser($currentPage,$userId);
+            $object = new stdClass();
+            $object->itemArray = $itemArray;
+            $object->pages = $numberOfPages;
+            $object->currentPage = $currentPage;
+            $object->imageSource = "/Pictures/ItemPictures/";
+
+            $this->setLayout('layout');
+            return $this->render('profile/myItems',$object);
+        }
+        return $this->redirect('/login');
     }
 
 

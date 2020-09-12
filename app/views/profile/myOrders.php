@@ -14,7 +14,7 @@
 <body>
 <div >
    <table style=" width: 100%;"class="table-bordered">
-        <thead>
+        <thead >
         <th scope="col">Id</th>
         <th scope="col">Customer name</th>
         <th scope="col">Shipping address</th>
