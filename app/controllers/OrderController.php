@@ -35,6 +35,7 @@ class OrderController extends Controller
         $this->paymentService = new PaymentService();
         $this->emailService = new EmailService();
     }
+
     public function getOrderPage(Request $request)
     {
         $itemId = $request->getBody();
@@ -47,6 +48,12 @@ class OrderController extends Controller
         return $this->render('items/order',$allInfoForOrder);
     }
 
+    /**
+     * Create the orders with the data what we create from the request what it get,create an email,and send it to the
+     * orderer's email andress.
+     * @param Request $request
+     * @return string|string[]
+     */
     public function createTheOrder(Request $request)
     {
         $body = $request->getBody();
@@ -65,6 +72,7 @@ class OrderController extends Controller
             $this->makeTheEmail($this->makeTheArrayForTheBuyerData($body));
             if($body['payments'] == 'transaction')
                 $userUseTransactionData['data'] = $this->getUserTransactionData($body);
+                var_dump($userUseTransactionData);
             return $this->render('items/buyerData',$userUseTransactionData);
         }
 

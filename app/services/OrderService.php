@@ -11,20 +11,7 @@ class OrderService extends AbstractServices implements IOrderService
 {
 
 
-    public function getAllOrder()
-    {
 
-    }
-
-    public function updateOrder()
-    {
-        // TODO: Implement updateOrder() method.
-    }
-
-    public function deleteOrder()
-    {
-        // TODO: Implement deleteOrder() method.
-    }
 
     public function createOrder(array $orderParams)
     {
@@ -55,6 +42,11 @@ class OrderService extends AbstractServices implements IOrderService
 
     }
 
+    /**
+     * Validate the order
+     * @param array $validationParams
+     * @return array
+     */
     public function orderValidation(array $validationParams)
     {
         $errors = array();

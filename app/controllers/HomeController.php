@@ -21,6 +21,11 @@ class HomeController extends Controller
         $this->paginator = new Paginator();
     }
 
+    /**
+     * Navigate to the Landing page with all the buyable items;
+     * @param Request $request
+     * @return string|string[]
+     */
     public function getIndex(Request $request)
     {
         $body = $request->getBody();

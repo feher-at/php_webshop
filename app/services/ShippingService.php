@@ -16,6 +16,11 @@ class ShippingService extends AbstractServices implements IShippingService
 
     }
 
+    /**
+     * Gets all couriers by the given item id
+     * @param int $itemId
+     * @return array
+     */
     public function getAllCouriersToOneItem(int $itemId): array
     {
         $this->database->reConnect();
@@ -170,6 +175,12 @@ class ShippingService extends AbstractServices implements IShippingService
 
     }
 
+    /**
+     * Returns with the given item's given shipping's price
+     * @param $itemId
+     * @param $courierName
+     * @return array
+     */
     public function getGivenItemGivenShippingPrice($itemId,$courierName)
     {
         $this->database->reConnect();
