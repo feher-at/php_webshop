@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\Core\Controller;
 use app\Core\Request;
+use app\models\Item;
 use app\services\Interfaces\IEmailService;
 use app\services\Interfaces\IOrderService;
 use app\services\Interfaces\IProfileService;
@@ -145,19 +146,27 @@ class ProfileController extends Controller{
         else{
         $currentPage = $body["page"];
         }
+            $amountOfData = count($this->orderService->getAllOrdersOfUser($userId));
+            if($amountOfData!=0) {
+                $numberOfPages = $this->paginator->countPages($amountOfData);
 
-            $numberOfPages = $this->paginator->countPages(count($this->orderService->getAllOrdersOfUser($userId)));
-            if($currentPage>$numberOfPages || $currentPage<=0 || $currentPage ==null ){
-                return $this->render('404_page');
+                if ($currentPage > $numberOfPages || $currentPage <= 0 || $currentPage == null) {
+                    return $this->render('404_page');
+                }
+                $orderArray = $this->paginator->getOrders($currentPage, $userId);
+                $object = new stdClass();
+                $object->orderArray = $orderArray;
+                $object->pages = $numberOfPages;
+                $object->currentPage = $currentPage;
+                $this->setLayout('layout');
+                return $this->render('profile/myOrders', $object);
             }
-            $orderArray = $this->paginator->getOrders($currentPage,$userId);
-            $object = new stdClass();
-            $object->orderArray = $orderArray;
-            $object->pages = $numberOfPages;
-            $object->currentPage = $currentPage;
-            $this->setLayout('layout');
-            return $this->render('profile/myOrders',$object);
-
+            else{
+                $errorObject = new stdClass();
+                $errorObject->dataType = 'orders';
+                $this->setLayout('layout');
+                return $this->render('profile/noDataPage',$errorObject);
+            }
         }
         $this->redirect('/login');
     }
@@ -182,7 +191,9 @@ class ProfileController extends Controller{
             else{
                 $currentPage = $body["page"];
             }
-            $numberOfPages = $this->paginator->countPages(count($this->itemService->getUserItemId($userId)));
+            $amountOfData = count($this->itemService->getUserItemId($userId));
+            if($amountOfData!=0){
+            $numberOfPages = $this->paginator->countPages($amountOfData);
             if($currentPage>$numberOfPages || $currentPage<=0 || $currentPage ==null ){
                 return $this->render('404_page');
             }
@@ -195,8 +206,16 @@ class ProfileController extends Controller{
 
             $this->setLayout('layout');
             return $this->render('profile/myItems',$object);
+        }else{
+                $errorObject = new stdClass();
+                $errorObject->dataType = 'items';
+            $this->setLayout('layout');
+            return $this->render('profile/noDataPage',$errorObject);
         }
-        return $this->redirect('/login');
+        }
+        else {
+            return $this->redirect('/login');
+        }
     }
 
 

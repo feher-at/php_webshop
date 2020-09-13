@@ -44,10 +44,13 @@ class OrderService extends AbstractServices implements IOrderService
     }
 
     public function getAllOrdersOfUser($userId) {
-        $result=pg_prepare($this->connection,"get_orders","SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) ");
-        $result = pg_execute($this->connection,"get_orders",array($userId));
+        $result=pg_prepare($this->connection,"get_all_orders","SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) ");
+        $result = pg_execute($this->connection,"get_all_orders",array($userId));
         $fetchedResult =  pg_fetch_all($result);
         $orderArray = [];
+        if(empty($fetchedResult)){
+            return $orderArray;
+        }
         for($i=0;$i<count($fetchedResult);$i++){
             array_push($orderArray,new Order($fetchedResult[$i]));
         }

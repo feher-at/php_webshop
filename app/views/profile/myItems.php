@@ -74,15 +74,15 @@
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item">
-                <a href="myOrders?page=<?= ($currentPage-1<=0) ? $currentPage : $currentPage-1 ; ?>" aria-label="Previous">
+                <a href="myItems?page=<?= ($currentPage-1<=0) ? $currentPage : $currentPage-1 ; ?>" aria-label="Previous">
                     <span aria-hidden="true">&laquo; Previous</span>
                 </a>
             </li>
             <?php for($i = 1; $i<= $pages; $i++) : ?>
-                <li class="page-item"><a href="myOrders?page=<?= $i; ?>"><?= $i; ?></a></li>
+                <li class="page-item"><a href="myItems?page=<?= $i; ?>"><?= $i; ?></a></li>
             <?php endfor; ?>
             <li class="page-item">
-                <a href="myOrders?page=<?= ($currentPage+1>$pages) ? $currentPage:$currentPage+1; ?>" aria-label="Next">
+                <a href="myItems?page=<?= ($currentPage+1>$pages) ? $currentPage:$currentPage+1; ?>" aria-label="Next">
                     <span aria-hidden="true">Next &raquo;</span>
                 </a>
             </li>

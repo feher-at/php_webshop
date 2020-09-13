@@ -151,7 +151,7 @@ class ItemService extends AbstractServices implements IItemService
         $itemIdFetch = pg_fetch_all($itemId);
         $itemIds = array();
         if(empty($itemIdFetch)){
-            return null;
+            return $itemIds;
         }
         for($i=0;$i<count($itemIdFetch);$i++){
             array_push($itemIds,$itemIdFetch[$i]["item_id"]);

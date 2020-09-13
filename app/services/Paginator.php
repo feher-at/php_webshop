@@ -23,7 +23,7 @@ class Paginator extends AbstractServices {
     }
 
     public function getOrders($currentPage,$userId){
-        $result = pg_prepare($this->connection, "get_orders", "SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) LIMIT $2 OFFSET $3 ;");
+        $result = pg_prepare($this->connection, "get_orders", "SELECT * FROM orders WHERE item_id IN (SELECT item_id FROM items WHERE user_id = $1) ORDER BY order_id LIMIT $2 OFFSET $3 ;");
         $offset = ($currentPage -1 )*10;
         $result = pg_execute($this->connection, "get_orders", array($userId,$this->resultsPerPage,$offset));
         $fetchedResult =  pg_fetch_all($result);
@@ -47,12 +47,12 @@ class Paginator extends AbstractServices {
     }
 
     public function getItemsOfUser($currentPage,$userId){
-        $result = pg_prepare($this->connection, "get_items", "SELECT * FROM items WHERE user_id = $1 LIMIT $2 OFFSET $3 ;");
+        $result = pg_prepare($this->connection, "get_items", "SELECT * FROM items WHERE user_id = $1 ORDER BY item_id LIMIT $2 OFFSET $3 ;");
         $itemsOffset = ($currentPage -1 )*10;
         $result = pg_execute($this->connection, "get_items", array($userId,$this->resultsPerPage,$itemsOffset));
         $fetchedResult =  pg_fetch_all($result);
         $userItemsArray = [];
-
+        if(!empty($fetchedResult)){
         for($i=0;$i<count($fetchedResult);$i++){
             if($fetchedResult[$i]["item_is_buyable"]=='t'){
                 $fetchedResult[$i]["item_is_buyable"] = true;
@@ -62,6 +62,8 @@ class Paginator extends AbstractServices {
             }
             array_push($userItemsArray,new Item($fetchedResult[$i]));
         }
+        return $userItemsArray;
+    }
         return $userItemsArray;
     }
 
