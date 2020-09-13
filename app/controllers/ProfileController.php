@@ -10,7 +10,6 @@ use app\services\Interfaces\IProfileService;
 use app\services\OrderService;
 use app\services\ProfileService;
 use app\services\UserService;
-use app\services\IUserService;
 use app\services\ItemService;
 use app\services\Interfaces\IUserService;
 use app\services\EmailService;
