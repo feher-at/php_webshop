@@ -4,14 +4,12 @@ namespace app\controllers;
 
 use app\Core\Controller;
 use app\Core\Request;
-use app\models\Item;
 use app\services\Interfaces\IEmailService;
 use app\services\Interfaces\IOrderService;
 use app\services\Interfaces\IProfileService;
 use app\services\OrderService;
 use app\services\ProfileService;
 use app\services\UserService;
-use app\services\ItemService;
 use app\services\Interfaces\IUserService;
 use app\services\EmailService;
 use PHPMailer\PHPMailer\Exception;
@@ -24,7 +22,6 @@ class ProfileController extends Controller{
     private IEmailService $emailService;
     private Paginator $paginator;
     private IOrderService $orderService;
-    private ItemService $itemService;
 
     public function __construct(){
         $this->paginator = new Paginator();
@@ -32,7 +29,6 @@ class ProfileController extends Controller{
         $this->userService = new userService();
         $this->emailService = new EmailService();
         $this->orderService = new OrderService();
-        $this->itemService = new ItemService();
     }
     /**
      * If the user is logged in it returns their profile page
