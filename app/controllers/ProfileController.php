@@ -5,8 +5,10 @@ namespace app\controllers;
 use app\Core\Controller;
 use app\Core\Request;
 use app\services\Interfaces\IEmailService;
+use app\services\Interfaces\IItemService;
 use app\services\Interfaces\IOrderService;
 use app\services\Interfaces\IProfileService;
+use app\services\ItemService;
 use app\services\OrderService;
 use app\services\ProfileService;
 use app\services\UserService;
@@ -20,6 +22,7 @@ class ProfileController extends Controller{
     private IProfileService $profileService;
     private IUserService $userService;
     private IEmailService $emailService;
+    private IItemService $itemService;
     private Paginator $paginator;
     private IOrderService $orderService;
 
@@ -29,6 +32,7 @@ class ProfileController extends Controller{
         $this->userService = new userService();
         $this->emailService = new EmailService();
         $this->orderService = new OrderService();
+        $this->itemService = new ItemService();
     }
     /**
      * If the user is logged in it returns their profile page
