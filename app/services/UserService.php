@@ -132,12 +132,24 @@ class UserService extends AbstractServices implements IUserService
         }
 
     }
+
+    /**
+     * Returns a user object by its id from the database.
+     * @param $userId
+     * @return User
+     */
     public function getUserById($userId): User{
         $user=pg_prepare($this->connection,"get_user","SELECT * FROM users WHERE user_id = $1;");
         $user = pg_execute($this->connection,"get_user",array($userId));
         return new User(pg_fetch_assoc($user));
 
         }
+
+    /**
+     * Updates a user's given parameters.
+     * @param $params
+     * Associative array with the key being the column which has to be updated and the value being the new value.
+     */
     public function updateUser($params){
         pg_update($this->connection,"users",$params,array('user_id'=>$_COOKIE['type']));
     }
@@ -153,12 +165,22 @@ class UserService extends AbstractServices implements IUserService
         return null;
     }
 
+    /**
+     * Delete a user from the users table .
+     * @param $userId
+     */
     public function deleteUser($userId)
     {
     $userDel = pg_prepare($this->connection,"delete_user","DELETE FROM users WHERE user_id = $1;");
     $userDel = pg_execute($this->connection,"delete_user",array($userId));
 
     }
+
+    /**
+     * Valudates the forgot password page's email input field.
+     * @param $email
+     * @return array
+     */
     public function forgotPasswordValidation($email){
         $errors = array();
         $errors['email'] = Validations::emailValidation($email);
@@ -173,6 +195,11 @@ class UserService extends AbstractServices implements IUserService
         return $errors = [];
     }
 
+    /**
+     * Updates the password of a user who has the given email address.
+     * @param $email
+     * @param $newPassword
+     */
     public function updatePasswordByEmail($email,$newPassword){
         $result=pg_prepare($this->connection,"update_password","UPDATE users SET user_password = $1 WHERE user_email = $2");
         $result = pg_execute($this->connection,"update_password",array($newPassword,$email));

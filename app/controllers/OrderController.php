@@ -80,10 +80,18 @@ class OrderController extends Controller
         return $this->render('items/order',$allOrderInfo);
 
     }
+    /**
+     * Returns a user's orders.
+    */
     public function getUsersOrders($userId){
         return $this->orderService->getAllOrdersOfUser($userId);
     }
 
+    /**
+     * Sets an order's status to under process then returns to the same page of myOrders.
+     * @param Request $request
+     * Contains the order id and the current page number.
+     */
     public function updateOrderStatusUnderProcess(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];
@@ -92,6 +100,11 @@ class OrderController extends Controller
         $this->setLayout('layout');
         $this->redirect("/myOrders?page=".$page);
     }
+    /**
+     * Sets an order's status to delivery then returns to the same page of myOrders.
+     * @param Request $request
+     * Contains the order id and the current page number.
+     */
     public function updateOrderStatusDelivery(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];
@@ -100,6 +113,11 @@ class OrderController extends Controller
         $this->setLayout('layout');
         $this->redirect("/myOrders?page=".$page);
     }
+    /**
+     * Sets an order's status to delivered then returns to the same page of myOrders.
+     * @param Request $request
+     * Contains the order id and the current page number.
+     */
     public function updateOrderStatusDelivered(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];
@@ -108,6 +126,11 @@ class OrderController extends Controller
         $this->setLayout('layout');
         $this->redirect("/myOrders?page=".$page);
     }
+    /**
+     * Sets an order's status to deleted then returns to the same page of myOrders.
+     * @param Request $request
+     * Contains the order id and the current page number.
+     */
     public function updateOrderStatusDeleted(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];

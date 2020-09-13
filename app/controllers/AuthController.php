@@ -144,11 +144,20 @@ class AuthController extends Controller
             $this->redirect("auth/login");
         }
     }
+    /**
+     * Renders the forgotPassword page.
+    */
     public function forgotPassword(){
         $this->setLayout('layout');
         return $this->render('auth/forgotPassword');
     }
 
+    /**
+     * Sends out an email containing a temporary password, and sets the user with the email address password to the temporary one.
+     * @param Request $request
+     * Contains an email address
+     * @return string|string[]
+     */
     public function handleForgotPassword(Request $request){
         $body = $request->getBody();
         $errors = $this->userService->forgotPasswordValidation($body['email']);

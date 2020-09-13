@@ -77,6 +77,12 @@ class OrderService extends AbstractServices implements IOrderService
         }
         return $errors = array();
     }
+
+    /**
+     * Returns an order by its id.
+     * @param $orderId
+     * @return Order
+     */
     public function getOrderById($orderId){
         $result=pg_prepare($this->connection,"get_order","SELECT * FROM orders WHERE order_id = $1 ");
         $result = pg_execute($this->connection,"get_order",array($orderId));
@@ -85,6 +91,12 @@ class OrderService extends AbstractServices implements IOrderService
 
     }
 
+    /**
+     * Checks if the order was sent for the currently logged in user's item.
+     * @param $userId
+     * @param $orderId
+     * @return bool
+     */
     public function checkOrderOwner($userId,$orderId){
         $result=pg_prepare($this->connection,"check_owner","SELECT items.user_id FROM orders JOIN items ON orders.item_id = items.item_id WHERE orders.order_id = $1 ");
         $result = pg_execute($this->connection,"check_owner",array($orderId));
@@ -95,18 +107,34 @@ class OrderService extends AbstractServices implements IOrderService
         return false;
     }
 
+    /**
+     * Sets an order's status to under process in the database.
+     * @param $orderId
+     */
     public function setStatusToUnderProcess($orderId){
         $result=pg_prepare($this->connection,"to_under_process","UPDATE orders SET order_status = 'under process' WHERE order_id = $1");
         $result = pg_execute($this->connection,"to_under_process",array($orderId));
     }
+    /**
+     * Sets an order's status to delivery in the database.
+     * @param $orderId
+     */
     public function setStatusToDelivery($orderId){
         $result=pg_prepare($this->connection,"to_delivery","UPDATE orders SET order_status = 'delivery' WHERE order_id = $1");
         $result = pg_execute($this->connection,"to_delivery",array($orderId));
     }
+    /**
+     * Sets an order's status to delivered in the database.
+     * @param $orderId
+     */
     public function setStatusToDelivered($orderId){
         $result=pg_prepare($this->connection,"to_delivered","UPDATE orders SET order_status = 'delivered' WHERE order_id = $1");
         $result = pg_execute($this->connection,"to_delivered",array($orderId));
     }
+    /**
+     * Sets an order's status to deleted in the database.
+     * @param $orderId
+     */
     public function setStatusToDeleted($orderId){
         $result=pg_prepare($this->connection,"to_deleted","UPDATE orders SET order_status = 'deleted' WHERE order_id = $1");
         $result = pg_execute($this->connection,"to_deleted",array($orderId));

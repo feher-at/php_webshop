@@ -123,6 +123,11 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Inverts an item's buyable state in the database then returns the user back to the myItems page.
+     * @param Request $request
+     * Contains the buyable current state, the item's id and the current page.
+     */
     public function setBuyable(Request $request){
         $body = $request->getBody();
         $buyableState = $body['buyable'];
