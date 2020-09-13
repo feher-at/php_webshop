@@ -57,6 +57,11 @@ class Paginator extends AbstractServices {
         return $orderArray;
     }
 
+    /**
+     * Gets all item for the pagination
+     * @param $currentPage
+     * @return array
+     */
     public function getItems($currentPage){
         $result = pg_prepare($this->connection, "count_Data", "SELECT * FROM items LIMIT $1 OFFSET $2 ;");
         $itemsOffset = ($currentPage -1 )*10;

@@ -93,11 +93,9 @@ class UserService extends AbstractServices implements IUserService
         $errors = array();
 
         $errors['email'] = Validations::emailValidation($validationParams['email']);
-
+        $errors['email_already_exists'] = $this->emaiLAlreadyExistsValidation($validationParams['email']);
         $errors['taxNumber'] = Validations::registerTaxNumberValidation($validationParams['taxNumber']);
-
         $errors['password'] = Validations::passwordValidation($validationParams['password']);
-
         $errors['confirmPassword'] = Validations::confirmPasswordValidation($validationParams['confirmPassword'],
                                                                             $validationParams['password']);
         foreach($errors as $key => $value)
@@ -144,6 +142,16 @@ class UserService extends AbstractServices implements IUserService
         pg_update($this->connection,"users",$params,array('user_id'=>$_COOKIE['type']));
     }
 
+    public function emaiLAlreadyExistsValidation($email)
+    {
+        $this->database->reConnect();
+        $query = "SELECT user_email FROM users WHERE user_email = $1";
+        if(pg_query_params($this->connection,$query,array($email)))
+        {
+            return "This email address is already exist!";
+        }
+        return null;
+    }
 
     public function deleteUser($userId)
     {

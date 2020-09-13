@@ -34,6 +34,11 @@ class PaymentService extends AbstractServices implements IPaymentService
         return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));
     }
 
+    /**
+     * Returns with all the Payments and their prices for the given item id
+     * @param $itemId
+     * @return array
+     */
     public function getAllPaymentPriceAndName($itemId)
     {
         $this->database->reConnect();
@@ -43,6 +48,14 @@ class PaymentService extends AbstractServices implements IPaymentService
 
         return pg_fetch_all(pg_query_params($this->connection,$query,array($itemId)));
     }
+
+    /**
+     * Returns with the given item's given payment method's price
+     * @param $itemId
+     * The given item's id
+     * @param $paymentMethodName
+     * @return array
+     */
     public function getGivenItemGivenPaymentPrice($itemId,$paymentMethodName)
     {
         $this->database->reConnect();

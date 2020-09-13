@@ -14,6 +14,7 @@
         <div class="col-xs-6 ml-3">
             <input type="text" name="item_name" class="form-control" >
             <?php if(isset($errors['item_name_error'])){echo "<p style='color: red'>".$errors['item_name_error']." </p>";} ?>
+            <?php if(isset($errors['item_name_already_exist_error'])){echo "<p style='color: red'>".$errors['item_name_already_exist_error']." </p>";} ?>
         </div>
 
 
@@ -26,9 +27,9 @@
         <div>
             <label>
                 <textarea cols="75" type="text" name="item_description" class="form-control"></textarea>
+                <?php if(isset($errors['item_description_error'])){echo "<p style='color: #ff0000'>".$errors['item_description_error']." </p>";} ?>
             </label>
         </div>
-        <?php if(isset($errors['item_description_error'])){echo "<p style='color: #ff0000'>".$errors['item_description_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-5">
@@ -37,9 +38,9 @@
         <div>
             <label>
                 <input type="text" name="item_price" class="form-control">
+                <?php if(isset($errors['item_price_error'])){echo "<p style='color: red'>".$errors['item_price_error']." </p>";} ?>
             </label>
         </div>
-        <?php if(isset($errors['item_price_error'])){echo "<p style='color: red'>".$errors['item_price_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-3">
@@ -47,8 +48,8 @@
         </div>
         <div>
             <input style="border:none" type="file" name="item_image" class="form-control">
+            <?php if(isset($errors['item_image_error'])){echo "<p style='color: red'>".$errors['item_image_error']." </p>";} ?>
         </div>
-        <?php if(isset($errors['item_image_error'])){echo "<p style='color: red'>".$errors['item_image_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-3">
@@ -57,10 +58,9 @@
         <div class="ml-1">
             <label>
                 <input type="text" name="item_saleprice" class="form-control" placeholder="0">
+                <?php if(isset($errors['$item_saleprice_error'])){echo "<p style='color: red'>".$errors['$item_saleprice_error']." </p>";} ?>
             </label>
         </div>
-
-        <?php if(isset($errors['$item_saleprice_error'])){echo "<p style='color: red'>".$errors['$item_saleprice_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-5">
@@ -69,9 +69,9 @@
         <div class="ml-3">
             <label>
                 <input type="text" name="item_stock" class="form-control"  placeholder="0">
+                <?php if(isset($errors['item_stock_error'])){echo "<p style='color: red'>".$errors['item_stock_error']." </p>";} ?>
             </label>
         </div>
-        <?php if(isset($errors['item_stock_error'])){echo "<p style='color: red'>".$errors['item_stock_error']." </p>";} ?>
     </div>
     <div class="form-group row">
         <div class="col-xs-6 mr-2">

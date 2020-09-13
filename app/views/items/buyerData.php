@@ -5,7 +5,7 @@
 
 </div>
 <?php
-    if(empty($data))
+    if(!empty($data))
     {
         echo "<div class='align-content-center'>
                     <label> Your transaction data:</label>

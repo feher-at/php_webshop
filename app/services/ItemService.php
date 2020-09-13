@@ -59,8 +59,23 @@ class ItemService extends AbstractServices implements IItemService
 
     }
 
+    public function itemNameIsExistValidation($itemName)
+    {
+        $this->database->reConnect();
+        $query = "SELECT item_name FROM items WHERE item_name = $1";
+        if(pg_query_params($this->connection,$query,array($itemName)))
+        {
+            return "This item name is already exist please select another name";
+        }
+        return null;
+
+    }
 
 
+    /**
+     * Gets all item and return with it
+     * @return array
+     */
     public function getAllItem():array
     {
         $this->database->reConnect();
@@ -82,6 +97,11 @@ class ItemService extends AbstractServices implements IItemService
 
     }
 
+    /**
+     * Get the item prices and it's return with the sale price if there any else return with the gross price
+     * @param $itemId
+     * @return mixed
+     */
     public function getGivenItemCurrentPrice($itemId)
     {
         $this->database->reConnect();
@@ -126,8 +146,8 @@ class ItemService extends AbstractServices implements IItemService
     public function itemValidation($params)
     {
         $errors = array();
-
         $errors['item_name_error'] = Validations::requiredValidation($params['item_name']);
+        $errors['item_name_already_exist_error'] = $this->itemNameIsExistValidation($params['item_name']);
         $errors['item_description_error'] = Validations::requiredValidation($params['item_description']);
         $errors['item_price_error'] = Validations::itemPriceValidation($params['item_price']);
         $errors['item_image_error'] = Validations::requiredValidation($params['item_image']);
@@ -188,9 +208,6 @@ class ItemService extends AbstractServices implements IItemService
     }
 
 
-    public function deleteItem()
-    {
-        // TODO: Implement deleteItem() method.
-    }
+
 
 }

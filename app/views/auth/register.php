@@ -12,6 +12,7 @@
         <label >Email address</label>
         <input type="email" name="email" class="form-control">
         <?php if(isset($email)){echo "<p style='color: red'>$email </p>";} ?>
+        <?php if(isset($email_already_exists)){echo "<p style='color: red'>$email_already_exists </p>";} ?>
     </div>
     <div class="form-group">
         <label >Tax Number</label>
