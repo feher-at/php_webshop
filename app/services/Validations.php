@@ -169,7 +169,6 @@ class Validations
 
         $quantityRequired = Validations::requiredValidation($quantity);
         $validQuantityNumber = Validations::intValidation($quantity);
-        var_dump($validQuantityNumber);
         $notNullQuantityNumber = $quantity <= 0 ? 'This need to be a positive number': null;
         if(!empty($quantityRequired))
         {

@@ -7,7 +7,6 @@
 
 
 <div class='text-center mt-5' >
-
     <?php
     if(!empty($items))
     {
@@ -42,24 +41,19 @@
               </div>";
     }
 
-
-        $previousPaginate =  ($current_page-1<=0) ? $current_page : $current_page-1 ;
-        $nextPaginate = ($current_page+1>$pages) ? $current_page:$current_page+1;
        echo " <nav aria-label='Page navigation' class='navbar justify-content-center'>
             <ul class='pagination'>
                 <li class='page-item'>
-                    <a href='home?page=".$previousPaginate."' aria-label='Previous'>
+                    <a href='home?page=".(($current_page-1<=0) ? $current_page : $current_page-1)."' aria-label='Previous'>
                         <span aria-hidden='true'>&laquo; Previous</span>
                     </a>
                 </li>";
                 for($i = 1; $i<= $pages; $i++)
                 {
-
-
                     echo"<li class='page-item'><a href='home?page=$i'> $i; </a></li>";
                 }
                echo" <li class='page-item'>
-                    <a href='home?page=".$nextPaginate."' aria-label='Next'>
+                    <a href='home?page=".(($current_page+1>$pages) ? $current_page:$current_page+1)."' aria-label='Next'>
                         <span aria-hidden='true'>Next &raquo;</span>
                     </a>
                 </li>

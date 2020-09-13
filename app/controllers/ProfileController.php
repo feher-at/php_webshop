@@ -153,7 +153,7 @@ class ProfileController extends Controller{
             $object->pages = $numberOfPages;
             $object->currentPage = $currentPage;
             $this->setLayout('layout');
-            return $this->render('profile/myOrders',$object);
+           return $this->render('profile/myOrders',$object);
 
         }
         $this->redirect('/login');
