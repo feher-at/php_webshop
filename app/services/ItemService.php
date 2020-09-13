@@ -138,11 +138,9 @@ class ItemService extends AbstractServices implements IItemService
         {
             if(!is_null($value))
             {
-
                 return $errors;
             }
         }
-
         return $errors = array();
     }
     public function getUserItemId($userId){
@@ -159,23 +157,29 @@ class ItemService extends AbstractServices implements IItemService
         return $itemIds;
     }
 
+    /**
+     * Deletes all item's shipping from the database made by a user.
+     * @param $userId
+     */
     public function deleteItemShipping($userId){
-
             $shippingDel = pg_prepare($this->connection, "delete_shipping", "DELETE FROM shipping WHERE  shipping.item_id IN (SELECT items.item_id FROM items WHERE items.user_id = $1);");
             $shippingDel = pg_execute($this->connection, "delete_shipping", array($userId));
-
-
-
     }
-
+    /**
+     * Deletes all item's from the database made by a user.
+     * @param $userId
+     */
     public function deleteItemsOfUser($userId){
-
             $itemsDel = pg_prepare($this->connection, "delete_items", "DELETE FROM items WHERE user_id = $1;");
             $itemsDel = pg_execute($this->connection, "delete_items", array($userId));
-
-
-
     }
+
+    /**
+     * Changes an item's item_is_buyable state .
+     * @param $state
+     * Current state. This gets inverted in the database.
+     * @param $itemId
+     */
     public function setBuyableInDb($state,$itemId){
 
         $itemsDel = pg_prepare($this->connection, "update_buyable", "UPDATE items SET item_is_buyable = $1 WHERE item_id = $2;");

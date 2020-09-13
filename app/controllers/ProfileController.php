@@ -113,7 +113,9 @@ class ProfileController extends Controller{
         $this->profileService->updateProfile($body);
         return $this->render('profile/profile',$this->profileService->getUser());
     }
-
+    /**
+     * Renders the profileDelete view if logged in.
+    */
     public function delete(){
         if( isset($_COOKIE["type"])){
             $this->setLayout('layout');
@@ -121,7 +123,9 @@ class ProfileController extends Controller{
         }
         $this->redirect('/login');
     }
-
+    /**
+     * Deletes a users whole profile, logs out and redirects to the homepage
+    */
     public function handleDelete(Request $request){
         if( isset($_COOKIE["type"])){
             $auth = new AuthController();
@@ -132,6 +136,15 @@ class ProfileController extends Controller{
         }
         $this->redirect('/login');
     }
+
+    /**
+     * Gets the users orders and renders the myOrders view .
+     * If the user has no orders it returns the noDataPage.
+     * If the user is not logged in it returns the login page.
+     * @param Request $request
+     * Request contains the current page number.
+     * @return string|string[]
+     */
     public function myOrders(Request $request){
         if( isset($_COOKIE["type"])){
         $body = $request->getBody();
@@ -150,6 +163,7 @@ class ProfileController extends Controller{
                     return $this->render('404_page');
                 }
                 $orderArray = $this->paginator->getOrders($currentPage, $userId);
+                //Creates a class containing all required data for myOrders
                 $object = new stdClass();
                 $object->orderArray = $orderArray;
                 $object->pages = $numberOfPages;
@@ -158,6 +172,7 @@ class ProfileController extends Controller{
                 return $this->render('profile/myOrders', $object);
             }
             else{
+                //Creates a class containing a string field.
                 $errorObject = new stdClass();
                 $errorObject->dataType = 'orders';
                 $this->setLayout('layout');
@@ -166,6 +181,13 @@ class ProfileController extends Controller{
         }
         $this->redirect('/login');
     }
+
+    /**
+     * Gets one order by the order's id if the order's owner is the logged in user, else it returns 404 error page.
+     * @param Request $request
+     * Comes from myOrders . Contains the order's id.
+     * @return string|string[]
+     */
     public function getOrder(Request $request){
         $body = $request->getBody();
         $orderId = $body["order_id"];
@@ -177,6 +199,15 @@ class ProfileController extends Controller{
         return $this->render('404_page');
 
     }
+    /**
+     * Gets the users items and renders the myItems view .
+     * If the user has no items it returns the noDataPage.
+     * If the user is not logged in it returns the login page.
+     * @param Request $request
+     * Request contains the current page number.
+     * @return string|string[]
+     */
+
     public function myItems(Request $request){
         if( isset($_COOKIE["type"])) {
             $body = $request->getBody();
@@ -194,6 +225,7 @@ class ProfileController extends Controller{
                 return $this->render('404_page');
             }
             $itemArray = $this->paginator->getItemsOfUser($currentPage,$userId);
+            //Creates a class containing all required data for myOrders
             $object = new stdClass();
             $object->itemArray = $itemArray;
             $object->pages = $numberOfPages;
@@ -202,9 +234,12 @@ class ProfileController extends Controller{
 
             $this->setLayout('layout');
             return $this->render('profile/myItems',$object);
-        }else{
-                $errorObject = new stdClass();
-                $errorObject->dataType = 'items';
+        }
+            else
+            {
+            //Creates a class containing a string field.
+            $errorObject = new stdClass();
+            $errorObject->dataType = 'items';
             $this->setLayout('layout');
             return $this->render('profile/noDataPage',$errorObject);
         }

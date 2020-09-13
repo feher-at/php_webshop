@@ -60,6 +60,11 @@ class ProfileService implements IProfileService{
         }
         return $errors = [];
     }
+
+    /**
+     * Deletes everything connected to a user.
+     * @param $userId
+     */
     public function deleteProfile($userId){
 
         $this->itemService->deleteItemShipping($userId);
